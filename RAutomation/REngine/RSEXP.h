@@ -35,6 +35,10 @@
 #import <Cocoa/Cocoa.h>
 
 #import <Foundation/Foundation.h>
+#undef FALSE
+#undef TRUE
+#undef FALSE
+#undef TRUE
 #include <Rinternals.h>
 #include <Rversion.h>
 

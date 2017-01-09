@@ -33,6 +33,9 @@
 #import <Cocoa/Cocoa.h>
 
 #import <Foundation/Foundation.h>
+#undef TRUE
+#undef FALSE
+#include <R.h>
 #import "RSEXP.h"
 #import "Rcallbacks.h"
 
@@ -44,6 +47,10 @@
 
 #define RENGINE_BEGIN [self begin]
 #define RENGINE_END   [self end]
+
+/* macros for translatable strings */
+#define NLS(S) NSLocalizedString(S,@"")
+#define NLSC(S,C) NSLocalizedString(S,C)
 
 extern int insideR;
 extern BOOL preventReentrance;
@@ -117,5 +124,8 @@ extern BOOL preventReentrance;
 - (void) setCocoaHandler: (id <CocoaHandler>) ch;
 - (void) runREPL; // starts REPL and does not return until REPL finishes
 - (void) runDelayedREPL; // starts REPL with delayed=1 thus returns immediately
+
+// From RController
+- (void) setStatusLineText: (NSString*) text;
 
 @end

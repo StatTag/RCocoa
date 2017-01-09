@@ -575,9 +575,9 @@ SEXP Re_do_selectlist(SEXP call, SEXP op, SEXP args, SEXP rho)
 
 //==================================================== the following callbacks need to be moved!!! (TODO)
 
-#import "../WSBrowser.h"
-#import "../REditor.h"
-#import "../SelectList.h"
+//#import "../WSBrowser.h"
+//#import "../REditor.h"
+//#import "../SelectList.h"
 
 int freeWorkspaceList(int newlen);
 
@@ -643,7 +643,7 @@ SEXP wsbrowser(SEXP ids, SEXP isroot, SEXP iscont, SEXP numofit,
     }
 
     insideR--;
-    [WSBrowser toggleWorkspaceBrowser];
+    //[WSBrowser toggleWorkspaceBrowser];
     insideR++;
 
     return R_NilValue;
@@ -716,8 +716,8 @@ double ssNA_REAL;
 #define max(x,y) x<y?y:x;
 #endif
 
-extern BOOL IsDataEntry;
-extern BOOL IsSelectList;
+//extern BOOL IsDataEntry;
+//extern BOOL IsSelectList;
 /*
    ssNewVector is just an interface to allocVector but it lets us
    set the fields to NA. We need to have a special NA for reals and
@@ -798,11 +798,11 @@ SEXP Re_dataentry(SEXP call, SEXP op, SEXP args, SEXP rho)
 	}
 
 	/* start up the window, more initializing in here */
-	IsDataEntry = YES;
+	//IsDataEntry = YES;
 	insideR--;
-	[REditor startDataEntry];
+	//[REditor startDataEntry];
 	insideR++;
-	IsDataEntry = NO;
+	//IsDataEntry = NO;
 
 	/* drop out unused columns */
 	for(i = 0, cnt = 0; i < xmaxused; i++)
@@ -823,7 +823,7 @@ SEXP Re_dataentry(SEXP call, SEXP op, SEXP args, SEXP rho)
 	setAttrib(work2, R_NamesSymbol, names);
 	UNPROTECT(nprotect);
 
-	[[REditor getDEController] clearData];
+	//[[REditor getDEController] clearData];
 
 	return work2;
 

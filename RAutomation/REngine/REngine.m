@@ -39,9 +39,9 @@
 
 /* we should move this to another callback at some point ... it's a bad, bad hack for now */
 #ifndef RENG_STAND_ALONE
-#import "RController.h"
-#define DO_RENG_EVAL_STATUS(S) NSString *lsl = [[RController sharedController] statusLineText]; [[RController sharedController] setStatusLineText:[NSString stringWithFormat:@"%@: %@", NLS(@"executing"), S]];
-#define DONE_RENG_EVAL_STATUS() [[RController sharedController] setStatusLineText: lsl];
+//#import "RController.h"
+#define DO_RENG_EVAL_STATUS(S)  NSString *lsl = @""; [self setStatusLineText:[NSString stringWithFormat:@"%@: %@", NLS(@"executing"), S]];
+#define DONE_RENG_EVAL_STATUS() [self setStatusLineText: lsl];
 #endif
 
 /* this is also provided in RGUI.h, but we want to be independent */
@@ -87,6 +87,17 @@ BOOL preventReentrance = NO;
 {
     char *args[4]={ "R", "--no-save", "--gui=cocoa", 0 };
 	return [self initWithHandler: hand arguments: args];
+}
+
+// From RController (to break dependency on the controller)
+- (void)setStatusLineText:(NSString*)text
+{
+    SLog(@"RController.setStatusLine: \"%@\"", [text description]);
+    
+    if(text == nil) text = @"";
+    
+    // We are doing nothing with this for now.  We needed to define this method as part of
+    // the port over from the R Mac project.
 }
 
 - (id) initWithHandler: (id <REPLHandler>) hand arguments: (char**) args

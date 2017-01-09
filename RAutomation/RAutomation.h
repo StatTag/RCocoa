@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#include "REngine/REngine.h"
 
 //! Project version number for RAutomation.
 FOUNDATION_EXPORT double RAutomationVersionNumber;
