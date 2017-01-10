@@ -300,7 +300,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx10.11;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -339,7 +339,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx10.11;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -380,7 +380,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RAutomation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -421,7 +421,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RAutomation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -430,9 +430,30 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_MODULES = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					"$(PROJECT_DIR)",
+				);
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/Frameworks/R.framework/Headers,
+				);
 				INFOPLIST_FILE = RAutomationTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-F/LibraryFrameworks",
+					"-framework",
+					R,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RAutomationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.11;
@@ -443,9 +464,31 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_MODULES = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					"$(PROJECT_DIR)",
+				);
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/Frameworks/R.framework/Headers,
+				);
 				INFOPLIST_FILE = RAutomationTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-F/LibraryFrameworks",
+					"-framework",
+					R,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RAutomationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.11;

@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#include "REngine.h"
 
 @interface RAutomationTests : XCTestCase
 
@@ -25,8 +26,17 @@
 }
 
 - (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+    NSLog(@"Your message here");
+    @autoreleasepool {
+//        REngine* engine = [REngine mainEngine];
+//        id res = [engine init];
+//        RSEXP* result = [engine evaluateString:@"2+3"];
+//        NSLog(@"This is the result %s", [result string]);
+        if (![[REngine mainEngine] activate]) {
+            NSLog([NSString stringWithFormat:NLS(@"Unable to start R: %@"), [[REngine mainEngine] lastError]]);
+        }
+    }
+    NSLog(@"Your message here");
 }
 
 - (void)initialize {
