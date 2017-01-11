@@ -127,5 +127,6 @@ extern BOOL preventReentrance;
 
 // From RController
 - (void) setStatusLineText: (NSString*) text;
+- (void) initREnvironment;
 
 @end

@@ -85,6 +85,7 @@ BOOL preventReentrance = NO;
 
 - (id) initWithHandler: (id <REPLHandler>) hand
 {
+    [self initREnvironment];
     char *args[4]={ "R", "--no-save", "--gui=cocoa", 0 };
 	return [self initWithHandler: hand arguments: args];
 }
@@ -98,6 +99,75 @@ BOOL preventReentrance = NO;
     
     // We are doing nothing with this for now.  We needed to define this method as part of
     // the port over from the R Mac project.
+}
+
+- (void) initREnvironment
+{
+    if (!getenv("R_HOME")) {
+        NSBundle *rfb = [NSBundle bundleWithIdentifier:@"org.r-project.R-framework"];
+        if (!rfb) {
+            SLog(@" * problem: R_HOME is not set and I can't find the framework bundle");
+            NSFileManager *fm = [[NSFileManager alloc] init];
+            if ([fm fileExistsAtPath:@"/Library/Frameworks/R.framework/Resources/bin/R"]) {
+                SLog(@" * I'm being desperate and I found R at /Library/Frameworks/R.framework - so I'll use it, wish me luck");
+                setenv("R_HOME", "/Library/Frameworks/R.framework/Resources", 1);
+            } else {
+                SLog(@" * I didn't even find R framework in the default location, I'm giving up - you're on your own");
+            }
+            [fm release];
+        } else {
+            SLog(@"   %s", [[rfb resourcePath] UTF8String]);
+            setenv("R_HOME", [[rfb resourcePath] UTF8String], 1);
+        }
+    }
+    NSString* home = @"";
+    if (getenv("R_HOME"))
+        home = [[NSString alloc] initWithUTF8String:getenv("R_HOME")];
+    else
+        home = [[NSString alloc] initWithString:@""];
+    
+    {
+        char tp[1024];
+        /* since 2.2.0 those are set in the R shell script, so we need to set them as well */
+        /* FIXME: possible buffer-overflow attack by over-long R_HOME */
+        if (!getenv("R_INCLUDE_DIR")) {
+            strcpy(tp, getenv("R_HOME")); strcat(tp, "/include"); setenv("R_INCLUDE_DIR", tp, 1);
+        }
+        if (!getenv("R_SHARE_DIR")) {
+            strcpy(tp, getenv("R_HOME")); strcat(tp, "/share"); setenv("R_SHARE_DIR", tp, 1);
+        }
+        if (!getenv("R_DOC_DIR")) {
+            strcpy(tp, getenv("R_HOME")); strcat(tp, "/doc"); setenv("R_DOC_DIR", tp, 1);
+        }
+    }
+    
+#if defined __i386__
+#define arch_lib_nss @"/lib/i386"
+#define arch_str "/i386"
+#elif defined __x86_64__
+#define arch_lib_nss @"/lib/x86_64"
+#define arch_str "/x86_64"
+    /* not used in R >= 2.15.2, so remove eventually */
+#elif defined __ppc__
+#define arch_lib_nss @"/lib/ppc"
+#define arch_str "/ppc"
+#elif defined __ppc64__
+#define arch_lib_nss @"/lib/ppc64"
+#define arch_str "/ppc64"
+#endif
+    
+#ifdef arch_lib_nss
+    if (!getenv("R_ARCH")) {
+        NSFileManager *fm = [[NSFileManager alloc] init];
+        if ([fm fileExistsAtPath:[[NSString stringWithUTF8String:getenv("R_HOME")] stringByAppendingString: arch_lib_nss]]) {
+            setenv("R_ARCH", arch_str, 1);
+        }
+        [fm release];
+    }
+#else
+#warning "Unknown architecture, R_ARCH won't be set automatically."
+#endif
+
 }
 
 - (id) initWithHandler: (id <REPLHandler>) hand arguments: (char**) args
@@ -187,7 +257,7 @@ BOOL preventReentrance = NO;
 		}
 		@catch (NSException *foo) {
 			insideR--;
-			NSLog(@"*** REngine.runREPL: caught ObjC exception in the main loop. Update to the latest GUI version and consider reporting this properly (see FAQ) if it persists and is not known. \n*** reason: %@\n*** name: %@, info: %@\n*** Version: R %s.%s (%s) R.app %@%s\nConsider saving your work soon in case this develops into a problem.", [foo reason], [foo name], [foo userInfo], R_MAJOR, R_MINOR, R_SVN_REVISION, [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], getenv("R_ARCH"));
+			NSLog(@"*** REngine.runREPL: caught ObjC exception in the main loop. Update to the latest GUI version and consider reporting this properly (see FAQ) if it persists and is not known. \n*** reason: %@\n*** name: %@, info: %@\n*** Version: R %s.%s (%d) R.app %@%s\nConsider saving your work soon in case this develops into a problem.", [foo reason], [foo name], [foo userInfo], R_MAJOR, R_MINOR, R_SVN_REVISION, [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], getenv("R_ARCH"));
 		}
 #ifdef USE_POOLS
 		[pool release];

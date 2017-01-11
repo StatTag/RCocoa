@@ -25,22 +25,20 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    NSLog(@"Your message here");
+- (void)testActivate {
     @autoreleasepool {
-//        REngine* engine = [REngine mainEngine];
-//        id res = [engine init];
-//        RSEXP* result = [engine evaluateString:@"2+3"];
-//        NSLog(@"This is the result %s", [result string]);
         if (![[REngine mainEngine] activate]) {
-            NSLog([NSString stringWithFormat:NLS(@"Unable to start R: %@"), [[REngine mainEngine] lastError]]);
+            NSLog(@"%@", [NSString stringWithFormat:NLS(@"Unable to start R: %@"), [[REngine mainEngine] lastError]]);
+            XCTAssert(false);
         }
+        RSEXP* exp = [[REngine mainEngine] evaluateString: @"2+3"];
+        XCTAssertNotNil(exp);
+        XCTAssertEqual(REALSXP, [exp type]);
     }
-    NSLog(@"Your message here");
 }
 
-- (void)initialize {
-    
-}
+//- (void)initialize {
+//    
+//}
 
 @end
