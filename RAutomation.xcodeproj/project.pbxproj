@@ -11,6 +11,7 @@
 		350C8C7B1E1E8FF0003DE3F8 /* RAutomation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C701E1E8FEF003DE3F8 /* RAutomation.framework */; };
 		350C8C801E1E8FF0003DE3F8 /* RAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */; };
 		350C8C8B1E1E903B003DE3F8 /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C8A1E1E903B003DE3F8 /* R.framework */; };
+		350F872B1E7C6EAE00796EE3 /* RAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 350F872A1E7C6EAE00796EE3 /* RAutomation.m */; };
 		35C9687B1E243EE100F7450A /* Rcallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 35C968731E243EE100F7450A /* Rcallbacks.h */; };
 		35C9687C1E243EE100F7450A /* Rcallbacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C968741E243EE100F7450A /* Rcallbacks.m */; };
 		35C9687D1E243EE100F7450A /* REngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 35C968751E243EE100F7450A /* REngine.h */; };
@@ -39,6 +40,7 @@
 		350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RAutomationTests.m; sourceTree = "<group>"; };
 		350C8C811E1E8FF0003DE3F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		350C8C8A1E1E903B003DE3F8 /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
+		350F872A1E7C6EAE00796EE3 /* RAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAutomation.m; sourceTree = "<group>"; };
 		35C968731E243EE100F7450A /* Rcallbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rcallbacks.h; path = REngine/Rcallbacks.h; sourceTree = "<group>"; };
 		35C968741E243EE100F7450A /* Rcallbacks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rcallbacks.m; path = REngine/Rcallbacks.m; sourceTree = "<group>"; };
 		35C968751E243EE100F7450A /* REngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REngine.h; path = REngine/REngine.h; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				35C968621E243E9300F7450A /* REngine */,
 				350C8C731E1E8FEF003DE3F8 /* RAutomation.h */,
 				350C8C751E1E8FEF003DE3F8 /* Info.plist */,
+				350F872A1E7C6EAE00796EE3 /* RAutomation.m */,
 			);
 			path = RAutomation;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35C968821E243EE100F7450A /* RSEXP.m in Sources */,
+				350F872B1E7C6EAE00796EE3 /* RAutomation.m in Sources */,
 				35C968801E243EE100F7450A /* Rinit.m in Sources */,
 				35C9687E1E243EE100F7450A /* REngine.m in Sources */,
 				35C9687C1E243EE100F7450A /* Rcallbacks.m in Sources */,
@@ -264,10 +268,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -310,10 +315,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -348,7 +354,7 @@
 		350C8C851E1E8FF0003DE3F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;
@@ -388,7 +394,7 @@
 		350C8C861E1E8FF0003DE3F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;
@@ -429,7 +435,7 @@
 		350C8C881E1E8FF0003DE3F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;
@@ -463,7 +469,7 @@
 		350C8C891E1E8FF0003DE3F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;

@@ -86,6 +86,7 @@ extern BOOL preventReentrance;
 + (REngine*) mainEngine;
 + (id <REPLHandler>) mainHandler;
 + (id <CocoaHandler>) cocoaHandler;
++ (void) shutdown;
 
 - (id) init;
 - (id) initWithHandler: (id <REPLHandler>) hand;

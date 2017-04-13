@@ -17,4 +17,8 @@ FOUNDATION_EXPORT const unsigned char RAutomationVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <RAutomation/PublicHeader.h>
 
-
+//#import <RAutomation/REngine/REngine.h>
+//@interface RAutomation : NSObject {
+//};
+//
+//- (RSEXP*) Evaluate: (NSString*) str;

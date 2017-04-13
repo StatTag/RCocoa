@@ -68,6 +68,13 @@ BOOL preventReentrance = NO;
     return mainRengine;
 }
 
++ (void) shutdown
+{
+//    if (mainRengine!=nil) {
+//        [mainRengine release];
+//    }
+}
+
 + (id <REPLHandler>) mainHandler
 {
 	return [mainRengine handler];

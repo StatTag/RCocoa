@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#include "REngine.h"
+#include "RAutomation.h"
 
 @interface RAutomationTests : XCTestCase
 
@@ -25,15 +25,55 @@
     [super tearDown];
 }
 
+
+- (void)testEvaluate {
+    @autoreleasepool {
+        //RAutomation* automation = new RAutomation();
+    }
+}
+
+
+
+
+/*
+ The following block are basic tests to validate the interface with R is working correctly.  It is not a comprehensive
+ suite of R tests, since that would be out of the scope of our work.  The majority of tests are going to be for the
+ helpers/wrappers we implement on top of R, but validating R functionatliy seemed like a good idea.
+ */
 - (void)testActivate {
     @autoreleasepool {
-        if (![[REngine mainEngine] activate]) {
-            NSLog(@"%@", [NSString stringWithFormat:NLS(@"Unable to start R: %@"), [[REngine mainEngine] lastError]]);
-            XCTAssert(false);
-        }
+        XCTAssert([[REngine mainEngine] activate]);
+        [REngine shutdown];
+    }
+}
+
+- (void)testEvaluateString {
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
         RSEXP* exp = [[REngine mainEngine] evaluateString: @"2+3"];
         XCTAssertNotNil(exp);
         XCTAssertEqual(REALSXP, [exp type]);
+        [exp release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testExecuteString {
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        XCTAssert([[REngine mainEngine] executeString: @"2+3"]);
+        [REngine shutdown];
+    }
+}
+
+- (void)testParse {
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSEXP* exp = [[REngine mainEngine] parse: @"2+3"];
+        XCTAssertNotNil(exp);
+        XCTAssertEqual(EXPRSXP, [exp type]);
+        [exp release];
+        [REngine shutdown];
     }
 }
 
