@@ -12,14 +12,16 @@
 		350C8C801E1E8FF0003DE3F8 /* RAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */; };
 		350C8C8B1E1E903B003DE3F8 /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C8A1E1E903B003DE3F8 /* R.framework */; };
 		350F872B1E7C6EAE00796EE3 /* RAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 350F872A1E7C6EAE00796EE3 /* RAutomation.m */; };
-		35C9687B1E243EE100F7450A /* Rcallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 35C968731E243EE100F7450A /* Rcallbacks.h */; };
-		35C9687C1E243EE100F7450A /* Rcallbacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C968741E243EE100F7450A /* Rcallbacks.m */; };
-		35C9687D1E243EE100F7450A /* REngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 35C968751E243EE100F7450A /* REngine.h */; };
-		35C9687E1E243EE100F7450A /* REngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C968761E243EE100F7450A /* REngine.m */; };
-		35C9687F1E243EE100F7450A /* Rinit.h in Headers */ = {isa = PBXBuildFile; fileRef = 35C968771E243EE100F7450A /* Rinit.h */; };
-		35C968801E243EE100F7450A /* Rinit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C968781E243EE100F7450A /* Rinit.m */; };
-		35C968811E243EE100F7450A /* RSEXP.h in Headers */ = {isa = PBXBuildFile; fileRef = 35C968791E243EE100F7450A /* RSEXP.h */; };
-		35C968821E243EE100F7450A /* RSEXP.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9687A1E243EE100F7450A /* RSEXP.m */; };
+		35A231481EA00CC4008AA1EF /* RSymbolicExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231471EA00CC4008AA1EF /* RSymbolicExpression.m */; };
+		35A231511EA00DC7008AA1EF /* Rcallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A231491EA00DC7008AA1EF /* Rcallbacks.h */; };
+		35A231521EA00DC7008AA1EF /* Rcallbacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314A1EA00DC7008AA1EF /* Rcallbacks.m */; };
+		35A231531EA00DC7008AA1EF /* REngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314B1EA00DC7008AA1EF /* REngine.h */; };
+		35A231541EA00DC7008AA1EF /* REngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314C1EA00DC7008AA1EF /* REngine.m */; };
+		35A231551EA00DC7008AA1EF /* Rinit.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314D1EA00DC7008AA1EF /* Rinit.h */; };
+		35A231561EA00DC7008AA1EF /* Rinit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314E1EA00DC7008AA1EF /* Rinit.m */; };
+		35A231571EA00DC7008AA1EF /* RSEXP.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314F1EA00DC7008AA1EF /* RSEXP.h */; };
+		35A231581EA00DC7008AA1EF /* RSEXP.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231501EA00DC7008AA1EF /* RSEXP.m */; };
+		35A2315A1EA010EF008AA1EF /* RSymbolicExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,14 +43,17 @@
 		350C8C811E1E8FF0003DE3F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		350C8C8A1E1E903B003DE3F8 /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
 		350F872A1E7C6EAE00796EE3 /* RAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAutomation.m; sourceTree = "<group>"; };
-		35C968731E243EE100F7450A /* Rcallbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rcallbacks.h; path = REngine/Rcallbacks.h; sourceTree = "<group>"; };
-		35C968741E243EE100F7450A /* Rcallbacks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rcallbacks.m; path = REngine/Rcallbacks.m; sourceTree = "<group>"; };
-		35C968751E243EE100F7450A /* REngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REngine.h; path = REngine/REngine.h; sourceTree = "<group>"; };
-		35C968761E243EE100F7450A /* REngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = REngine.m; path = REngine/REngine.m; sourceTree = "<group>"; };
-		35C968771E243EE100F7450A /* Rinit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rinit.h; path = REngine/Rinit.h; sourceTree = "<group>"; };
-		35C968781E243EE100F7450A /* Rinit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rinit.m; path = REngine/Rinit.m; sourceTree = "<group>"; };
-		35C968791E243EE100F7450A /* RSEXP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSEXP.h; path = REngine/RSEXP.h; sourceTree = "<group>"; };
-		35C9687A1E243EE100F7450A /* RSEXP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSEXP.m; path = REngine/RSEXP.m; sourceTree = "<group>"; };
+		35A231461EA00CA6008AA1EF /* RSymbolicExpression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSymbolicExpression.h; sourceTree = "<group>"; };
+		35A231471EA00CC4008AA1EF /* RSymbolicExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSymbolicExpression.m; sourceTree = "<group>"; };
+		35A231491EA00DC7008AA1EF /* Rcallbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rcallbacks.h; sourceTree = "<group>"; };
+		35A2314A1EA00DC7008AA1EF /* Rcallbacks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rcallbacks.m; sourceTree = "<group>"; };
+		35A2314B1EA00DC7008AA1EF /* REngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REngine.h; sourceTree = "<group>"; };
+		35A2314C1EA00DC7008AA1EF /* REngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REngine.m; sourceTree = "<group>"; };
+		35A2314D1EA00DC7008AA1EF /* Rinit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rinit.h; sourceTree = "<group>"; };
+		35A2314E1EA00DC7008AA1EF /* Rinit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rinit.m; sourceTree = "<group>"; };
+		35A2314F1EA00DC7008AA1EF /* RSEXP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSEXP.h; sourceTree = "<group>"; };
+		35A231501EA00DC7008AA1EF /* RSEXP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSEXP.m; sourceTree = "<group>"; };
+		35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSymbolicExpressionTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,10 +98,19 @@
 		350C8C721E1E8FEF003DE3F8 /* RAutomation */ = {
 			isa = PBXGroup;
 			children = (
-				35C968621E243E9300F7450A /* REngine */,
+				35A231491EA00DC7008AA1EF /* Rcallbacks.h */,
+				35A2314A1EA00DC7008AA1EF /* Rcallbacks.m */,
+				35A2314B1EA00DC7008AA1EF /* REngine.h */,
+				35A2314C1EA00DC7008AA1EF /* REngine.m */,
+				35A2314D1EA00DC7008AA1EF /* Rinit.h */,
+				35A2314E1EA00DC7008AA1EF /* Rinit.m */,
+				35A2314F1EA00DC7008AA1EF /* RSEXP.h */,
+				35A231501EA00DC7008AA1EF /* RSEXP.m */,
 				350C8C731E1E8FEF003DE3F8 /* RAutomation.h */,
 				350C8C751E1E8FEF003DE3F8 /* Info.plist */,
 				350F872A1E7C6EAE00796EE3 /* RAutomation.m */,
+				35A231461EA00CA6008AA1EF /* RSymbolicExpression.h */,
+				35A231471EA00CC4008AA1EF /* RSymbolicExpression.m */,
 			);
 			path = RAutomation;
 			sourceTree = "<group>";
@@ -106,23 +120,9 @@
 			children = (
 				350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */,
 				350C8C811E1E8FF0003DE3F8 /* Info.plist */,
+				35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */,
 			);
 			path = RAutomationTests;
-			sourceTree = "<group>";
-		};
-		35C968621E243E9300F7450A /* REngine */ = {
-			isa = PBXGroup;
-			children = (
-				35C968731E243EE100F7450A /* Rcallbacks.h */,
-				35C968741E243EE100F7450A /* Rcallbacks.m */,
-				35C968751E243EE100F7450A /* REngine.h */,
-				35C968761E243EE100F7450A /* REngine.m */,
-				35C968771E243EE100F7450A /* Rinit.h */,
-				35C968781E243EE100F7450A /* Rinit.m */,
-				35C968791E243EE100F7450A /* RSEXP.h */,
-				35C9687A1E243EE100F7450A /* RSEXP.m */,
-			);
-			name = REngine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,11 +132,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35C9687D1E243EE100F7450A /* REngine.h in Headers */,
-				35C9687B1E243EE100F7450A /* Rcallbacks.h in Headers */,
-				35C968811E243EE100F7450A /* RSEXP.h in Headers */,
+				35A231531EA00DC7008AA1EF /* REngine.h in Headers */,
+				35A231511EA00DC7008AA1EF /* Rcallbacks.h in Headers */,
+				35A231571EA00DC7008AA1EF /* RSEXP.h in Headers */,
 				350C8C741E1E8FEF003DE3F8 /* RAutomation.h in Headers */,
-				35C9687F1E243EE100F7450A /* Rinit.h in Headers */,
+				35A231551EA00DC7008AA1EF /* Rinit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,11 +237,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35C968821E243EE100F7450A /* RSEXP.m in Sources */,
+				35A231581EA00DC7008AA1EF /* RSEXP.m in Sources */,
+				35A231541EA00DC7008AA1EF /* REngine.m in Sources */,
 				350F872B1E7C6EAE00796EE3 /* RAutomation.m in Sources */,
-				35C968801E243EE100F7450A /* Rinit.m in Sources */,
-				35C9687E1E243EE100F7450A /* REngine.m in Sources */,
-				35C9687C1E243EE100F7450A /* Rcallbacks.m in Sources */,
+				35A231561EA00DC7008AA1EF /* Rinit.m in Sources */,
+				35A231521EA00DC7008AA1EF /* Rcallbacks.m in Sources */,
+				35A231481EA00CC4008AA1EF /* RSymbolicExpression.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35A2315A1EA010EF008AA1EF /* RSymbolicExpressionTests.m in Sources */,
 				350C8C801E1E8FF0003DE3F8 /* RAutomationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

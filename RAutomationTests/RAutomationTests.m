@@ -77,6 +77,28 @@
     }
 }
 
+- (void)testNilValue {
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* sexp = [[REngine mainEngine] NilValue];
+        XCTAssertNotNil(sexp);
+        XCTAssertEqual(NILSXP, [sexp type]);
+        [REngine shutdown];
+    }
+}
+
+- (void)testNaString {
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* sexp = [[REngine mainEngine] NaString];
+        XCTAssertNotNil(sexp);
+        XCTAssertEqual(CHARSXP, [sexp type]);
+        [sexp release];
+        [REngine shutdown];
+    }
+}
+
+
 //- (void)initialize {
 //    
 //}

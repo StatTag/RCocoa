@@ -330,81 +330,111 @@ BOOL preventReentrance = NO;
 	[replHandler handleBusy:NO];
 }
 
-- (RSEXP*) parse: (NSString*) str
+//- (RSEXP*) parse: (NSString*) str
+//{
+//    return [self parse: str withParts: 1];
+//}
+
+- (RSymbolicExpression*) parse: (NSString*) str
 {
-    return [self parse: str withParts: 1];
+    return [self parse: str withParts: -1];
 }
 
-- (RSEXP*) parse: (NSString*) str withParts: (int) count
-{
-    ParseStatus ps;
-    SEXP pstr, cv;
+//- (RSEXP*) parse: (NSString*) str withParts: (int) count
+//{
+//    ParseStatus ps;
+//    SEXP pstr, cv;
+//
+//	if (!active) return nil;
+//	RENGINE_BEGIN;
+//    PROTECT(cv=allocVector(STRSXP, 1));
+//    SET_STRING_ELT(cv, 0, mkChar([str UTF8String]));    
+//    pstr=R_ParseVector(cv, count, &ps, R_NilValue);
+//    UNPROTECT(1);
+//	RENGINE_END;
+//    //NSLog(@"parse status: %d, SEXP: %x, type: %d\n", ps, pstr, TYPEOF(pstr));
+//	return pstr?[[RSEXP alloc] initWithSEXP: pstr]:nil;
+//}
 
-	if (!active) return nil;
-	RENGINE_BEGIN;
-    PROTECT(cv=allocVector(STRSXP, 1));
-    SET_STRING_ELT(cv, 0, mkChar([str UTF8String]));    
-    pstr=R_ParseVector(cv, count, &ps, R_NilValue);
+- (RSymbolicExpression*) parse: (NSString*) str withParts: (int) count
+{
+    ParseStatus parseStatus;
+    SEXP cmdexpr, cmdSexp;
+    
+    if (!active) return nil;
+    RENGINE_BEGIN;
+    PROTECT(cmdSexp=allocVector(STRSXP, 1));
+    SET_STRING_ELT(cmdSexp, 0, mkChar([str UTF8String]));
+    cmdexpr = R_ParseVector(cmdSexp, count, &parseStatus, R_NilValue);
+
+    // If the vector is empty, return a nil response
+    //if (cmdexpr == nil || count <= 0) { return nil; }
+    if (cmdexpr == nil || parseStatus != PARSE_OK) { return nil; }
+    
+    // With help from: http://www.hep.by/gnu/r-patched/r-exts/R-exts_121.html
+    int errVal = 0;
+    int exprLen = Rf_length(cmdexpr);
+    for(R_len_t i = 0; i < exprLen; i++) {
+        SEXP ans = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
+        SEXP re = R_tryEval(ans, R_GlobalEnv, &errVal);
+        int typ = TYPEOF(re);
+    }
+    
     UNPROTECT(1);
-	RENGINE_END;
-    //NSLog(@"parse status: %d, SEXP: %x, type: %d\n", ps, pstr, TYPEOF(pstr));
-	return pstr?[[RSEXP alloc] initWithSEXP: pstr]:nil;
+    RENGINE_END;
+    
+    return cmdexpr ? [[RSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdexpr] : nil;
 }
 
-- (RSEXP*) evaluateExpressions: (RSEXP*) expr
+- (RSymbolicExpression*) evaluateExpressions: (RSymbolicExpression*) expr
 {
-    SEXP es=0;
-    int er=0;
-    int i=0,l;
+    SEXP evaluatedExpression = NULL;
+    int errVal = 0;
 
-    //NSLog(@"evaluateExpressions: %@", expr);
-	if (!active) return nil;
+    if (!active) return nil;
 	RENGINE_BEGIN;
     // if we have an entire expression list, evaluate its contents one-by-one and return only the last one
-    if ([expr type]==EXPRSXP) {
-        l=[expr length];
-        while (i<l) {
-            //NSLog(@"expression %d: %@", i, [expr elementAt: i]);
-            es=R_tryEval([[expr elementAt:i] directSEXP], R_GlobalEnv, &er);
-			//NSLog(@"Eval result: %d [es=%x]\n",er,es);
-            i++;
+    if ([expr Type]==EXPRSXP) {
+        int length = [expr Length];
+        for (int index = 0; index < length; index++) {
+            evaluatedExpression = R_tryEval([[expr ElementAt:index] GetHandle], R_GlobalEnv, &errVal);
         }
-    } else
-        es=R_tryEval([expr directSEXP], R_GlobalEnv, &er);
+    } else {
+        evaluatedExpression=R_tryEval([expr GetHandle], R_GlobalEnv, &errVal);
+    }
 	RENGINE_END;
-        
-    return es?[[RSEXP alloc] initWithSEXP: es]:nil;
+    
+    if (errVal) {
+        [NSException raise:@"There was an error evaluating the expression" format:@"%s", R_curErrorBuf()];
+    }
+    return evaluatedExpression ? [[RSymbolicExpression alloc] initWithEngineAndExpression:self expression: evaluatedExpression] : nil;
 }
 
-- (RSEXP*) evaluateString: (NSString*) str
+- (RSymbolicExpression*) evaluateString: (NSString*) str
 {
-    RSEXP *ps, *xr;
-	SLog(@"REngine.evaluateString:\"%@\"", str);
+    RSymbolicExpression *ps, *xr;
 	if (!active) return nil;
     ps=[self parse: str];
     if (ps==nil) return nil;
-	if([ps type]==NILSXP) { [ps release]; return nil; }
+	if([ps Type]==NILSXP) { [ps release]; return nil; }
 	DO_RENG_EVAL_STATUS(str);
     xr=[self evaluateExpressions: ps];
 	DONE_RENG_EVAL_STATUS();
 	[ps release];
-	SLog(@" - result: %@", xr);
 	return xr;
 }
 
-- (RSEXP*) evaluateString: (NSString*) str withParts: (int) count
+- (RSymbolicExpression*) evaluateString: (NSString*) str withParts: (int) count
 {
-    RSEXP *ps, *xr;
-	SLog(@"REngine.evaluateString:\"%@\" withParts:%d", str, count);
+    RSymbolicExpression *ps, *xr;
 	if (!active) return nil;
     ps=[self parse: str withParts: count];
     if (ps==nil) return nil;
-	if([ps type]==NILSXP) { [ps release]; return nil; }
+	if([ps Type]==NILSXP) { [ps release]; return nil; }
 	DO_RENG_EVAL_STATUS(str);
     xr=[self evaluateExpressions: ps];
 	DONE_RENG_EVAL_STATUS();
 	[ps release];
-	SLog(@" - result: %@", xr);
 	return xr;
 }
 
@@ -429,6 +459,16 @@ BOOL preventReentrance = NO;
 	if (xr) [xr release];
 	SLog(@" - success: %@", success?@"YES":@"NO");
 	return success;
+}
+
+- (RSymbolicExpression*) NilValue
+{
+    return [[RSymbolicExpression alloc] initWithEngineAndExpression:self rsexp:[[RSEXP alloc] initWithSEXP:R_NilValue]];
+}
+
+- (RSymbolicExpression*) NaString
+{
+    return [[RSymbolicExpression alloc] initWithEngineAndExpression:self rsexp:[[RSEXP alloc] initWithSEXP:R_NaString]];
 }
 
 @end

@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#include "REngine/REngine.h"
+#include "REngine.h"
+#include "RSymbolicExpression.h"
 
 //! Project version number for RAutomation.
 FOUNDATION_EXPORT double RAutomationVersionNumber;

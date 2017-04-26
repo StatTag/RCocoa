@@ -30,6 +30,9 @@
  *
  */
 
+#ifndef REngine_h
+#define REngine_h
+
 #import <Cocoa/Cocoa.h>
 
 #import <Foundation/Foundation.h>
@@ -38,6 +41,7 @@
 #include <R.h>
 #import "RSEXP.h"
 #import "Rcallbacks.h"
+#import "RSymbolicExpression.h"
 
 /* since R 2.0 parse is mapped to Rf_parse which is deadly ... 
    therefore REngine.h must be included *after* R headers */
@@ -112,11 +116,13 @@ extern BOOL preventReentrance;
 - (void) disableRSignalHandlers: (BOOL) disable;
 
 // eval mode
-- (RSEXP*) parse: (NSString*) str;
-- (RSEXP*) parse: (NSString*) str withParts: (int) count;
-- (RSEXP*) evaluateExpressions: (RSEXP*) expr;
-- (RSEXP*) evaluateString: (NSString*) str;
-- (RSEXP*) evaluateString: (NSString*) str withParts: (int) count;
+//- (RSEXP*) parse: (NSString*) str;
+- (RSymbolicExpression*) parse: (NSString*) str;
+//- (RSEXP*) parse: (NSString*) str withParts: (int) count;
+- (RSymbolicExpression*) parse: (NSString*) str withParts: (int) count;
+- (RSymbolicExpression*) evaluateExpressions: (RSymbolicExpression*) expr;
+- (RSymbolicExpression*) evaluateString: (NSString*) str;
+- (RSymbolicExpression*) evaluateString: (NSString*) str withParts: (int) count;
 - (BOOL)   executeString: (NSString*) str; // void eval
 
 // REPL mode
@@ -130,4 +136,11 @@ extern BOOL preventReentrance;
 - (void) setStatusLineText: (NSString*) text;
 - (void) initREnvironment;
 
+
+// RDotNet functions
+- (RSymbolicExpression*) NilValue;
+- (RSymbolicExpression*) NaString;
+
 @end
+
+#endif
