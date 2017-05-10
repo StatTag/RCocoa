@@ -7,19 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3500D24A1EBCD34F00BCB198 /* RIntegerVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 35380DD51EBA242500AF2E49 /* RIntegerVector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3500D24B1EBCD35700BCB198 /* RCharacterMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 35380DDA1EBA247000AF2E49 /* RCharacterMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3500D24C1EBCD35C00BCB198 /* RVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 35380DDB1EBA25C500AF2E49 /* RVector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3500D24D1EBCD36100BCB198 /* RMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 355F5B4F1EBA6D3E007248C4 /* RMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350C8C741E1E8FEF003DE3F8 /* RAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 350C8C731E1E8FEF003DE3F8 /* RAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350C8C7B1E1E8FF0003DE3F8 /* RAutomation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C701E1E8FEF003DE3F8 /* RAutomation.framework */; };
 		350C8C801E1E8FF0003DE3F8 /* RAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */; };
 		350C8C8B1E1E903B003DE3F8 /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C8A1E1E903B003DE3F8 /* R.framework */; };
 		350F872B1E7C6EAE00796EE3 /* RAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 350F872A1E7C6EAE00796EE3 /* RAutomation.m */; };
+		35380DD71EBA244000AF2E49 /* RIntegerVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 35380DD61EBA244000AF2E49 /* RIntegerVector.m */; };
+		35380DD91EBA246100AF2E49 /* RCharacterMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 35380DD81EBA246100AF2E49 /* RCharacterMatrix.m */; };
+		35380DDD1EBA25D100AF2E49 /* RVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 35380DDC1EBA25D100AF2E49 /* RVector.m */; };
+		35380DDF1EBA28F700AF2E49 /* RVectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35380DDE1EBA28F700AF2E49 /* RVectorTests.m */; };
+		35594B201EBCE0F200DD15C8 /* RSymbolicExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A231461EA00CA6008AA1EF /* RSymbolicExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		355F5B511EBA6D4F007248C4 /* RMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 355F5B501EBA6D4F007248C4 /* RMatrix.m */; };
 		35A231481EA00CC4008AA1EF /* RSymbolicExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231471EA00CC4008AA1EF /* RSymbolicExpression.m */; };
-		35A231511EA00DC7008AA1EF /* Rcallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A231491EA00DC7008AA1EF /* Rcallbacks.h */; };
+		35A231511EA00DC7008AA1EF /* Rcallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A231491EA00DC7008AA1EF /* Rcallbacks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35A231521EA00DC7008AA1EF /* Rcallbacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314A1EA00DC7008AA1EF /* Rcallbacks.m */; };
-		35A231531EA00DC7008AA1EF /* REngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314B1EA00DC7008AA1EF /* REngine.h */; };
+		35A231531EA00DC7008AA1EF /* REngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314B1EA00DC7008AA1EF /* REngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35A231541EA00DC7008AA1EF /* REngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314C1EA00DC7008AA1EF /* REngine.m */; };
 		35A231551EA00DC7008AA1EF /* Rinit.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314D1EA00DC7008AA1EF /* Rinit.h */; };
 		35A231561EA00DC7008AA1EF /* Rinit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314E1EA00DC7008AA1EF /* Rinit.m */; };
-		35A231571EA00DC7008AA1EF /* RSEXP.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314F1EA00DC7008AA1EF /* RSEXP.h */; };
+		35A231571EA00DC7008AA1EF /* RSEXP.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314F1EA00DC7008AA1EF /* RSEXP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35A231581EA00DC7008AA1EF /* RSEXP.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231501EA00DC7008AA1EF /* RSEXP.m */; };
 		35A2315A1EA010EF008AA1EF /* RSymbolicExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */; };
 /* End PBXBuildFile section */
@@ -43,6 +53,15 @@
 		350C8C811E1E8FF0003DE3F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		350C8C8A1E1E903B003DE3F8 /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
 		350F872A1E7C6EAE00796EE3 /* RAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAutomation.m; sourceTree = "<group>"; };
+		35380DD51EBA242500AF2E49 /* RIntegerVector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RIntegerVector.h; sourceTree = "<group>"; };
+		35380DD61EBA244000AF2E49 /* RIntegerVector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIntegerVector.m; sourceTree = "<group>"; };
+		35380DD81EBA246100AF2E49 /* RCharacterMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCharacterMatrix.m; sourceTree = "<group>"; };
+		35380DDA1EBA247000AF2E49 /* RCharacterMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCharacterMatrix.h; sourceTree = "<group>"; };
+		35380DDB1EBA25C500AF2E49 /* RVector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RVector.h; sourceTree = "<group>"; };
+		35380DDC1EBA25D100AF2E49 /* RVector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RVector.m; sourceTree = "<group>"; };
+		35380DDE1EBA28F700AF2E49 /* RVectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RVectorTests.m; sourceTree = "<group>"; };
+		355F5B4F1EBA6D3E007248C4 /* RMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMatrix.h; sourceTree = "<group>"; };
+		355F5B501EBA6D4F007248C4 /* RMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMatrix.m; sourceTree = "<group>"; };
 		35A231461EA00CA6008AA1EF /* RSymbolicExpression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSymbolicExpression.h; sourceTree = "<group>"; };
 		35A231471EA00CC4008AA1EF /* RSymbolicExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSymbolicExpression.m; sourceTree = "<group>"; };
 		35A231491EA00DC7008AA1EF /* Rcallbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rcallbacks.h; sourceTree = "<group>"; };
@@ -111,6 +130,14 @@
 				350F872A1E7C6EAE00796EE3 /* RAutomation.m */,
 				35A231461EA00CA6008AA1EF /* RSymbolicExpression.h */,
 				35A231471EA00CC4008AA1EF /* RSymbolicExpression.m */,
+				35380DD51EBA242500AF2E49 /* RIntegerVector.h */,
+				35380DD61EBA244000AF2E49 /* RIntegerVector.m */,
+				35380DDA1EBA247000AF2E49 /* RCharacterMatrix.h */,
+				35380DD81EBA246100AF2E49 /* RCharacterMatrix.m */,
+				35380DDB1EBA25C500AF2E49 /* RVector.h */,
+				35380DDC1EBA25D100AF2E49 /* RVector.m */,
+				355F5B4F1EBA6D3E007248C4 /* RMatrix.h */,
+				355F5B501EBA6D4F007248C4 /* RMatrix.m */,
 			);
 			path = RAutomation;
 			sourceTree = "<group>";
@@ -121,6 +148,7 @@
 				350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */,
 				350C8C811E1E8FF0003DE3F8 /* Info.plist */,
 				35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */,
+				35380DDE1EBA28F700AF2E49 /* RVectorTests.m */,
 			);
 			path = RAutomationTests;
 			sourceTree = "<group>";
@@ -133,10 +161,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				35A231531EA00DC7008AA1EF /* REngine.h in Headers */,
+				3500D24B1EBCD35700BCB198 /* RCharacterMatrix.h in Headers */,
+				3500D24A1EBCD34F00BCB198 /* RIntegerVector.h in Headers */,
 				35A231511EA00DC7008AA1EF /* Rcallbacks.h in Headers */,
+				3500D24C1EBCD35C00BCB198 /* RVector.h in Headers */,
+				35594B201EBCE0F200DD15C8 /* RSymbolicExpression.h in Headers */,
 				35A231571EA00DC7008AA1EF /* RSEXP.h in Headers */,
 				350C8C741E1E8FEF003DE3F8 /* RAutomation.h in Headers */,
 				35A231551EA00DC7008AA1EF /* Rinit.h in Headers */,
+				3500D24D1EBCD36100BCB198 /* RMatrix.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,11 +271,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				35A231581EA00DC7008AA1EF /* RSEXP.m in Sources */,
+				35380DD91EBA246100AF2E49 /* RCharacterMatrix.m in Sources */,
 				35A231541EA00DC7008AA1EF /* REngine.m in Sources */,
+				355F5B511EBA6D4F007248C4 /* RMatrix.m in Sources */,
 				350F872B1E7C6EAE00796EE3 /* RAutomation.m in Sources */,
 				35A231561EA00DC7008AA1EF /* Rinit.m in Sources */,
 				35A231521EA00DC7008AA1EF /* Rcallbacks.m in Sources */,
 				35A231481EA00CC4008AA1EF /* RSymbolicExpression.m in Sources */,
+				35380DD71EBA244000AF2E49 /* RIntegerVector.m in Sources */,
+				35380DDD1EBA25D100AF2E49 /* RVector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +289,7 @@
 			files = (
 				35A2315A1EA010EF008AA1EF /* RSymbolicExpressionTests.m in Sources */,
 				350C8C801E1E8FF0003DE3F8 /* RAutomationTests.m in Sources */,
+				35380DDF1EBA28F700AF2E49 /* RVectorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,7 +345,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx10.10;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -347,7 +385,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx10.10;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};

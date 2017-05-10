@@ -6,9 +6,11 @@
 //  Copyright © 2017 Luke Rasmussen. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #include "REngine.h"
 #include "RSymbolicExpression.h"
+#include "RVector.h"
+#include "RIntegerVector.h"
+#include "RCharacterMatrix.h"
 
 //! Project version number for RAutomation.
 FOUNDATION_EXPORT double RAutomationVersionNumber;

@@ -42,6 +42,48 @@
 // Get the underlying SEXP pointer
 -(SEXP) GetHandle;
 
+// Type detection methods
+-(BOOL) IsVector;
+-(BOOL) IsFactor;
+-(BOOL) IsMatrix;
+//-(BOOL) IsDataFrame;
+//-(BOOL) IsS4;
+//-(BOOL) IsEnvironment;
+//-(BOOL) IsExpression;
+//-(BOOL) IsSymbol;
+//-(BOOL) IsLanguage;
+//-(BOOL) IsFunction;
+//-(BOOL) IsFactor;
+
+// Vector conversion methods methods
+-(NSArray*) AsInteger;
+-(NSArray*) AsReal;
+-(NSArray*) AsLogical;
+-(NSArray*) AsCharacter;
+//(NSArray*) AsNumeric;
+//(NSArray*) AsComplex;
+
+// Other conversion methods
+//(NSArray*) AsList;
+//(NSArray*) AsDataFrame;
+//(NSArray*) AsS4;
+//(NSArray*) AsVector;
+//(NSArray*) AsRaw;
+//(NSArray*) AsEnvironment;
+//(NSArray*) AsExpression;
+//(NSArray*) AsSymbol;
+//(NSArray*) AsLanguage;
+//(NSArray*) AsFunction;
+//(NSArray*) AsFactor;
+
+// Matrix conversion methods
+-(NSArray*) AsCharacterMatrix;
+//(NSArray*) AsLogicalMatrix;
+//(NSArray*) AsIntegerMatrix;
+//(NSArray*) AsNumericMatrix;
+//(NSArray*) AsComplexMatrix;
+//(NSArray*) AsRawMatrix;
+
 @end
 
 #endif /* RSymbolicExpression_h */

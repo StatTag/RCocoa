@@ -47,35 +47,35 @@
     }
 }
 
-- (void)testEvaluateString {
-    @autoreleasepool {
-        XCTAssert([[REngine mainEngine] activate]);
-        RSEXP* exp = [[REngine mainEngine] evaluateString: @"2+3"];
-        XCTAssertNotNil(exp);
-        XCTAssertEqual(REALSXP, [exp type]);
-        [exp release];
-        [REngine shutdown];
-    }
-}
-
-- (void)testExecuteString {
-    @autoreleasepool {
-        XCTAssert([[REngine mainEngine] activate]);
-        XCTAssert([[REngine mainEngine] executeString: @"2+3"]);
-        [REngine shutdown];
-    }
-}
-
-- (void)testParse {
-    @autoreleasepool {
-        XCTAssert([[REngine mainEngine] activate]);
-        RSEXP* exp = [[REngine mainEngine] parse: @"2+3"];
-        XCTAssertNotNil(exp);
-        XCTAssertEqual(EXPRSXP, [exp type]);
-        [exp release];
-        [REngine shutdown];
-    }
-}
+//- (void)testEvaluateString {
+//    @autoreleasepool {
+//        XCTAssert([[REngine mainEngine] activate]);
+//        RSEXP* exp = [[REngine mainEngine] evaluateString: @"2+3"];
+//        XCTAssertNotNil(exp);
+//        XCTAssertEqual(REALSXP, [exp type]);
+//        [exp release];
+//        [REngine shutdown];
+//    }
+//}
+//
+//- (void)testExecuteString {
+//    @autoreleasepool {
+//        XCTAssert([[REngine mainEngine] activate]);
+//        XCTAssert([[REngine mainEngine] executeString: @"2+3"]);
+//        [REngine shutdown];
+//    }
+//}
+//
+//- (void)testParse {
+//    @autoreleasepool {
+//        XCTAssert([[REngine mainEngine] activate]);
+//        RSEXP* exp = [[REngine mainEngine] parse: @"2+3"];
+//        XCTAssertNotNil(exp);
+//        XCTAssertEqual(EXPRSXP, [exp type]);
+//        [exp release];
+//        [REngine shutdown];
+//    }
+//}
 
 - (void)testNilValue {
     @autoreleasepool {

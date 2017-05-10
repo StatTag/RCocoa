@@ -66,10 +66,125 @@
     }
 }
 
+- (void)testIsVector_Nil{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [ [RSymbolicExpression alloc] initWithEngineAndExpression: [REngine mainEngine] expression: nil];
+        XCTAssertThrows([rse IsVector]);
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testIsMatrix_Nil{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [ [RSymbolicExpression alloc] initWithEngineAndExpression: [REngine mainEngine] expression: nil];
+        XCTAssertThrows([rse IsMatrix]);
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testIsMatrix{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c(1,2,3,4), nrow=2, ncol=2, byrow=TRUE)"];
+        XCTAssertTrue([rse IsMatrix]);
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testIsVector{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- c(1, 2)"];
+        XCTAssert([rse IsVector]);
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testAsInteger{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- c(1, 2)"];
+        NSArray* results = [rse AsInteger];
+        XCTAssertNotNil(results);
+        XCTAssertEqual(2, [results count]);
+        XCTAssertEqual(1, [results[0] intValue]);
+        XCTAssertEqual(2, [results[1] intValue]);
+        [results release];
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testAsReal{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- c(1, 2)"];
+        NSArray* results = [rse AsReal];
+        XCTAssertNotNil(results);
+        XCTAssertEqual(2, [results count]);
+        XCTAssertEqual(1.0, [results[0] doubleValue]);
+        XCTAssertEqual(2.0, [results[1] doubleValue]);
+        [results release];
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testAsLogical{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- c(1, 0)"];
+        NSArray* results = [rse AsLogical];
+        XCTAssertNotNil(results);
+        XCTAssertEqual(2, [results count]);
+        XCTAssertEqual(TRUE, [results[0] boolValue]);
+        XCTAssertEqual(FALSE, [results[1] boolValue]);
+        [results release];
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testAsCharacter{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- c('hello', 'world')"];
+        NSArray* results = [rse AsCharacter];
+        XCTAssertNotNil(results);
+        XCTAssertEqual(2, [results count]);
+        XCTAssertEqualObjects(@"hello", results[0]);
+        XCTAssertEqualObjects(@"world", results[1]);
+        [results release];
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testAsCharacterMatrix{
+    //@autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
+        NSArray* results = [rse AsCharacterMatrix];
+        //XCTAssertNotNil(results);
+        //XCTAssertEqual(2, [results count]);
+        //XCTAssertEqualObjects(@"hello", results[0]);
+        //XCTAssertEqualObjects(@"world", results[1]);
+        //[results release];
+        //[rse release];
+        [REngine shutdown];
+    //}
+}
+
 - (void)testGetAttributeNames_Filled {
     @autoreleasepool {
         XCTAssert([[REngine mainEngine] activate]);
-        RSymbolicExpression* rse = [[REngine mainEngine] evaluateString: @"library(survival)\ndata(pbc)\nlibrary(tableone)\ntable1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"library(survival)\ndata(pbc)\nlibrary(tableone)\ntable1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
         XCTAssertNotNil(rse);
         NSArray<NSString*>* attrs = [rse GetAttributeNames];
         [attrs release];

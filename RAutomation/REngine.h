@@ -117,13 +117,14 @@ extern BOOL preventReentrance;
 
 // eval mode
 //- (RSEXP*) parse: (NSString*) str;
-- (RSymbolicExpression*) parse: (NSString*) str;
+- (NSMutableArray<RSymbolicExpression*>*) Parse: (NSString*) str;
+- (RSymbolicExpression*) Evaluate: (NSString*) str;
 //- (RSEXP*) parse: (NSString*) str withParts: (int) count;
-- (RSymbolicExpression*) parse: (NSString*) str withParts: (int) count;
+//- (NSMutableArray<RSymbolicExpression*>*) parse: (NSString*) str withParts: (int) count;
 - (RSymbolicExpression*) evaluateExpressions: (RSymbolicExpression*) expr;
-- (RSymbolicExpression*) evaluateString: (NSString*) str;
-- (RSymbolicExpression*) evaluateString: (NSString*) str withParts: (int) count;
-- (BOOL)   executeString: (NSString*) str; // void eval
+//- (RSymbolicExpression*) evaluateString: (NSString*) str;
+//- (RSymbolicExpression*) evaluateString: (NSString*) str withParts: (int) count;
+//- (BOOL)   executeString: (NSString*) str; // void eval
 
 // REPL mode
 - (id <REPLHandler>) handler;
