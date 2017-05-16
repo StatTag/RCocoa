@@ -10,7 +10,9 @@
 #include "RSymbolicExpression.h"
 #include "RVector.h"
 #include "RIntegerVector.h"
+#include "RMatrix.h"
 #include "RCharacterMatrix.h"
+#include "RLogicalMatrix.h"
 
 //! Project version number for RAutomation.
 FOUNDATION_EXPORT double RAutomationVersionNumber;

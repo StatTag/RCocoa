@@ -9,5 +9,15 @@
 #ifndef RCharacterMatrix_h
 #define RCharacterMatrix_h
 
+#include "RMatrix.h"
+
+@interface RCharacterMatrix : RMatrix<NSString*>
+{
+    
+}
+
+-(NSString*) ElementAt: (int)row column:(int)column;
+
+@end
 
 #endif /* RCharacterMatrix_h */

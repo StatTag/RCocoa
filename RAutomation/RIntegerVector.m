@@ -11,15 +11,32 @@
 
 @implementation RIntegerVector
 
--(id) initWithEngineAndExpressionAndLength: (REngine*)eng expression: (SEXP)sexp length: (int)len
+-(id) initWithEngineAndExpressionAndLength: (REngine*)eng expression: (SEXP)sexp length: (unsigned long)len
 {
     self = [super initWithEngineAndExpressionAndLength:eng expression:sexp length:len];
+    _expression = PROTECT(Rf_allocVector(INTSXP, len));
     return self;
 }
 
 -(void) SetVector: (NSArray<NSNumber*>*) values
 {
-    _values = [values copy];
+    for (int index = 0; index < [values count]; index++) {
+        int value = [[values objectAtIndex: index] intValue];
+        INTEGER(_expression)[index] = value;
+    }
+}
+
+-(NSNumber*)objectAtIndexedSubscript:(int)idx
+{
+    if (idx < 0 || idx >= LENGTH(_expression)) {
+        NSException* exc = [NSException
+                            exceptionWithName:@"ArgumentOutOfRangeException"
+                            reason:@"Array index out of bounds"
+                            userInfo:nil];
+        @throw exc;
+    }
+    
+    return [NSNumber numberWithInt:INTEGER(_expression)[idx]];
 }
 
 @end

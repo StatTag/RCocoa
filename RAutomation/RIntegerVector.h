@@ -13,10 +13,10 @@
 
 @interface RIntegerVector : RVector<NSNumber*>
 {
-    NSArray<NSNumber*>* _values;
 }
 
 -(void) SetVector: (NSArray<NSNumber*>*) values;
+- (NSNumber*)objectAtIndexedSubscript:(int)idx;
 
 @end
 

@@ -117,8 +117,8 @@ extern BOOL preventReentrance;
 
 // eval mode
 //- (RSEXP*) parse: (NSString*) str;
-- (NSMutableArray<RSymbolicExpression*>*) Parse: (NSString*) str;
-- (RSymbolicExpression*) Evaluate: (NSString*) str;
+- (NSMutableArray<RSymbolicExpression*>*) Parse: (NSString*) str __attribute((ns_returns_retained));
+- (RSymbolicExpression*) Evaluate: (NSString*) str __attribute((ns_returns_retained));
 //- (RSEXP*) parse: (NSString*) str withParts: (int) count;
 //- (NSMutableArray<RSymbolicExpression*>*) parse: (NSString*) str withParts: (int) count;
 - (RSymbolicExpression*) evaluateExpressions: (RSymbolicExpression*) expr;

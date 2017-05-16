@@ -10,10 +10,15 @@
 #define RSymbolicExpression_h
 
 #include <Rinternals.h>
-//#include "RSEXP.h"
-//#include "REngine.h"
+
+/*
+ Note on memory management
+ Some of the methods have a ns_returns_retained attribute as part of their definition (https://clang.llvm.org/docs/AutomaticReferenceCounting.html#retained-return-values).  This tells an app calling this framework that it is responsible for cleaning up the returned value.  Per the Apple documentation, this should let ARC know (assuming the framework is called from an ARC-enabled application) that it is responsible for releasing and cleaning the object it receives.
+ */
 
 @class REngine;
+@class RCharacterMatrix;
+@class RLogicalMatrix;
 
 @interface RSymbolicExpression : NSObject
 {
@@ -39,6 +44,9 @@
 // Get all attribute value names
 -(NSArray<NSString*>*) GetAttributeNames;
 
+// Set an attribute
+-(void) SetAttribute: (RSymbolicExpression*) symbol value:(RSymbolicExpression*) value;
+
 // Get the underlying SEXP pointer
 -(SEXP) GetHandle;
 
@@ -56,10 +64,10 @@
 //-(BOOL) IsFactor;
 
 // Vector conversion methods methods
--(NSArray*) AsInteger;
--(NSArray*) AsReal;
--(NSArray*) AsLogical;
--(NSArray*) AsCharacter;
+-(NSArray*) AsInteger __attribute((ns_returns_retained));
+-(NSArray*) AsReal __attribute((ns_returns_retained));
+-(NSArray*) AsLogical __attribute((ns_returns_retained));
+-(NSArray*) AsCharacter __attribute((ns_returns_retained));
 //(NSArray*) AsNumeric;
 //(NSArray*) AsComplex;
 
@@ -77,8 +85,8 @@
 //(NSArray*) AsFactor;
 
 // Matrix conversion methods
--(NSArray*) AsCharacterMatrix;
-//(NSArray*) AsLogicalMatrix;
+-(RCharacterMatrix*) AsCharacterMatrix __attribute((ns_returns_retained));
+-(RLogicalMatrix*) AsLogicalMatrix __attribute((ns_returns_retained));
 //(NSArray*) AsIntegerMatrix;
 //(NSArray*) AsNumericMatrix;
 //(NSArray*) AsComplexMatrix;

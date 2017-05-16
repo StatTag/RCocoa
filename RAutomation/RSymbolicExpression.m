@@ -78,6 +78,33 @@ void CheckForNullExpression(SEXP expression)
     return attrs;
 }
 
+
+-(void) SetAttribute: (RSymbolicExpression*) symbol value:(RSymbolicExpression*) value
+{
+    if (symbol == nil) {
+        NSException* exc = [NSException
+                            exceptionWithName:@"ArgumentNullException"
+                            reason:@"You must specify a symbolic expression"
+                            userInfo:nil];
+        @throw exc;
+    }
+    
+    // Make sure it's a symbolic expression
+    if ([symbol Type] != SYMSXP) {
+        NSException* exc = [NSException
+                            exceptionWithName:@"ArgumentException"
+                            reason:@"You must specify a symbolic expression"
+                            userInfo:nil];
+        @throw exc;
+    }
+    
+    if (value == nil) {
+        value = [_engine NilValue];
+    }
+    
+    Rf_setAttrib([self GetHandle], [symbol GetHandle], [value GetHandle]);
+}
+
 - (RSymbolicExpression*) ElementAt: (int) index
 {
     if (index<0 || index>=LENGTH(_expression)) return nil;
@@ -112,7 +139,7 @@ void CheckForNullExpression(SEXP expression)
     for (int i = 0; i < length; ++i) {
         [retVal addObject:[NSNumber numberWithInt:results[i]]];
     }
-    return [retVal copy];
+    return retVal;
 }
 
 -(NSArray*) AsReal
@@ -125,7 +152,7 @@ void CheckForNullExpression(SEXP expression)
     for (int i = 0; i < length; ++i) {
         [retVal addObject:[NSNumber numberWithDouble:results[i]]];
     }
-    return [retVal copy];
+    return retVal;
 }
 
 -(NSArray*) AsLogical
@@ -138,7 +165,7 @@ void CheckForNullExpression(SEXP expression)
     for (int i = 0; i < length; ++i) {
         [retVal addObject:[NSNumber numberWithBool:results[i]]];
     }
-    return [retVal copy];
+    return retVal;
 }
 
 -(NSArray*) AsCharacter
@@ -159,7 +186,7 @@ void CheckForNullExpression(SEXP expression)
     return retVal;
 }
 
--(NSArray*) AsCharacterMatrix
+-(RCharacterMatrix*) AsCharacterMatrix
 {
     if (![self IsVector]) { return nil; }
     
@@ -167,7 +194,8 @@ void CheckForNullExpression(SEXP expression)
     int columnCount = 0;
     if ([self IsMatrix]) {
         if (TYPEOF(_expression) == STRSXP) {
-            //TODO: return new CharacterMatrix(expression.Engine, expression.DangerousGetHandle());
+            RCharacterMatrix* matrix = [[RCharacterMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
+            return matrix;
         }
         else {
             rowCount = Rf_nrows(_expression);
@@ -186,16 +214,48 @@ void CheckForNullExpression(SEXP expression)
     dimensionArray[1] = [NSNumber numberWithInt:columnCount];
     RIntegerVector* dimensionVector = [[RIntegerVector alloc] initWithEngineAndExpressionAndLength:_engine expression:nil length:[dimensionArray count]];
     [dimensionVector SetVector:dimensionArray];
+    RSymbolicExpression* dimSymbolExpr = [[RSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:R_DimSymbol];
+
+    RCharacterMatrix* matrix = [[RCharacterMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
+    [matrix SetAttribute:dimSymbolExpr value:dimensionVector];
     
-    //RCharacterMatrix* matrix = [[RCharacterMatrix alloc] init];
+    return matrix;
+}
+
+-(RLogicalMatrix*) AsLogicalMatrix
+{
+    if (![self IsVector]) { return nil; }
     
-    return nil;
-//    IntPtr coerced = expression.GetFunction<Rf_coerceVector>()(expression.DangerousGetHandle(), SymbolicExpressionType.CharacterVector);
-//    var dim = new IntegerVector(expression.Engine, new[] { rowCount, columnCount });
-//    SymbolicExpression dimSymbol = expression.Engine.GetPredefinedSymbol("R_DimSymbol");
-//    var matrix = new CharacterMatrix(expression.Engine, coerced);
-//    matrix.SetAttribute(dimSymbol, dim);
-//    return matrix;
+    int rowCount = 0;
+    int columnCount = 0;
+    if ([self IsMatrix]) {
+        if (TYPEOF(_expression) == LGLSXP) {
+            RLogicalMatrix* matrix = [[RLogicalMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
+            return matrix;
+        }
+        else {
+            rowCount = Rf_nrows(_expression);
+            columnCount = Rf_ncols(_expression);
+        }
+    }
+    
+    if (columnCount == 0) {
+        rowCount = Rf_length(_expression);
+        columnCount = 1;
+    }
+    
+    SEXP coercedVector = Rf_coerceVector(_expression, LGLSXP);
+    NSMutableArray<NSNumber*>* dimensionArray = [[NSMutableArray<NSNumber*> alloc] initWithCapacity: 2];
+    dimensionArray[0] = [NSNumber numberWithInt:rowCount];
+    dimensionArray[1] = [NSNumber numberWithInt:columnCount];
+    RIntegerVector* dimensionVector = [[RIntegerVector alloc] initWithEngineAndExpressionAndLength:_engine expression:nil length:[dimensionArray count]];
+    [dimensionVector SetVector:dimensionArray];
+    RSymbolicExpression* dimSymbolExpr = [[RSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:R_DimSymbol];
+    
+    RLogicalMatrix* matrix = [[RLogicalMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
+    [matrix SetAttribute:dimSymbolExpr value:dimensionVector];
+    
+    return matrix;
 }
 
 @end

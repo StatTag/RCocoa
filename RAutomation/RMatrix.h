@@ -15,9 +15,14 @@
 
 @interface RMatrix<__covariant ObjectType> : RSymbolicExpression
 {
+    NSMutableArray* _values;
 }
 
 -(id) initWithEngineAndExpressionAndDimensions: (REngine*)eng expression: (SEXP)sexp rowCount: (unsigned long)rowCount columnCount: (unsigned long)columnCount;
+-(int) RowCount;
+-(int) ColumnCount;
+-(ObjectType) ElementAt: (int)row column:(int)column;
+-(void) CheckIndices: (int)row column:(int)column;
 
 @end
 

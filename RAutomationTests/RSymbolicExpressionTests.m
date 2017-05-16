@@ -167,18 +167,13 @@
 }
 
 - (void)testAsCharacterMatrix{
-    //@autoreleasepool {
+    @autoreleasepool {
         XCTAssert([[REngine mainEngine] activate]);
         RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
-        NSArray* results = [rse AsCharacterMatrix];
-        //XCTAssertNotNil(results);
-        //XCTAssertEqual(2, [results count]);
-        //XCTAssertEqualObjects(@"hello", results[0]);
-        //XCTAssertEqualObjects(@"world", results[1]);
-        //[results release];
-        //[rse release];
+        RCharacterMatrix* results = [rse AsCharacterMatrix];
+        XCTAssertNotNil(results);
         [REngine shutdown];
-    //}
+    }
 }
 
 - (void)testGetAttributeNames_Filled {

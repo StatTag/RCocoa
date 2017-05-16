@@ -7,3 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#include "RCharacterMatrix.h"
+
+@implementation RCharacterMatrix
+
+-(NSString*) ElementAt: (int)row column:(int)column
+{
+    [self CheckIndices:row column:column];
+    const char* result = CHAR(STRING_PTR(_expression)[(row * [self RowCount]) + column]);
+    return [NSString stringWithUTF8String: result];
+}
+
+@end

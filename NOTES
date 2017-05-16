@@ -1,0 +1,3 @@
+Things I learned:
+- If you don't activate the R Engine (e.g., [[REngine mainEngine] activate]) the code will crash when you call Rf_allocVector.  I'm assuming this will crash for any other type of memory allocation too.
+
