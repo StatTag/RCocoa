@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:RAutomation.xcodeproj">
+      location = "self:/Users/lvr491/Development/StatTag/RAutomation/RCocoa.xcodeproj">
    </FileRef>
 </Workspace>

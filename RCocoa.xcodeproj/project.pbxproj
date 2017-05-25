@@ -12,7 +12,7 @@
 		3500D24C1EBCD35C00BCB198 /* RVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 35380DDB1EBA25C500AF2E49 /* RVector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3500D24D1EBCD36100BCB198 /* RMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 355F5B4F1EBA6D3E007248C4 /* RMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350C8C741E1E8FEF003DE3F8 /* RAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 350C8C731E1E8FEF003DE3F8 /* RAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		350C8C7B1E1E8FF0003DE3F8 /* RAutomation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C701E1E8FEF003DE3F8 /* RAutomation.framework */; };
+		350C8C7B1E1E8FF0003DE3F8 /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C701E1E8FEF003DE3F8 /* RCocoa.framework */; };
 		350C8C801E1E8FF0003DE3F8 /* RAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */; };
 		350C8C8B1E1E903B003DE3F8 /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C8A1E1E903B003DE3F8 /* R.framework */; };
 		350F872B1E7C6EAE00796EE3 /* RAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 350F872A1E7C6EAE00796EE3 /* RAutomation.m */; };
@@ -60,10 +60,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		350C8C701E1E8FEF003DE3F8 /* RAutomation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RAutomation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		350C8C701E1E8FEF003DE3F8 /* RCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		350C8C731E1E8FEF003DE3F8 /* RAutomation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RAutomation.h; sourceTree = "<group>"; };
 		350C8C751E1E8FEF003DE3F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		350C8C7A1E1E8FF0003DE3F8 /* RAutomationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RAutomationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		350C8C7A1E1E8FF0003DE3F8 /* RCocoa.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RCocoa.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RAutomationTests.m; sourceTree = "<group>"; };
 		350C8C811E1E8FF0003DE3F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		350C8C8A1E1E903B003DE3F8 /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				350C8C7B1E1E8FF0003DE3F8 /* RAutomation.framework in Frameworks */,
+				350C8C7B1E1E8FF0003DE3F8 /* RCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,8 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				350C8C8A1E1E903B003DE3F8 /* R.framework */,
-				350C8C721E1E8FEF003DE3F8 /* RAutomation */,
-				350C8C7E1E1E8FF0003DE3F8 /* RAutomationTests */,
+				350C8C721E1E8FEF003DE3F8 /* RCocoa */,
+				350C8C7E1E1E8FF0003DE3F8 /* RCocoaTests */,
 				350C8C711E1E8FEF003DE3F8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -138,13 +138,13 @@
 		350C8C711E1E8FEF003DE3F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				350C8C701E1E8FEF003DE3F8 /* RAutomation.framework */,
-				350C8C7A1E1E8FF0003DE3F8 /* RAutomationTests.xctest */,
+				350C8C701E1E8FEF003DE3F8 /* RCocoa.framework */,
+				350C8C7A1E1E8FF0003DE3F8 /* RCocoa.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		350C8C721E1E8FEF003DE3F8 /* RAutomation */ = {
+		350C8C721E1E8FEF003DE3F8 /* RCocoa */ = {
 			isa = PBXGroup;
 			children = (
 				350C8C751E1E8FEF003DE3F8 /* Info.plist */,
@@ -177,10 +177,10 @@
 				35380DDB1EBA25C500AF2E49 /* RVector.h */,
 				35380DDC1EBA25D100AF2E49 /* RVector.m */,
 			);
-			path = RAutomation;
+			path = RCocoa;
 			sourceTree = "<group>";
 		};
-		350C8C7E1E1E8FF0003DE3F8 /* RAutomationTests */ = {
+		350C8C7E1E1E8FF0003DE3F8 /* RCocoaTests */ = {
 			isa = PBXGroup;
 			children = (
 				350C8C811E1E8FF0003DE3F8 /* Info.plist */,
@@ -195,7 +195,7 @@
 				35380DDE1EBA28F700AF2E49 /* RVectorTests.m */,
 				35B564F11ECB9779003F347E /* RDataFrameTests.m */,
 			);
-			path = RAutomationTests;
+			path = RCocoaTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,9 +225,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		350C8C6F1E1E8FEF003DE3F8 /* RAutomation */ = {
+		350C8C6F1E1E8FEF003DE3F8 /* RCocoa */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 350C8C841E1E8FF0003DE3F8 /* Build configuration list for PBXNativeTarget "RAutomation" */;
+			buildConfigurationList = 350C8C841E1E8FF0003DE3F8 /* Build configuration list for PBXNativeTarget "RCocoa" */;
 			buildPhases = (
 				350C8C6B1E1E8FEF003DE3F8 /* Sources */,
 				350C8C6C1E1E8FEF003DE3F8 /* Frameworks */,
@@ -238,14 +238,14 @@
 			);
 			dependencies = (
 			);
-			name = RAutomation;
+			name = RCocoa;
 			productName = RAutomation;
-			productReference = 350C8C701E1E8FEF003DE3F8 /* RAutomation.framework */;
+			productReference = 350C8C701E1E8FEF003DE3F8 /* RCocoa.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		350C8C791E1E8FF0003DE3F8 /* RAutomationTests */ = {
+		350C8C791E1E8FF0003DE3F8 /* RCocoaTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 350C8C871E1E8FF0003DE3F8 /* Build configuration list for PBXNativeTarget "RAutomationTests" */;
+			buildConfigurationList = 350C8C871E1E8FF0003DE3F8 /* Build configuration list for PBXNativeTarget "RCocoaTests" */;
 			buildPhases = (
 				350C8C761E1E8FF0003DE3F8 /* Sources */,
 				350C8C771E1E8FF0003DE3F8 /* Frameworks */,
@@ -256,9 +256,9 @@
 			dependencies = (
 				350C8C7D1E1E8FF0003DE3F8 /* PBXTargetDependency */,
 			);
-			name = RAutomationTests;
+			name = RCocoaTests;
 			productName = RAutomationTests;
-			productReference = 350C8C7A1E1E8FF0003DE3F8 /* RAutomationTests.xctest */;
+			productReference = 350C8C7A1E1E8FF0003DE3F8 /* RCocoa.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -267,7 +267,7 @@
 		350C8C671E1E8FEF003DE3F8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = ST;
+				CLASSPREFIX = RC;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Northwestern University";
 				TargetAttributes = {
@@ -279,7 +279,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 350C8C6A1E1E8FEF003DE3F8 /* Build configuration list for PBXProject "RAutomation" */;
+			buildConfigurationList = 350C8C6A1E1E8FEF003DE3F8 /* Build configuration list for PBXProject "RCocoa" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -291,8 +291,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				350C8C6F1E1E8FEF003DE3F8 /* RAutomation */,
-				350C8C791E1E8FF0003DE3F8 /* RAutomationTests */,
+				350C8C6F1E1E8FEF003DE3F8 /* RCocoa */,
+				350C8C791E1E8FF0003DE3F8 /* RCocoaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -358,7 +358,7 @@
 /* Begin PBXTargetDependency section */
 		350C8C7D1E1E8FF0003DE3F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 350C8C6F1E1E8FEF003DE3F8 /* RAutomation */;
+			target = 350C8C6F1E1E8FEF003DE3F8 /* RCocoa */;
 			targetProxy = 350C8C7C1E1E8FF0003DE3F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -475,7 +475,7 @@
 				GCC_PREFIX_HEADER = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = /Library/Frameworks/R.framework/Headers;
-				INFOPLIST_FILE = RAutomation/Info.plist;
+				INFOPLIST_FILE = RCocoa/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -484,8 +484,8 @@
 					"-framework",
 					R,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RAutomation;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoa;
+				PRODUCT_NAME = RCocoa;
 				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
@@ -516,7 +516,7 @@
 				GCC_PREFIX_HEADER = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = /Library/Frameworks/R.framework/Headers;
-				INFOPLIST_FILE = RAutomation/Info.plist;
+				INFOPLIST_FILE = RCocoa/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -525,8 +525,8 @@
 					"-framework",
 					R,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RAutomation;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoa;
+				PRODUCT_NAME = RCocoa;
 				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
@@ -552,7 +552,7 @@
 					"$(inherited)",
 					/Library/Frameworks/R.framework/Headers,
 				);
-				INFOPLIST_FILE = RAutomationTests/Info.plist;
+				INFOPLIST_FILE = RCocoaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -560,8 +560,8 @@
 					"-framework",
 					R,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RAutomationTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoaTests;
+				PRODUCT_NAME = RCocoa;
 				SDKROOT = macosx10.11;
 			};
 			name = Debug;
@@ -587,7 +587,7 @@
 					"$(inherited)",
 					/Library/Frameworks/R.framework/Headers,
 				);
-				INFOPLIST_FILE = RAutomationTests/Info.plist;
+				INFOPLIST_FILE = RCocoaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -595,8 +595,8 @@
 					"-framework",
 					R,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RAutomationTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoaTests;
+				PRODUCT_NAME = RCocoa;
 				SDKROOT = macosx10.11;
 			};
 			name = Release;
@@ -604,7 +604,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		350C8C6A1E1E8FEF003DE3F8 /* Build configuration list for PBXProject "RAutomation" */ = {
+		350C8C6A1E1E8FEF003DE3F8 /* Build configuration list for PBXProject "RCocoa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				350C8C821E1E8FF0003DE3F8 /* Debug */,
@@ -613,7 +613,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		350C8C841E1E8FF0003DE3F8 /* Build configuration list for PBXNativeTarget "RAutomation" */ = {
+		350C8C841E1E8FF0003DE3F8 /* Build configuration list for PBXNativeTarget "RCocoa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				350C8C851E1E8FF0003DE3F8 /* Debug */,
@@ -622,7 +622,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		350C8C871E1E8FF0003DE3F8 /* Build configuration list for PBXNativeTarget "RAutomationTests" */ = {
+		350C8C871E1E8FF0003DE3F8 /* Build configuration list for PBXNativeTarget "RCocoaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				350C8C881E1E8FF0003DE3F8 /* Debug */,
