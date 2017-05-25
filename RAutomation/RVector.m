@@ -31,4 +31,20 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
+-(NSArray<NSString*>*) Names
+{
+    SEXP names = Rf_getAttrib(_expression, R_NamesSymbol);
+    if (names == nil) {
+        return nil;
+    }
+    
+    RSymbolicExpression* namesExp = [[RSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:names];
+    if (namesExp == nil) {
+        return nil;
+    }
+    
+    return [namesExp AsCharacter];
+}
+
+
 @end

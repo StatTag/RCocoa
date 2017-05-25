@@ -19,6 +19,9 @@
 @class REngine;
 @class RCharacterMatrix;
 @class RLogicalMatrix;
+@class RIntegerMatrix;
+@class RRealMatrix;
+@class RDataFrame;
 
 @interface RSymbolicExpression : NSObject
 {
@@ -42,7 +45,10 @@
 -(BOOL) IsInvalid;
 
 // Get all attribute value names
--(NSArray<NSString*>*) GetAttributeNames;
+-(NSArray<NSString*>*) GetAttributeNames __attribute((ns_returns_retained));
+
+// Get a specific attribute
+-(RSymbolicExpression*) GetAttribute: (NSString*)name __attribute((ns_returns_retained));
 
 // Set an attribute
 -(void) SetAttribute: (RSymbolicExpression*) symbol value:(RSymbolicExpression*) value;
@@ -54,7 +60,7 @@
 -(BOOL) IsVector;
 -(BOOL) IsFactor;
 -(BOOL) IsMatrix;
-//-(BOOL) IsDataFrame;
+-(BOOL) IsDataFrame;
 //-(BOOL) IsS4;
 //-(BOOL) IsEnvironment;
 //-(BOOL) IsExpression;
@@ -73,6 +79,7 @@
 
 // Other conversion methods
 //(NSArray*) AsList;
+-(RDataFrame*) AsDataFrame;
 //(NSArray*) AsDataFrame;
 //(NSArray*) AsS4;
 //(NSArray*) AsVector;
@@ -85,9 +92,10 @@
 //(NSArray*) AsFactor;
 
 // Matrix conversion methods
+-(RIntegerMatrix*) AsIntegerMatrix __attribute((ns_returns_retained));
+-(RRealMatrix*) AsRealMatrix __attribute((ns_returns_retained));
 -(RCharacterMatrix*) AsCharacterMatrix __attribute((ns_returns_retained));
 -(RLogicalMatrix*) AsLogicalMatrix __attribute((ns_returns_retained));
-//(NSArray*) AsIntegerMatrix;
 //(NSArray*) AsNumericMatrix;
 //(NSArray*) AsComplexMatrix;
 //(NSArray*) AsRawMatrix;

@@ -17,12 +17,13 @@
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    [[REngine mainEngine] activate];
 }
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+    [REngine shutdown];
 }
 
 - (void)testInitWithEngineAndExpressionAndLength_invalidLength {
@@ -37,6 +38,29 @@
         RVector* vector = [[RVector alloc] initWithEngineAndExpressionAndLength:[REngine mainEngine] expression: [rse GetHandle] length: 1];
         XCTAssertNotNil(vector);
         [vector release];
+        [rse release];
+    }
+}
+
+- (void)testNamesWithNoNames {
+    @autoreleasepool {
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- c(1, 2)"];
+        RVector* vector = [[RVector alloc] initWithEngineAndExpressionAndLength:[REngine mainEngine] expression: [rse GetHandle] length: 1];
+        XCTAssertNil([vector Names]);
+        [vector release];
+        [rse release];
+    }
+}
+
+- (void)testNamesWithNames {
+    @autoreleasepool {
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RVector* vector = [[RVector alloc] initWithEngineAndExpressionAndLength:[REngine mainEngine] expression: [rse GetHandle] length: 1];
+        NSArray<NSString*>* names = [vector Names];
+        XCTAssertNotNil(names);
+        XCTAssertEqual(2, [names count]);
+        [vector release];
+        [rse release];
     }
 }
 

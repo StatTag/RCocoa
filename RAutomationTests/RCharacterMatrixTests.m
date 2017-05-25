@@ -26,7 +26,7 @@
     [REngine shutdown];
 }
 
-- (void)testElementAtReturnsString {
+- (void)testElementAtReturnsValue {
     @autoreleasepool{
         RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
         RCharacterMatrix* results = [rse AsCharacterMatrix];

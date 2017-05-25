@@ -19,6 +19,7 @@
 
 -(id) initWithEngineAndExpressionAndLength: (REngine*)eng expression: (SEXP)sexp length: (unsigned long)len;
 -(void) SetVector: (NSArray<ObjectType>*) values;
+-(NSArray<NSString*>*) Names;
 
 @end
 

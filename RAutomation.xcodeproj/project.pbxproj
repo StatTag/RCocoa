@@ -16,10 +16,16 @@
 		350C8C801E1E8FF0003DE3F8 /* RAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */; };
 		350C8C8B1E1E903B003DE3F8 /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C8A1E1E903B003DE3F8 /* R.framework */; };
 		350F872B1E7C6EAE00796EE3 /* RAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 350F872A1E7C6EAE00796EE3 /* RAutomation.m */; };
+		352BEE691ECB6A9000D1166B /* RRealMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 352BEE681ECB6A9000D1166B /* RRealMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		352BEE6B1ECB6A9700D1166B /* RRealMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 352BEE6A1ECB6A9700D1166B /* RRealMatrix.m */; };
+		352BEE6D1ECB6AFC00D1166B /* RRealMatrixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 352BEE6C1ECB6AFC00D1166B /* RRealMatrixTests.m */; };
 		35380DD71EBA244000AF2E49 /* RIntegerVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 35380DD61EBA244000AF2E49 /* RIntegerVector.m */; };
 		35380DD91EBA246100AF2E49 /* RCharacterMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 35380DD81EBA246100AF2E49 /* RCharacterMatrix.m */; };
 		35380DDD1EBA25D100AF2E49 /* RVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 35380DDC1EBA25D100AF2E49 /* RVector.m */; };
 		35380DDF1EBA28F700AF2E49 /* RVectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35380DDE1EBA28F700AF2E49 /* RVectorTests.m */; };
+		353870501ECD45C900B253F2 /* RLogicalMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 355218401ECB61650011C53F /* RLogicalMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		353870511ECD45D000B253F2 /* RDataFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 35B564F01ECB965E003F347E /* RDataFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		353870521ECD45D600B253F2 /* RIntegerMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D14D281ECB65F800B77A3E /* RIntegerMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3552183A1ECB512C0011C53F /* RMatrixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 355218391ECB512C0011C53F /* RMatrixTests.m */; };
 		3552183C1ECB513A0011C53F /* RCharacterMatrixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3552183B1ECB513A0011C53F /* RCharacterMatrixTests.m */; };
 		3552183F1ECB615C0011C53F /* RLogicalMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 3552183E1ECB615C0011C53F /* RLogicalMatrix.m */; };
@@ -37,6 +43,10 @@
 		35A231581EA00DC7008AA1EF /* RSEXP.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231501EA00DC7008AA1EF /* RSEXP.m */; };
 		35A2315A1EA010EF008AA1EF /* RSymbolicExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */; };
 		35B4B6491EC656DA00834E3F /* RIntegerVectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B4B6481EC656DA00834E3F /* RIntegerVectorTests.m */; };
+		35B564EF1ECB9653003F347E /* RDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B564EE1ECB9653003F347E /* RDataFrame.m */; };
+		35B564F21ECB9779003F347E /* RDataFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B564F11ECB9779003F347E /* RDataFrameTests.m */; };
+		35D14D2A1ECB660600B77A3E /* RIntegerMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D291ECB660600B77A3E /* RIntegerMatrix.m */; };
+		35D14D2C1ECB667300B77A3E /* RIntegerMatrixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +68,9 @@
 		350C8C811E1E8FF0003DE3F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		350C8C8A1E1E903B003DE3F8 /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
 		350F872A1E7C6EAE00796EE3 /* RAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAutomation.m; sourceTree = "<group>"; };
+		352BEE681ECB6A9000D1166B /* RRealMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRealMatrix.h; sourceTree = "<group>"; };
+		352BEE6A1ECB6A9700D1166B /* RRealMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRealMatrix.m; sourceTree = "<group>"; };
+		352BEE6C1ECB6AFC00D1166B /* RRealMatrixTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRealMatrixTests.m; sourceTree = "<group>"; };
 		35380DD51EBA242500AF2E49 /* RIntegerVector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RIntegerVector.h; sourceTree = "<group>"; };
 		35380DD61EBA244000AF2E49 /* RIntegerVector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIntegerVector.m; sourceTree = "<group>"; };
 		35380DD81EBA246100AF2E49 /* RCharacterMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCharacterMatrix.m; sourceTree = "<group>"; };
@@ -84,6 +97,12 @@
 		35A231501EA00DC7008AA1EF /* RSEXP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSEXP.m; sourceTree = "<group>"; };
 		35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSymbolicExpressionTests.m; sourceTree = "<group>"; };
 		35B4B6481EC656DA00834E3F /* RIntegerVectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIntegerVectorTests.m; sourceTree = "<group>"; };
+		35B564EE1ECB9653003F347E /* RDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDataFrame.m; sourceTree = "<group>"; };
+		35B564F01ECB965E003F347E /* RDataFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDataFrame.h; sourceTree = "<group>"; };
+		35B564F11ECB9779003F347E /* RDataFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDataFrameTests.m; sourceTree = "<group>"; };
+		35D14D281ECB65F800B77A3E /* RIntegerMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RIntegerMatrix.h; sourceTree = "<group>"; };
+		35D14D291ECB660600B77A3E /* RIntegerMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIntegerMatrix.m; sourceTree = "<group>"; };
+		35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIntegerMatrixTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,16 +154,22 @@
 				35A2314A1EA00DC7008AA1EF /* Rcallbacks.m */,
 				35380DDA1EBA247000AF2E49 /* RCharacterMatrix.h */,
 				35380DD81EBA246100AF2E49 /* RCharacterMatrix.m */,
+				35B564F01ECB965E003F347E /* RDataFrame.h */,
+				35B564EE1ECB9653003F347E /* RDataFrame.m */,
 				35A2314B1EA00DC7008AA1EF /* REngine.h */,
 				35A2314C1EA00DC7008AA1EF /* REngine.m */,
 				35A2314D1EA00DC7008AA1EF /* Rinit.h */,
 				35A2314E1EA00DC7008AA1EF /* Rinit.m */,
+				35D14D281ECB65F800B77A3E /* RIntegerMatrix.h */,
+				35D14D291ECB660600B77A3E /* RIntegerMatrix.m */,
 				35380DD51EBA242500AF2E49 /* RIntegerVector.h */,
 				35380DD61EBA244000AF2E49 /* RIntegerVector.m */,
 				355218401ECB61650011C53F /* RLogicalMatrix.h */,
 				3552183E1ECB615C0011C53F /* RLogicalMatrix.m */,
 				355F5B4F1EBA6D3E007248C4 /* RMatrix.h */,
 				355F5B501EBA6D4F007248C4 /* RMatrix.m */,
+				352BEE681ECB6A9000D1166B /* RRealMatrix.h */,
+				352BEE6A1ECB6A9700D1166B /* RRealMatrix.m */,
 				35A2314F1EA00DC7008AA1EF /* RSEXP.h */,
 				35A231501EA00DC7008AA1EF /* RSEXP.m */,
 				35A231461EA00CA6008AA1EF /* RSymbolicExpression.h */,
@@ -161,11 +186,14 @@
 				350C8C811E1E8FF0003DE3F8 /* Info.plist */,
 				350C8C7F1E1E8FF0003DE3F8 /* RAutomationTests.m */,
 				3552183B1ECB513A0011C53F /* RCharacterMatrixTests.m */,
-				355218411ECB62AC0011C53F /* RLogicalMatrixTests.m */,
+				35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */,
 				35B4B6481EC656DA00834E3F /* RIntegerVectorTests.m */,
+				355218411ECB62AC0011C53F /* RLogicalMatrixTests.m */,
 				355218391ECB512C0011C53F /* RMatrixTests.m */,
+				352BEE6C1ECB6AFC00D1166B /* RRealMatrixTests.m */,
 				35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */,
 				35380DDE1EBA28F700AF2E49 /* RVectorTests.m */,
+				35B564F11ECB9779003F347E /* RDataFrameTests.m */,
 			);
 			path = RAutomationTests;
 			sourceTree = "<group>";
@@ -181,9 +209,13 @@
 				3500D24B1EBCD35700BCB198 /* RCharacterMatrix.h in Headers */,
 				3500D24A1EBCD34F00BCB198 /* RIntegerVector.h in Headers */,
 				35A231511EA00DC7008AA1EF /* Rcallbacks.h in Headers */,
+				353870511ECD45D000B253F2 /* RDataFrame.h in Headers */,
 				3500D24C1EBCD35C00BCB198 /* RVector.h in Headers */,
 				35594B201EBCE0F200DD15C8 /* RSymbolicExpression.h in Headers */,
+				353870521ECD45D600B253F2 /* RIntegerMatrix.h in Headers */,
 				35A231571EA00DC7008AA1EF /* RSEXP.h in Headers */,
+				352BEE691ECB6A9000D1166B /* RRealMatrix.h in Headers */,
+				353870501ECD45C900B253F2 /* RLogicalMatrix.h in Headers */,
 				350C8C741E1E8FEF003DE3F8 /* RAutomation.h in Headers */,
 				35A231551EA00DC7008AA1EF /* Rinit.h in Headers */,
 				3500D24D1EBCD36100BCB198 /* RMatrix.h in Headers */,
@@ -287,6 +319,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35D14D2A1ECB660600B77A3E /* RIntegerMatrix.m in Sources */,
 				35A231581EA00DC7008AA1EF /* RSEXP.m in Sources */,
 				35380DD91EBA246100AF2E49 /* RCharacterMatrix.m in Sources */,
 				3552183F1ECB615C0011C53F /* RLogicalMatrix.m in Sources */,
@@ -295,6 +328,8 @@
 				350F872B1E7C6EAE00796EE3 /* RAutomation.m in Sources */,
 				35A231561EA00DC7008AA1EF /* Rinit.m in Sources */,
 				35A231521EA00DC7008AA1EF /* Rcallbacks.m in Sources */,
+				352BEE6B1ECB6A9700D1166B /* RRealMatrix.m in Sources */,
+				35B564EF1ECB9653003F347E /* RDataFrame.m in Sources */,
 				35A231481EA00CC4008AA1EF /* RSymbolicExpression.m in Sources */,
 				35380DD71EBA244000AF2E49 /* RIntegerVector.m in Sources */,
 				35380DDD1EBA25D100AF2E49 /* RVector.m in Sources */,
@@ -305,6 +340,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35B564F21ECB9779003F347E /* RDataFrameTests.m in Sources */,
+				35D14D2C1ECB667300B77A3E /* RIntegerMatrixTests.m in Sources */,
 				35A2315A1EA010EF008AA1EF /* RSymbolicExpressionTests.m in Sources */,
 				350C8C801E1E8FF0003DE3F8 /* RAutomationTests.m in Sources */,
 				35B4B6491EC656DA00834E3F /* RIntegerVectorTests.m in Sources */,
@@ -312,6 +349,7 @@
 				3552183A1ECB512C0011C53F /* RMatrixTests.m in Sources */,
 				35380DDF1EBA28F700AF2E49 /* RVectorTests.m in Sources */,
 				3552183C1ECB513A0011C53F /* RCharacterMatrixTests.m in Sources */,
+				352BEE6D1ECB6AFC00D1166B /* RRealMatrixTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

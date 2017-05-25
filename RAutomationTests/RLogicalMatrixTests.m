@@ -25,13 +25,13 @@
     [REngine shutdown];
 }
 
-- (void)testElementAtReturnsString {
+- (void)testElementAtReturnsValue {
     @autoreleasepool {
         RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c(TRUE, FALSE, FALSE, TRUE), nrow=2, ncol=2)"];
         RLogicalMatrix* results = [rse AsLogicalMatrix];
         XCTAssertTrue([results ElementAt:0 column:0]);
-        XCTAssertFalse([results ElementAt:1 column:0]);
         XCTAssertFalse([results ElementAt:0 column:1]);
+        XCTAssertFalse([results ElementAt:1 column:0]);
         XCTAssertTrue([results ElementAt:1 column:1]);
         [results release];
         [rse release];

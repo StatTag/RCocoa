@@ -16,7 +16,7 @@
 }
 
 -(void) SetVector: (NSArray<NSNumber*>*) values;
-- (NSNumber*)objectAtIndexedSubscript:(int)idx;
+- (NSNumber*)objectAtIndexedSubscript:(int)index;
 
 @end
 

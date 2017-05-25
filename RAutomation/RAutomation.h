@@ -13,6 +13,9 @@
 #include "RMatrix.h"
 #include "RCharacterMatrix.h"
 #include "RLogicalMatrix.h"
+#include "RIntegerMatrix.h"
+#include "RRealMatrix.h"
+#include "RDataFrame.h"
 
 //! Project version number for RAutomation.
 FOUNDATION_EXPORT double RAutomationVersionNumber;

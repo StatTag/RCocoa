@@ -26,9 +26,9 @@
     }
 }
 
--(NSNumber*)objectAtIndexedSubscript:(int)idx
+-(NSNumber*)objectAtIndexedSubscript:(int)index
 {
-    if (idx < 0 || idx >= LENGTH(_expression)) {
+    if (index < 0 || index >= LENGTH(_expression)) {
         NSException* exc = [NSException
                             exceptionWithName:@"ArgumentOutOfRangeException"
                             reason:@"Array index out of bounds"
@@ -36,7 +36,7 @@
         @throw exc;
     }
     
-    return [NSNumber numberWithInt:INTEGER(_expression)[idx]];
+    return [NSNumber numberWithInt:INTEGER(_expression)[index]];
 }
 
 @end

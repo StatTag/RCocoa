@@ -1,3 +1,3 @@
 Things I learned:
 - If you don't activate the R Engine (e.g., [[REngine mainEngine] activate]) the code will crash when you call Rf_allocVector.  I'm assuming this will crash for any other type of memory allocation too.
-
+- When building the RAutomation project into a test application, it would complain that it couldn't find the included .h files.  I needed to modify the RAutomation project > Build Phases to include all of the headers, otherwise they aren't exported when the framework is built (http://stackoverflow.com/questions/33691707/xcode-cant-find-header-file)

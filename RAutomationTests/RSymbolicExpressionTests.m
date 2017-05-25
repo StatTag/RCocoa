@@ -106,6 +106,16 @@
     }
 }
 
+- (void)testIsDataFrame{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        XCTAssert([rse IsDataFrame]);
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
 - (void)testAsInteger{
     @autoreleasepool {
         XCTAssert([[REngine mainEngine] activate]);
@@ -176,13 +186,70 @@
     }
 }
 
-- (void)testGetAttributeNames_Filled {
+- (void)testAsIntegerMatrix{
     @autoreleasepool {
         XCTAssert([[REngine mainEngine] activate]);
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"library(survival)\ndata(pbc)\nlibrary(tableone)\ntable1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c(5, 10), nrow=2, ncol=1)"];
+        RIntegerMatrix* results = [rse AsIntegerMatrix];
+        XCTAssertNotNil(results);
+        [REngine shutdown];
+    }
+}
+
+- (void)testAsLogicalMatrix{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c(FALSE, TRUE), nrow=2, ncol=1)"];
+        RLogicalMatrix* results = [rse AsLogicalMatrix];
+        XCTAssertNotNil(results);
+        [REngine shutdown];
+    }
+}
+
+- (void)testGetAttributeNames_Filled {
+    @autoreleasepool {
+        REngine* engine = [REngine mainEngine];
+        XCTAssert([engine activate]);
+        RSymbolicExpression* rse = [engine Evaluate: @"library(survival)"];
+        rse = [engine Evaluate: @"data(pbc)"];
+        rse = [engine Evaluate: @"library(tableone)"];
+        rse = [engine Evaluate: @"table1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
         XCTAssertNotNil(rse);
         NSArray<NSString*>* attrs = [rse GetAttributeNames];
+        XCTAssertNotNil(attrs);
+        XCTAssertEqual(2, [attrs count]);
+        XCTAssertEqualObjects(@"names", attrs[0]);
+        XCTAssertEqualObjects(@"class", attrs[1]);
         [attrs release];
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testGetAttribute {
+    @autoreleasepool {
+        REngine* engine = [REngine mainEngine];
+        XCTAssert([engine activate]);
+        RSymbolicExpression* rse = [engine Evaluate: @"library(survival)"];
+        rse = [engine Evaluate: @"data(pbc)"];
+        rse = [engine Evaluate: @"library(tableone)"];
+        rse = [engine Evaluate: @"table1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
+        XCTAssertNotNil(rse);
+        RSymbolicExpression* attrExp = [rse GetAttribute:@"class"];
+        XCTAssertNotNil(attrExp);
+        [attrExp release];
+        [rse release];
+        [REngine shutdown];
+    }
+}
+
+- (void)testAsDataFrame{
+    @autoreleasepool {
+        XCTAssert([[REngine mainEngine] activate]);
+        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RDataFrame* dataFrame = [rse AsDataFrame];
+        XCTAssertNotNil(dataFrame);
+        [dataFrame release];
         [rse release];
         [REngine shutdown];
     }
