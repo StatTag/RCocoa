@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef REngine_h
-#define REngine_h
+#ifndef RCEngine_h
+#define RCEngine_h
 
 #import <Cocoa/Cocoa.h>
 
@@ -41,10 +41,10 @@
 #include <R.h>
 #import "RSEXP.h"
 #import "Rcallbacks.h"
-#import "RSymbolicExpression.h"
+#import "RCSymbolicExpression.h"
 
 /* since R 2.0 parse is mapped to Rf_parse which is deadly ... 
-   therefore REngine.h must be included *after* R headers */
+   therefore RCEngine.h must be included *after* R headers */
 #ifdef parse
 #undef parse
 #endif
@@ -59,7 +59,7 @@
 extern int insideR;
 extern BOOL preventReentrance;
 
-@interface REngine : NSObject {
+@interface RCEngine : NSObject {
 	/* the object handling all regular R callbacks - the Rcallback.h for the protocol definition - this one must be provided */
     id <REPLHandler> replHandler;
 	/* this callback handler is optional and involves various GUI stuff. those callback are activated only if Aqua/Cocoa is specified as GUI */
@@ -87,7 +87,7 @@ extern BOOL preventReentrance;
 	NSString *saveAction;
 }
 
-+ (REngine*) mainEngine;
++ (RCEngine*) mainEngine;
 + (id <REPLHandler>) mainHandler;
 + (id <CocoaHandler>) cocoaHandler;
 + (void) shutdown;
@@ -117,13 +117,13 @@ extern BOOL preventReentrance;
 
 // eval mode
 //- (RSEXP*) parse: (NSString*) str;
-- (NSMutableArray<RSymbolicExpression*>*) Parse: (NSString*) str __attribute((ns_returns_retained));
-- (RSymbolicExpression*) Evaluate: (NSString*) str __attribute((ns_returns_retained));
+- (NSMutableArray<RCSymbolicExpression*>*) Parse: (NSString*) str __attribute((ns_returns_retained));
+- (RCSymbolicExpression*) Evaluate: (NSString*) str __attribute((ns_returns_retained));
 //- (RSEXP*) parse: (NSString*) str withParts: (int) count;
-//- (NSMutableArray<RSymbolicExpression*>*) parse: (NSString*) str withParts: (int) count;
-- (RSymbolicExpression*) evaluateExpressions: (RSymbolicExpression*) expr;
-//- (RSymbolicExpression*) evaluateString: (NSString*) str;
-//- (RSymbolicExpression*) evaluateString: (NSString*) str withParts: (int) count;
+//- (NSMutableArray<RCSymbolicExpression*>*) parse: (NSString*) str withParts: (int) count;
+- (RCSymbolicExpression*) evaluateExpressions: (RCSymbolicExpression*) expr;
+//- (RCSymbolicExpression*) evaluateString: (NSString*) str;
+//- (RCSymbolicExpression*) evaluateString: (NSString*) str withParts: (int) count;
 //- (BOOL)   executeString: (NSString*) str; // void eval
 
 // REPL mode
@@ -139,8 +139,8 @@ extern BOOL preventReentrance;
 
 
 // RDotNet functions
-- (RSymbolicExpression*) NilValue;
-- (RSymbolicExpression*) NaString;
+- (RCSymbolicExpression*) NilValue;
+- (RCSymbolicExpression*) NaString;
 
 @end
 

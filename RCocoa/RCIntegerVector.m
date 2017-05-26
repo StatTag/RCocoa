@@ -1,17 +1,17 @@
 //
-//  RIntegerVector.m
-//  RAutomation
+//  RCIntegerVector.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/3/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "RIntegerVector.h"
+#import "RCIntegerVector.h"
 
-@implementation RIntegerVector
+@implementation RCIntegerVector
 
--(id) initWithEngineAndExpressionAndLength: (REngine*)eng expression: (SEXP)sexp length: (unsigned long)len
+-(id) initWithEngineAndExpressionAndLength: (RCEngine*)eng expression: (SEXP)sexp length: (int)len
 {
     self = [super initWithEngineAndExpressionAndLength:eng expression:sexp length:len];
     _expression = PROTECT(Rf_allocVector(INTSXP, len));

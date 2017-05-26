@@ -1,15 +1,15 @@
 //
-//  RSymbolicExpression.m
-//  RAutomation
+//  RCSymbolicExpression.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 4/13/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "RAutomation.h"
+#import "RCocoa.h"
 
-@implementation RSymbolicExpression
+@implementation RCSymbolicExpression
 
 void CheckForNullExpression(SEXP expression)
 {
@@ -22,7 +22,7 @@ void CheckForNullExpression(SEXP expression)
     }
 }
 
--(id) initWithEngineAndExpression: (REngine*) engine expression: (SEXP)sexp
+-(id) initWithEngineAndExpression: (RCEngine*) engine expression: (SEXP)sexp
 {
     self = [super init];
     _engine = engine;
@@ -51,7 +51,7 @@ void CheckForNullExpression(SEXP expression)
     return 1;
 }
 
--(REngine*) Engine
+-(RCEngine*) Engine
 {
     return _engine;
 }
@@ -84,7 +84,7 @@ void CheckForNullExpression(SEXP expression)
     return attrs;
 }
 
--(RSymbolicExpression*) GetAttribute: (NSString*)name
+-(RCSymbolicExpression*) GetAttribute: (NSString*)name
 {
     if (name == nil) {
         NSException* exc = [NSException
@@ -96,12 +96,12 @@ void CheckForNullExpression(SEXP expression)
     
     SEXP installedName = Rf_install([name UTF8String]);
     SEXP attribute = Rf_getAttrib(_expression, installedName);
-    RSymbolicExpression* rsx = [[RSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:attribute];
+    RCSymbolicExpression* rsx = [[RCSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:attribute];
     return rsx;
 }
 
 // Assign an attribute with corresponding value to this expression
--(void) SetAttribute: (RSymbolicExpression*) symbol value:(RSymbolicExpression*) value
+-(void) SetAttribute: (RCSymbolicExpression*) symbol value:(RCSymbolicExpression*) value
 {
     if (symbol == nil) {
         NSException* exc = [NSException
@@ -127,10 +127,10 @@ void CheckForNullExpression(SEXP expression)
     Rf_setAttrib([self GetHandle], [symbol GetHandle], [value GetHandle]);
 }
 
-- (RSymbolicExpression*) ElementAt: (int) index
+- (RCSymbolicExpression*) ElementAt: (int) index
 {
     if (index<0 || index>=LENGTH(_expression)) return nil;
-    return [[RSymbolicExpression alloc] initWithEngineAndExpression: _engine expression:VECTOR_ELT(_expression, index)];
+    return [[RCSymbolicExpression alloc] initWithEngineAndExpression: _engine expression:VECTOR_ELT(_expression, index)];
 }
 
 -(BOOL) IsVector
@@ -214,28 +214,28 @@ void CheckForNullExpression(SEXP expression)
     return retVal;
 }
 
--(RDataFrame*) AsDataFrame
+-(RCDataFrame*) AsDataFrame
 {
     if (![self IsVector]) { return nil; }
-    RDataFrame* dataFrame = [[RDataFrame alloc] initWithEngineAndExpression: _engine expression:_expression];
+    RCDataFrame* dataFrame = [[RCDataFrame alloc] initWithEngineAndExpression: _engine expression:_expression];
     return dataFrame;
 }
 
 
 // Helper function to build the R internal representation of a matrix dimension, and assign it withing
 // the matrix expression.
-void SetMatrixDimensions(RMatrix* matrix, REngine* engine, int rowCount, int columnCount)
+void SetMatrixDimensions(RCMatrix* matrix, RCEngine* engine, int rowCount, int columnCount)
 {
     NSMutableArray<NSNumber*>* dimensionArray = [[NSMutableArray<NSNumber*> alloc] initWithCapacity: 2];
     dimensionArray[0] = [NSNumber numberWithInt:rowCount];
     dimensionArray[1] = [NSNumber numberWithInt:columnCount];
-    RIntegerVector* dimensionVector = [[RIntegerVector alloc] initWithEngineAndExpressionAndLength:engine expression:nil length:[dimensionArray count]];
+    RCIntegerVector* dimensionVector = [[RCIntegerVector alloc] initWithEngineAndExpressionAndLength:engine expression:nil length:[dimensionArray count]];
     [dimensionVector SetVector:dimensionArray];
-    RSymbolicExpression* dimSymbolExpr = [[RSymbolicExpression alloc] initWithEngineAndExpression:engine expression:R_DimSymbol];
+    RCSymbolicExpression* dimSymbolExpr = [[RCSymbolicExpression alloc] initWithEngineAndExpression:engine expression:R_DimSymbol];
     [matrix SetAttribute:dimSymbolExpr value:dimensionVector];
 }
 
--(RCharacterMatrix*) AsCharacterMatrix
+-(RCCharacterMatrix*) AsCharacterMatrix
 {
     if (![self IsVector]) { return nil; }
     
@@ -243,7 +243,7 @@ void SetMatrixDimensions(RMatrix* matrix, REngine* engine, int rowCount, int col
     int columnCount = 0;
     if ([self IsMatrix]) {
         if (TYPEOF(_expression) == STRSXP) {
-            RCharacterMatrix* matrix = [[RCharacterMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
+            RCCharacterMatrix* matrix = [[RCCharacterMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
             return matrix;
         }
         else {
@@ -258,12 +258,12 @@ void SetMatrixDimensions(RMatrix* matrix, REngine* engine, int rowCount, int col
     }
     
     SEXP coercedVector = Rf_coerceVector(_expression, STRSXP);
-    RCharacterMatrix* matrix = [[RCharacterMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
+    RCCharacterMatrix* matrix = [[RCCharacterMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
     SetMatrixDimensions(matrix, _engine, rowCount, columnCount);
     return matrix;
 }
 
--(RLogicalMatrix*) AsLogicalMatrix
+-(RCLogicalMatrix*) AsLogicalMatrix
 {
     if (![self IsVector]) { return nil; }
     
@@ -271,7 +271,7 @@ void SetMatrixDimensions(RMatrix* matrix, REngine* engine, int rowCount, int col
     int columnCount = 0;
     if ([self IsMatrix]) {
         if (TYPEOF(_expression) == LGLSXP) {
-            RLogicalMatrix* matrix = [[RLogicalMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
+            RCLogicalMatrix* matrix = [[RCLogicalMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
             return matrix;
         }
         else {
@@ -286,12 +286,12 @@ void SetMatrixDimensions(RMatrix* matrix, REngine* engine, int rowCount, int col
     }
     
     SEXP coercedVector = Rf_coerceVector(_expression, LGLSXP);
-    RLogicalMatrix* matrix = [[RLogicalMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
+    RCLogicalMatrix* matrix = [[RCLogicalMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
     SetMatrixDimensions(matrix, _engine, rowCount, columnCount);
     return matrix;
 }
 
--(RIntegerMatrix*) AsIntegerMatrix
+-(RCIntegerMatrix*) AsIntegerMatrix
 {
     if (![self IsVector]) { return nil; }
     
@@ -299,7 +299,7 @@ void SetMatrixDimensions(RMatrix* matrix, REngine* engine, int rowCount, int col
     int columnCount = 0;
     if ([self IsMatrix]) {
         if (TYPEOF(_expression) == INTSXP) {
-            RIntegerMatrix* matrix = [[RIntegerMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
+            RCIntegerMatrix* matrix = [[RCIntegerMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
             return matrix;
         }
         else {
@@ -314,12 +314,12 @@ void SetMatrixDimensions(RMatrix* matrix, REngine* engine, int rowCount, int col
     }
     
     SEXP coercedVector = Rf_coerceVector(_expression, INTSXP);
-    RIntegerMatrix* matrix = [[RIntegerMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
+    RCIntegerMatrix* matrix = [[RCIntegerMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
     SetMatrixDimensions(matrix, _engine, rowCount, columnCount);
     return matrix;
 }
 
--(RRealMatrix*) AsRealMatrix
+-(RCRealMatrix*) AsRealMatrix
 {
     if (![self IsVector]) { return nil; }
     
@@ -327,7 +327,7 @@ void SetMatrixDimensions(RMatrix* matrix, REngine* engine, int rowCount, int col
     int columnCount = 0;
     if ([self IsMatrix]) {
         if (TYPEOF(_expression) == REALSXP) {
-            RRealMatrix* matrix = [[RRealMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
+            RCRealMatrix* matrix = [[RCRealMatrix alloc] initWithEngineAndExpression:_engine expression:_expression];
             return matrix;
         }
         else {
@@ -342,7 +342,7 @@ void SetMatrixDimensions(RMatrix* matrix, REngine* engine, int rowCount, int col
     }
     
     SEXP coercedVector = Rf_coerceVector(_expression, REALSXP);
-    RRealMatrix* matrix = [[RRealMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
+    RCRealMatrix* matrix = [[RCRealMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
     SetMatrixDimensions(matrix, _engine, rowCount, columnCount);
     return matrix;
 }

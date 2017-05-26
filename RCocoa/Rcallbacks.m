@@ -44,7 +44,7 @@
 #include <R_ext/Parse.h>
 #include <R_ext/eventloop.h>
 
-#import "REngine.h"
+#import "RCEngine.h"
 
 /* any subsequent calls of ProcessEvents within the following time slice are ignored (in ms) */
 #define MIN_DELAY_BETWEEN_EVENTS_MS   150
@@ -104,7 +104,7 @@ void Re_WritePrompt(char *prompt)
 {
 	NSString *s = [[NSString alloc] initWithUTF8String: prompt];
 	insideR--;
-    [[REngine mainHandler] handleWritePrompt:s];
+    [[RCEngine mainHandler] handleWritePrompt:s];
 	[s release];
 	insideR++;
 }
@@ -120,8 +120,8 @@ void Re_ProcessEvents(void){
 #ifdef USE_POOLS
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 #endif
-	if ([[REngine mainEngine] allowEvents]) // if events are masked, we won't call the handler. we may re-think what we do about the timer, though ...
-		[[REngine mainHandler] handleProcessEvents];
+	if ([[RCEngine mainEngine] allowEvents]) // if events are masked, we won't call the handler. we may re-think what we do about the timer, though ...
+		[[RCEngine mainHandler] handleProcessEvents];
 	if (!gettimeofday(&rv,0)) // use the exit time for the measurement of next events - handleProcessEvents may take long
 		lastProcessEvents = (rv.tv_usec/1000)+(rv.tv_sec&0x1fffff)*1000;
 #ifdef USE_POOLS
@@ -138,7 +138,7 @@ int Re_ReadConsole(char *prompt, unsigned char *buf, int len, int addtohistory)
 	Re_WritePrompt(prompt);
 
 	if (!readconsBuffer) {
-	    char *newc = [[REngine mainHandler] handleReadConsole: addtohistory];
+	    char *newc = [[RCEngine mainHandler] handleReadConsole: addtohistory];
 	    if (!newc) {
 			insideR++;
 			return 0;
@@ -163,7 +163,7 @@ int Re_ReadConsole(char *prompt, unsigned char *buf, int len, int addtohistory)
 			readconsPos=c;
 		else
 			readconsPos=readconsBuffer=0;
-		[[REngine mainHandler] handleProcessingInput: (char*) buf];
+		[[RCEngine mainHandler] handleProcessingInput: (char*) buf];
 insideR=YES;
 		return 1;
 	}
@@ -174,7 +174,7 @@ insideR=YES;
 void Re_RBusy(int which)
 {
 	insideR--;
-    [[REngine mainHandler] handleBusy: (which==0)?NO:YES];
+    [[RCEngine mainHandler] handleBusy: (which==0)?NO:YES];
 	insideR++;
 }
 
@@ -195,7 +195,7 @@ void Re_WriteConsoleEx(char *buf, int len, int otype)
 		SLog(@"Rcallbacks:Re_WriteConsole: string parsed as \"%@\"", s);
 	}
     if (s) {
-		[[REngine mainHandler] handleWriteConsole: s withType: otype];
+		[[RCEngine mainHandler] handleWriteConsole: s withType: otype];
 		[s release];
 	}
 }
@@ -214,7 +214,7 @@ void Re_ResetConsole()
 void Re_FlushConsole()
 {
 	insideR--;
-	[[REngine mainHandler] handleFlushConsole];	
+	[[RCEngine mainHandler] handleFlushConsole];	
 	insideR++;
 }
 
@@ -227,7 +227,7 @@ int Re_ChooseFile(int new, char *buf, int len)
 {
 	int r;
 	insideR--;
-	r=[[REngine mainHandler] handleChooseFile: buf len:len isNew:new];
+	r=[[RCEngine mainHandler] handleChooseFile: buf len:len isNew:new];
 	insideR++;
 	return r;
 }
@@ -235,14 +235,14 @@ int Re_ChooseFile(int new, char *buf, int len)
 void Re_ShowMessage(char *buf)
 {
 	insideR--;
-	[[REngine mainHandler] handleShowMessage: buf];
+	[[RCEngine mainHandler] handleShowMessage: buf];
 	insideR++;
 }
 
 int  Re_Edit(char *file){
 	int r;
 	insideR--;
-	r=[[REngine mainHandler] handleEdit: file];
+	r=[[RCEngine mainHandler] handleEdit: file];
 	insideR++;
 	return r;
 }
@@ -250,7 +250,7 @@ int  Re_Edit(char *file){
 int  Re_EditFiles(int nfile, char **file, char **wtitle, char *pager){
 	int r;
 	insideR--;
-	r = [[REngine mainHandler] handleEditFiles: nfile withNames: file titles: wtitle pager: pager];
+	r = [[RCEngine mainHandler] handleEditFiles: nfile withNames: file titles: wtitle pager: pager];
 	insideR++;
 	return r;
 }
@@ -259,7 +259,7 @@ int Re_ShowFiles(int nfile, char **file, char **headers, char *wtitle, Rboolean 
 {
 	int r;
 	insideR--;
-	r = [[REngine mainHandler] handleShowFiles: nfile withNames: file headers: headers windowTitle: wtitle pager: pager andDelete: del];
+	r = [[RCEngine mainHandler] handleShowFiles: nfile withNames: file headers: headers windowTitle: wtitle pager: pager andDelete: del];
 	insideR++;
 	return r;
 }
@@ -269,8 +269,8 @@ int Re_ShowFiles(int nfile, char **file, char **headers, char *wtitle, Rboolean 
 int Re_system(const char *cmd) {
 	int r;
 	insideR--;
-	if ([REngine cocoaHandler])
-		r = [[REngine cocoaHandler] handleSystemCommand: cmd];
+	if ([RCEngine cocoaHandler])
+		r = [[RCEngine cocoaHandler] handleSystemCommand: cmd];
 	else { // fallback in case there's no handler
 		   // reset signal handlers
 		signal(SIGINT, SIG_DFL);
@@ -287,9 +287,9 @@ int Re_system(const char *cmd) {
 static int  Re_CustomPrint(const char *type, SEXP obj)
 {
 	insideR--;
-	if ([REngine cocoaHandler]) {
+	if ([RCEngine cocoaHandler]) {
 		RSEXP *par = [[RSEXP alloc] initWithSEXP: obj];
-		int res = [[REngine cocoaHandler] handleCustomPrint: type withObject: par];
+		int res = [[RCEngine cocoaHandler] handleCustomPrint: type withObject: par];
 		[par release];
 		insideR++;
 		return res;
@@ -314,7 +314,7 @@ SEXP pkgmanager(SEXP pkgstatus, SEXP pkgname, SEXP pkgdesc, SEXP pkgurl)
 	char **sName, **sDesc, **sURL;
 	BOOL *bStat;
 	
-	if (![REngine cocoaHandler]) return R_NilValue;
+	if (![RCEngine cocoaHandler]) return R_NilValue;
   
 	if(!isString(pkgname) || !isLogical(pkgstatus) || !isString(pkgdesc) || !isString(pkgurl))
 		error("invalid arguments");
@@ -325,7 +325,7 @@ SEXP pkgmanager(SEXP pkgstatus, SEXP pkgname, SEXP pkgdesc, SEXP pkgurl)
 
 	if (len==0) {
 		insideR--;
-		[[REngine cocoaHandler] handlePackages: 0 withNames: 0 descriptions: 0 URLs: 0 status: 0];
+		[[RCEngine cocoaHandler] handlePackages: 0 withNames: 0 descriptions: 0 URLs: 0 status: 0];
 		insideR++;
 		return pkgstatus;
 	}
@@ -344,7 +344,7 @@ SEXP pkgmanager(SEXP pkgstatus, SEXP pkgname, SEXP pkgdesc, SEXP pkgurl)
 		i++;
 	}
 	insideR--;
-	[[REngine cocoaHandler] handlePackages: len withNames: sName descriptions: sDesc URLs: sURL status: bStat];
+	[[RCEngine cocoaHandler] handlePackages: len withNames: sName descriptions: sDesc URLs: sURL status: bStat];
 	insideR++;
 	free(sName); free(sDesc); free(sURL);
 	
@@ -374,7 +374,7 @@ SEXP datamanager(SEXP dsets, SEXP dpkg, SEXP ddesc, SEXP durl)
 	  
   if (len==0) {
 	  insideR--;
-	  [[REngine cocoaHandler] handleDatasets: 0 withNames: 0 descriptions: 0 packages: 0 URLs: 0];
+	  [[RCEngine cocoaHandler] handleDatasets: 0 withNames: 0 descriptions: 0 packages: 0 URLs: 0];
 	  insideR++;
 	  return R_NilValue;
   }
@@ -394,7 +394,7 @@ SEXP datamanager(SEXP dsets, SEXP dpkg, SEXP ddesc, SEXP durl)
   }
 
   insideR--;
-  res = [[REngine cocoaHandler] handleDatasets: len withNames: sName descriptions: sDesc packages: sPkg URLs: sURL];
+  res = [[RCEngine cocoaHandler] handleDatasets: len withNames: sName descriptions: sDesc packages: sPkg URLs: sURL];
   insideR++;
   
   free(sName); free(sDesc); free(sPkg); free(sURL);
@@ -433,7 +433,7 @@ SEXP pkgbrowser(SEXP rpkgs, SEXP rvers, SEXP ivers, SEXP wwwhere,
 	  
   if (len==0) {
 	  insideR--;
-	  [[REngine cocoaHandler] handleInstalledPackages: 0 withNames: 0 installedVersions: 0 repositoryVersions: 0 update: 0 label: 0];
+	  [[RCEngine cocoaHandler] handleInstalledPackages: 0 withNames: 0 installedVersions: 0 repositoryVersions: 0 update: 0 label: 0];
 	  insideR++;
 	  return R_NilValue;
   }
@@ -453,7 +453,7 @@ SEXP pkgbrowser(SEXP rpkgs, SEXP rvers, SEXP ivers, SEXP wwwhere,
   }
   
   insideR--;
-  [[REngine cocoaHandler] handleInstalledPackages: len withNames: sName installedVersions: sIVer repositoryVersions: sRVer update: bStat label:(char*)CHAR(STRING_ELT(wwwhere,0))];
+  [[RCEngine cocoaHandler] handleInstalledPackages: len withNames: sName installedVersions: sIVer repositoryVersions: sRVer update: bStat label:(char*)CHAR(STRING_ELT(wwwhere,0))];
   insideR++;
   free(sName); free(sIVer); free(sRVer); free(bStat);
     
@@ -476,7 +476,7 @@ SEXP hsbrowser(SEXP h_topic, SEXP h_pkg, SEXP h_desc, SEXP h_wtitle,
 	
 	if (len==0) {
 		insideR--;
-		[[REngine cocoaHandler] handleHelpSearch: 0 withTopics: 0 packages: 0 descriptions: 0 urls: 0 title: 0];
+		[[RCEngine cocoaHandler] handleHelpSearch: 0 withTopics: 0 packages: 0 descriptions: 0 urls: 0 title: 0];
 		insideR++;
 		return R_NilValue;
 	}
@@ -496,7 +496,7 @@ SEXP hsbrowser(SEXP h_topic, SEXP h_pkg, SEXP h_desc, SEXP h_wtitle,
 	}
 	
 	insideR--;
-	[[REngine cocoaHandler] handleHelpSearch: len withTopics: sTopic packages: sPkg descriptions: sDesc urls: sURL title:(char*)CHAR(STRING_ELT(h_wtitle,0))];
+	[[RCEngine cocoaHandler] handleHelpSearch: len withTopics: sTopic packages: sPkg descriptions: sDesc urls: sURL title:(char*)CHAR(STRING_ELT(h_wtitle,0))];
 	insideR++;
 	free(sTopic); free(sDesc); free(sPkg); free(sURL);
 	
@@ -550,9 +550,9 @@ SEXP Re_do_selectlist(SEXP call, SEXP op, SEXP args, SEXP rho)
 	
 	insideR--;
 	if (n==0)
-		selectListDone = [[REngine cocoaHandler] handleListItems: 0 withNames: 0 status: 0 multiple: 0 title: @""];
+		selectListDone = [[RCEngine cocoaHandler] handleListItems: 0 withNames: 0 status: 0 multiple: 0 title: @""];
 	else
-		selectListDone = [[REngine cocoaHandler] handleListItems: n withNames: clist status: itemStatus multiple: multiple
+		selectListDone = [[RCEngine cocoaHandler] handleListItems: n withNames: clist status: itemStatus multiple: multiple
 														   title: haveTitle
 			?[NSString stringWithUTF8String: CHAR(STRING_ELT(CADDDR(args), 0))]
 			:(multiple ? NLS(@"Select one or more") : NLS(@"Select one")) ];

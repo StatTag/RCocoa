@@ -1,17 +1,17 @@
 //
-//  RVector.m
-//  RAutomation
+//  RCVector.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/3/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "RVector.h"
+#import "RCVector.h"
 
-@implementation RVector
+@implementation RCVector
 
--(id) initWithEngineAndExpressionAndLength: (REngine*)eng expression: (SEXP)sexp length: (unsigned long)len
+-(id) initWithEngineAndExpressionAndLength: (RCEngine*)eng expression: (SEXP)sexp length: (int)len
 {
     if (len <= 0) {
         NSException* exc = [NSException
@@ -38,7 +38,7 @@
         return nil;
     }
     
-    RSymbolicExpression* namesExp = [[RSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:names];
+    RCSymbolicExpression* namesExp = [[RCSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:names];
     if (namesExp == nil) {
         return nil;
     }

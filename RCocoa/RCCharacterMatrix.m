@@ -1,15 +1,15 @@
 //
-//  RCharacterMatrix.m
-//  RAutomation
+//  RCCharacterMatrix.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/3/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#include "RCharacterMatrix.h"
+#include "RCCharacterMatrix.h"
 
-@implementation RCharacterMatrix
+@implementation RCCharacterMatrix
 
 -(NSString*) ElementAt: (int)row column:(int)column
 {

@@ -1,34 +1,34 @@
 //
-//  RCharacterMatrixTests.m
-//  RAutomation
+//  RCCharacterMatrixTests.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/16/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#include "RIntegerMatrix.h"
+#include "RCIntegerMatrix.h"
 
-@interface RIntegerMatrixTests : XCTestCase
+@interface RCIntegerMatrixTests : XCTestCase
 
 @end
 
-@implementation RIntegerMatrixTests
+@implementation RCIntegerMatrixTests
 
-- (void)setUp {
++ (void)setUp {
     [super setUp];
-    [[REngine mainEngine] activate];
+    [[RCEngine mainEngine] activate];
 }
 
-- (void)tearDown {
++ (void)tearDown {
     [super tearDown];
-    [REngine shutdown];
+    [RCEngine shutdown];
 }
 
 - (void)testElementAtReturnsValue {
     @autoreleasepool {
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c(1, 2, 3, 4), nrow=2, ncol=2)"];
-        RIntegerMatrix* results = [rse AsIntegerMatrix];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c(1, 2, 3, 4), nrow=2, ncol=2)"];
+        RCIntegerMatrix* results = [rse AsIntegerMatrix];
         XCTAssertEqual(1, [results ElementAt:0 column:0]);
         XCTAssertEqual(2, [results ElementAt:0 column:1]);
         XCTAssertEqual(3, [results ElementAt:1 column:0]);

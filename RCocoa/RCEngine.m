@@ -35,7 +35,7 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <R_ext/Parse.h>
-#import "REngine.h"
+#import "RCEngine.h"
 
 /* we should move this to another callback at some point ... it's a bad, bad hack for now */
 #ifndef RENG_STAND_ALONE
@@ -53,19 +53,23 @@
 #endif
 #endif
 
-static REngine* mainRengine=nil;
-
-// this flag causes some parts of the code to not use REngine if that would cause re-entrance
-// it is meant for the user-level code, not for REngine itself - such that the UI can react and display appropriate warnings
+// this flag causes some parts of the code to not use RCEngine if that would cause re-entrance
+// it is meant for the user-level code, not for RCEngine itself - such that the UI can react and display appropriate warnings
 BOOL preventReentrance = NO;
 
-@implementation REngine
+@implementation RCEngine
 
-+ (REngine*) mainEngine
++ (RCEngine*) mainEngine
 {
-    if (mainRengine==nil)
-        mainRengine=[[REngine alloc] init];
-    return mainRengine;
+    static RCEngine* _mainRengine = nil;
+    static dispatch_once_t onceToken;
+    if (_mainRengine) return _mainRengine;
+    dispatch_once(&onceToken, ^{
+        _mainRengine = [[RCEngine alloc] init];
+    });
+    //if (_mainRengine == nil)
+        
+    return _mainRengine;
 }
 
 + (void) shutdown
@@ -77,12 +81,12 @@ BOOL preventReentrance = NO;
 
 + (id <REPLHandler>) mainHandler
 {
-	return [mainRengine handler];
+	return [[self mainEngine] handler];
 }
 
 + (id <CocoaHandler>) cocoaHandler
 {
-	return [mainRengine cocoaHandler];
+	return [[self mainEngine] cocoaHandler];
 }
 
 - (id) init
@@ -193,7 +197,7 @@ BOOL preventReentrance = NO;
 	
     replHandler=hand;
 	cocoaHandler=nil; // cocoaHandlier is optional
-    mainRengine=self;
+    //_mainRengine = self;
     loopRunning=NO;
 	active=NO;
 	insideR=0;
@@ -208,7 +212,7 @@ BOOL preventReentrance = NO;
 
 - (BOOL) activate
 {
-	SLog(@"REngine.activate: starting R ...");
+	SLog(@"RCEngine.activate: starting R ...");
 	RENGINE_BEGIN;
 	{
 		int res = initR(argc, argv, [saveAction isEqual:@"yes"]?Rinit_save_yes:([saveAction isEqual:@"no"]?Rinit_save_no:Rinit_save_ask));
@@ -219,7 +223,7 @@ BOOL preventReentrance = NO;
 		if (lastError) [lastError release];
 		lastError = [[NSString alloc] initWithUTF8String:lastInitRError];
 	} else lastError=nil;
-	SLog(@"REngine.activate: %@", (lastError)?lastError:@"R started with no error");
+	SLog(@"RCEngine.activate: %@", (lastError)?lastError:@"R started with no error");
     return active;
 }
 
@@ -234,7 +238,7 @@ BOOL preventReentrance = NO;
 - (BOOL) allowEvents { return (maskEvents==0); }
 
 - (BOOL) beginProtected {
-	SLog(@"REngine.beginProtected, maskEvents=%d, protectedMode=%d", maskEvents, (int)protectedMode);
+	SLog(@"RCEngine.beginProtected, maskEvents=%d, protectedMode=%d", maskEvents, (int)protectedMode);
 	if (protectedMode) return NO;
 	maskEvents++;
 	protectedMode=YES;
@@ -242,7 +246,7 @@ BOOL preventReentrance = NO;
 }
 
 - (void) endProtected {
-	SLog(@"REngine.endProtected, maskEvents=%d, protectedMode=%d", maskEvents, (int)protectedMode);
+	SLog(@"RCEngine.endProtected, maskEvents=%d, protectedMode=%d", maskEvents, (int)protectedMode);
 	maskEvents--;
 	protectedMode=NO;
 }
@@ -258,13 +262,13 @@ BOOL preventReentrance = NO;
 #endif
 		insideR++;
 		@try {
-			run_REngineRmainloop(0);
+			run_RCEngineRmainloop(0);
 			insideR--;
 			keepInLoop = NO; // voluntary exit, break the loop
 		}
 		@catch (NSException *foo) {
 			insideR--;
-			NSLog(@"*** REngine.runREPL: caught ObjC exception in the main loop. Update to the latest GUI version and consider reporting this properly (see FAQ) if it persists and is not known. \n*** reason: %@\n*** name: %@, info: %@\n*** Version: R %s.%s (%d) R.app %@%s\nConsider saving your work soon in case this develops into a problem.", [foo reason], [foo name], [foo userInfo], R_MAJOR, R_MINOR, R_SVN_REVISION, [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], getenv("R_ARCH"));
+			NSLog(@"*** RCEngine.runREPL: caught ObjC exception in the main loop. Update to the latest GUI version and consider reporting this properly (see FAQ) if it persists and is not known. \n*** reason: %@\n*** name: %@, info: %@\n*** Version: R %s.%s (%d) R.app %@%s\nConsider saving your work soon in case this develops into a problem.", [foo reason], [foo name], [foo userInfo], R_MAJOR, R_MINOR, R_SVN_REVISION, [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], getenv("R_ARCH"));
 		}
 #ifdef USE_POOLS
 		[pool release];
@@ -278,7 +282,7 @@ BOOL preventReentrance = NO;
 	if (!active) return;
 	loopRunning=YES;
 	insideR++;
-    run_REngineRmainloop(1);
+    run_RCEngineRmainloop(1);
 	insideR--;
 	/* in fact loopRunning is not determinable, because later longjmp may have re-started the loop, so we just keep it at YES */
 }
@@ -317,7 +321,7 @@ BOOL preventReentrance = NO;
 {
 	// FIXME: we should set a lock here
 	[replHandler handleBusy:YES];
-	if (insideR) SLog(@"***********> REngine.begin: expected insideR to be 0, but it's %d", insideR);
+	if (insideR) SLog(@"***********> RCEngine.begin: expected insideR to be 0, but it's %d", insideR);
 	if (insideR < 0) insideR = 0; // this can happen 
 	insideR++;
 }
@@ -326,7 +330,7 @@ BOOL preventReentrance = NO;
 {
 	// FIXME: we should release a lock here
 	insideR--;
-	if (insideR) SLog(@"***********> REngine.end: expected insideR to be 0, but it's %d", insideR);
+	if (insideR) SLog(@"***********> RCEngine.end: expected insideR to be 0, but it's %d", insideR);
 	[replHandler handleBusy:NO];
 }
 
@@ -335,7 +339,7 @@ BOOL preventReentrance = NO;
 //    return [self parse: str withParts: 1];
 //}
 
-//- (NSMutableArray<RSymbolicExpression*>*) parse: (NSString*) str
+//- (NSMutableArray<RCSymbolicExpression*>*) parse: (NSString*) str
 //{
 //    return [self parse: str withParts: -1];
 //}
@@ -356,9 +360,9 @@ BOOL preventReentrance = NO;
 //	return pstr?[[RSEXP alloc] initWithSEXP: pstr]:nil;
 //}
 
-- (NSMutableArray<RSymbolicExpression*>*) Parse: (NSString*) str
+- (NSMutableArray<RCSymbolicExpression*>*) Parse: (NSString*) str
 {
-    NSMutableArray<RSymbolicExpression*>* results = [[NSMutableArray<RSymbolicExpression*> alloc] init];
+    NSMutableArray<RCSymbolicExpression*>* results = [[NSMutableArray<RCSymbolicExpression*> alloc] init];
     
     ParseStatus parseStatus;
     SEXP cmdexpr, cmdSexp;
@@ -381,7 +385,7 @@ BOOL preventReentrance = NO;
         if (cmdElement == nil) { continue; }
         SEXP cmdEvalElement = R_tryEval(cmdElement, R_GlobalEnv, &errVal);
         if (cmdEvalElement == nil) { continue; }
-        [results addObject:[[RSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
+        [results addObject:[[RCSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
     }
     
     UNPROTECT(1);
@@ -390,7 +394,7 @@ BOOL preventReentrance = NO;
     return results;
 }
 
-//- (RSymbolicExpression*) evaluateExpressions: (RSymbolicExpression*) expr
+//- (RCSymbolicExpression*) evaluateExpressions: (RCSymbolicExpression*) expr
 //{
 //    SEXP evaluatedExpression = NULL;
 //    int errVal = 0;
@@ -411,18 +415,18 @@ BOOL preventReentrance = NO;
 //    if (errVal) {
 //        [NSException raise:@"There was an error evaluating the expression" format:@"%s", R_curErrorBuf()];
 //    }
-//    return evaluatedExpression ? [[RSymbolicExpression alloc] initWithEngineAndExpression:self expression: evaluatedExpression] : nil;
+//    return evaluatedExpression ? [[RCSymbolicExpression alloc] initWithEngineAndExpression:self expression: evaluatedExpression] : nil;
 //}
 
-- (RSymbolicExpression*) Evaluate: (NSString*) str
+- (RCSymbolicExpression*) Evaluate: (NSString*) str
 {
     // Internally, this will take a string expression (which may be multiple commands).  Similar to the R.NET library, we
     // will only return the last evaluated expression, or nil if there are no results.
-    RSymbolicExpression *xr;
+    RCSymbolicExpression *xr;
 	if (!active) return nil;
-    NSMutableArray<RSymbolicExpression*>* parsedExpressions = [self Parse: str];
+    NSMutableArray<RCSymbolicExpression*>* parsedExpressions = [self Parse: str];
     if (parsedExpressions == nil) return nil;
-    RSymbolicExpression* lastExpression = [parsedExpressions lastObject];
+    RCSymbolicExpression* lastExpression = [parsedExpressions lastObject];
 	if([lastExpression Type] == NILSXP) { [parsedExpressions release]; return nil; }
 //	DO_RENG_EVAL_STATUS(str);
 //    xr=[self evaluateExpressions: ps];
@@ -432,9 +436,9 @@ BOOL preventReentrance = NO;
 //	return xr;
 }
 
-//- (RSymbolicExpression*) evaluateString: (NSString*) str withParts: (int) count
+//- (RCSymbolicExpression*) evaluateString: (NSString*) str withParts: (int) count
 //{
-//    RSymbolicExpression *ps, *xr;
+//    RCSymbolicExpression *ps, *xr;
 //	if (!active) return nil;
 //    ps=[self parse: str withParts: count];
 //    if (ps==nil) return nil;
@@ -450,7 +454,7 @@ BOOL preventReentrance = NO;
 //{
 //    RSEXP *ps, *xr;
 //	BOOL success=NO;
-//	SLog(@"REngine.executeString:\"%@\"", str);
+//	SLog(@"RCEngine.executeString:\"%@\"", str);
 //	if (!active) return NO;
 //    ps=[self parse: str];
 //    if (ps==nil) return NO;
@@ -469,14 +473,14 @@ BOOL preventReentrance = NO;
 //	return success;
 //}
 
-- (RSymbolicExpression*) NilValue
+- (RCSymbolicExpression*) NilValue
 {
-    return [[RSymbolicExpression alloc] initWithEngineAndExpression:self rsexp:[[RSEXP alloc] initWithSEXP:R_NilValue]];
+    return [[RCSymbolicExpression alloc] initWithEngineAndExpression:self expression:R_NilValue];
 }
 
-- (RSymbolicExpression*) NaString
+- (RCSymbolicExpression*) NaString
 {
-    return [[RSymbolicExpression alloc] initWithEngineAndExpression:self rsexp:[[RSEXP alloc] initWithSEXP:R_NaString]];
+    return [[RCSymbolicExpression alloc] initWithEngineAndExpression:self expression:R_NaString];
 }
 
 @end

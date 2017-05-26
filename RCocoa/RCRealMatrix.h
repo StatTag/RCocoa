@@ -1,17 +1,17 @@
 //
-//  RRealMatrix.h
-//  RAutomation
+//  RCRealMatrix.h
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/16/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
-#ifndef RRealMatrix_h
-#define RRealMatrix_h
+#ifndef RCRealMatrix_h
+#define RCRealMatrix_h
 
-#include "RMatrix.h"
+#include "RCMatrix.h"
 
-@interface RRealMatrix : RMatrix<NSNumber*>
+@interface RCRealMatrix : RCMatrix<NSNumber*>
 {
     
 }
@@ -20,4 +20,4 @@
 
 @end
 
-#endif /* RRealMatrix_h */
+#endif /* RCRealMatrix_h */

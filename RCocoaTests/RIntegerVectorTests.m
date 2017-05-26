@@ -1,27 +1,27 @@
 //
-//  RIntegerVectorTests.m
-//  RAutomation
+//  RCIntegerVectorTests.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/12/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#import "RIntegerVector.h"
+#import "RCIntegerVector.h"
 
-@interface RIntegerVectorTests : XCTestCase
+@interface RCIntegerVectorTests : XCTestCase
 
 @end
 
-@implementation RIntegerVectorTests
+@implementation RCIntegerVectorTests
 
-- (void)setUp {
++ (void)setUp {
     [super setUp];
-    [[REngine mainEngine] activate];
+    [[RCEngine mainEngine] activate];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
-- (void)tearDown {
++ (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
 }
@@ -32,7 +32,7 @@
     [vector insertObject:[NSNumber numberWithInt:10] atIndex:1];
     [vector insertObject:[NSNumber numberWithInt:15] atIndex:2];
     
-    RIntegerVector* intVector = [[RIntegerVector alloc] initWithEngineAndExpressionAndLength:[REngine mainEngine] expression:nil length:3];
+    RCIntegerVector* intVector = [[RCIntegerVector alloc] initWithEngineAndExpressionAndLength:[RCEngine mainEngine] expression:nil length:3];
     [intVector SetVector:vector];
     XCTAssertEqual(5, [intVector[0] intValue]);
     XCTAssertEqual(10, [intVector[1] intValue]);
@@ -40,7 +40,7 @@
 }
 
 - (void)testSubscriptOutOfRange {
-    RIntegerVector* intVector = [[RIntegerVector alloc] initWithEngineAndExpressionAndLength:[REngine mainEngine] expression:nil length:1];
+    RCIntegerVector* intVector = [[RCIntegerVector alloc] initWithEngineAndExpressionAndLength:[RCEngine mainEngine] expression:nil length:1];
     XCTAssertThrows(intVector[-1]);
     XCTAssertThrows(intVector[1]);
 }

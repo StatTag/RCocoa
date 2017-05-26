@@ -1,20 +1,20 @@
 //
-//  RRealMatrix.m
-//  RAutomation
+//  RCIntegerMatrix.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/16/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#include "RRealMatrix.h"
+#include "RCIntegerMatrix.h"
 
-@implementation RRealMatrix
+@implementation RCIntegerMatrix
 
--(double) ElementAt: (int)row column:(int)column
+-(int) ElementAt: (int)row column:(int)column
 {
     [self CheckIndices:row column:column];
-    double result = REAL(_expression)[(row * [self RowCount]) + column];
+    int result = INTEGER(_expression)[(row * [self RowCount]) + column];
     return result;
 }
 

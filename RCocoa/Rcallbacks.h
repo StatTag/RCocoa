@@ -31,7 +31,7 @@
  */
 
 /* Rcallbacks define the interface between R and Cocoa.
-   Each callback in R is mapped to the corresponding methods of the callback object. The current callback object should be always obtained dynamically fromt he REngine to ensure correct communication, potentially across threads. The acutal implementation of the functionality is left to the object implementing the callback interface. */
+   Each callback in R is mapped to the corresponding methods of the callback object. The current callback object should be always obtained dynamically fromt he RCEngine to ensure correct communication, potentially across threads. The acutal implementation of the functionality is left to the object implementing the callback interface. */
 
 #ifndef __R_CALLBACKS__H__
 #define __R_CALLBACKS__H__

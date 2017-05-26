@@ -1,17 +1,17 @@
 //
-//  RDataFrame.h
-//  RAutomation
+//  RCDataFrame.h
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/16/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
-#ifndef RDataFrame_h
-#define RDataFrame_h
+#ifndef RCDataFrame_h
+#define RCDataFrame_h
 
-#include "RVector.h"
+#include "RCVector.h"
 
-@interface RDataFrame : RVector<id>
+@interface RCDataFrame : RCVector<id>
 {
 }
 
@@ -23,4 +23,4 @@
 
 @end
 
-#endif /* RDataFrame_h */
+#endif /* RCDataFrame_h */

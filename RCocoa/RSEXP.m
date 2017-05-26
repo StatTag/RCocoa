@@ -30,7 +30,7 @@
  *
  */
 
-/* IMPORTANT: the entire REngine/REXP framework assumes that you're not returning contol to R in the life of a RSEXP. 
+/* IMPORTANT: the entire RCEngine/REXP framework assumes that you're not returning contol to R in the life of a RSEXP. 
 	If you do, make sure you copy the content of interest and release the RSEXP before returing constrol to R. Baiscally 
 	the point is that all SEXP objects are unprotected before exiting the functions, so that we never get an unbalanced 
 	stack. This implies that R may garbage-collect your objects if it gets control. Alternatively you may use 

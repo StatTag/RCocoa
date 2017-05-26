@@ -1,40 +1,39 @@
 //
-//  RCharacterMatrixTests.m
-//  RAutomation
+//  RCCharacterMatrixTests.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/16/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#include "RCharacterMatrix.h"
+#include "RCCharacterMatrix.h"
 
-@interface RCharacterMatrixTests : XCTestCase
+@interface RCCharacterMatrixTests : XCTestCase
 
 @end
 
-@implementation RCharacterMatrixTests
+@implementation RCCharacterMatrixTests
 
-- (void)setUp {
++ (void)setUp {
     [super setUp];
-    [[REngine mainEngine] activate];
+    [[RCEngine mainEngine] activate];
 }
 
-- (void)tearDown {
++ (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
-    [REngine shutdown];
+    [RCEngine shutdown];
 }
 
 - (void)testElementAtReturnsValue {
     @autoreleasepool{
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
-        RCharacterMatrix* results = [rse AsCharacterMatrix];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
+        RCCharacterMatrix* results = [rse AsCharacterMatrix];
         XCTAssertEqualObjects(@"hello", [results ElementAt:0 column:0]);
         [results release];
         [rse release];
     }
-    
 }
 
 

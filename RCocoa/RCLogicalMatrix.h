@@ -1,17 +1,17 @@
 //
-//  RLogicalMatrix.h
-//  RAutomation
+//  RCLogicalMatrix.h
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/16/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
-#ifndef RLogicalMatrix_h
-#define RLogicalMatrix_h
+#ifndef RCLogicalMatrix_h
+#define RCLogicalMatrix_h
 
-#include "RMatrix.h"
+#include "RCMatrix.h"
 
-@interface RLogicalMatrix : RMatrix<NSNumber*>
+@interface RCLogicalMatrix : RCMatrix<NSNumber*>
 {
     
 }
@@ -20,4 +20,4 @@
 
 @end
 
-#endif /* RLogicalMatrix_h */
+#endif /* RCLogicalMatrix_h */

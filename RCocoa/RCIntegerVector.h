@@ -1,17 +1,17 @@
 //
-//  RIntegerVector.h
-//  RAutomation
+//  RCIntegerVector.h
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/3/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
-#ifndef RIntegerVector_h
-#define RIntegerVector_h
+#ifndef RCIntegerVector_h
+#define RCIntegerVector_h
 
-#include "RVector.h"
+#include "RCVector.h"
 
-@interface RIntegerVector : RVector<NSNumber*>
+@interface RCIntegerVector : RCVector<NSNumber*>
 {
 }
 
@@ -20,4 +20,4 @@
 
 @end
 
-#endif /* RIntegerVector_h */
+#endif /* RCIntegerVector_h */

@@ -146,7 +146,7 @@ void setRSignalHandlers(int val) {
 volatile static NSAutoreleasePool *main_loop_pool;
 volatile static int main_loop_result = 0;
 
-void run_REngineRmainloop(int delayed)
+void run_RCEngineRmainloop(int delayed)
 {
     /* do not use any local variables for the safety of SIGJMP return in case of an error */ 
     firstRun = delayed;
@@ -177,7 +177,7 @@ void run_REngineRmainloop(int delayed)
 #endif
 	}
 	@catch (NSException *foo) {
-	    NSLog(@"*** run_REngineRmainloop: exception %@ caught during REPL iteration. Update to the latest GUI version and consider reporting this properly (see FAQ) if it persists and is not known.\nConsider saving your work soon in case this develops into a problem.", foo);
+	    NSLog(@"*** run_RCEngineRmainloop: exception %@ caught during REPL iteration. Update to the latest GUI version and consider reporting this properly (see FAQ) if it persists and is not known.\nConsider saving your work soon in case this develops into a problem.", foo);
 	}
     }
 }

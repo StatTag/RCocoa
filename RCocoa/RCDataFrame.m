@@ -1,15 +1,15 @@
 //
-//  RDataFrame.m
-//  RAutomation
+//  RCDataFrame.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/16/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "RDataFrame.h"
+#import "RCDataFrame.h"
 
-@implementation RDataFrame
+@implementation RCDataFrame
 
 -(void) SetVector: (NSArray<id>*) values
 {
@@ -34,7 +34,7 @@
         return nil;
     }
     
-    return [[RVector alloc] initWithEngineAndExpression:_engine expression:element];
+    return [[RCVector alloc] initWithEngineAndExpression:_engine expression:element];
 }
 
 -(NSArray<NSString*>*) RowNames
@@ -44,7 +44,7 @@
         return nil;
     }
     
-    RSymbolicExpression* namesExp = [[RSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:rowNamesAttr];
+    RCSymbolicExpression* namesExp = [[RCSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:rowNamesAttr];
     if (namesExp == nil) {
         return nil;
     }

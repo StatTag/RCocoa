@@ -1,17 +1,17 @@
 //
-//  RMatrix.m
-//  RAutomation
+//  RCMatrix.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/3/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "RMatrix.h"
+#import "RCMatrix.h"
 
-@implementation RMatrix
+@implementation RCMatrix
 
--(id) initWithEngineAndExpressionAndDimensions: (REngine*)eng expression: (SEXP)sexp rowCount: (unsigned long)rowCount columnCount: (unsigned long)columnCount
+-(id) initWithEngineAndExpressionAndDimensions: (RCEngine*)eng expression: (SEXP)sexp rowCount: (int)rowCount columnCount: (int)columnCount
 {
     if (rowCount <= 0) {
         NSException* exc = [NSException

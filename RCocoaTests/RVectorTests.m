@@ -1,41 +1,41 @@
 //
-//  RVectorTests.m
-//  RAutomation
+//  RCVectorTests.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/3/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#include "RAutomation.h"
+#include "RCocoa.h"
 
-@interface RVectorTests : XCTestCase
+@interface RCVectorTests : XCTestCase
 
 @end
 
-@implementation RVectorTests
+@implementation RCVectorTests
 
-- (void)setUp {
++ (void)setUp {
     [super setUp];
-    [[REngine mainEngine] activate];
+    [[RCEngine mainEngine] activate];
 }
 
-- (void)tearDown {
++ (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
-    [REngine shutdown];
+    [RCEngine shutdown];
 }
 
 - (void)testInitWithEngineAndExpressionAndLength_invalidLength {
     @autoreleasepool {
-        XCTAssertThrows([[RVector alloc] initWithEngineAndExpressionAndLength:[REngine mainEngine] expression: nil length: -1]);
+        XCTAssertThrows([[RCVector alloc] initWithEngineAndExpressionAndLength:[RCEngine mainEngine] expression: nil length: -1]);
     }
 }
 
 - (void)testInitWithEngineAndExpressionAndLength {
     @autoreleasepool {
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- c(1, 2)"];
-        RVector* vector = [[RVector alloc] initWithEngineAndExpressionAndLength:[REngine mainEngine] expression: [rse GetHandle] length: 1];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- c(1, 2)"];
+        RCVector* vector = [[RCVector alloc] initWithEngineAndExpressionAndLength:[RCEngine mainEngine] expression: [rse GetHandle] length: 1];
         XCTAssertNotNil(vector);
         [vector release];
         [rse release];
@@ -44,8 +44,8 @@
 
 - (void)testNamesWithNoNames {
     @autoreleasepool {
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- c(1, 2)"];
-        RVector* vector = [[RVector alloc] initWithEngineAndExpressionAndLength:[REngine mainEngine] expression: [rse GetHandle] length: 1];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- c(1, 2)"];
+        RCVector* vector = [[RCVector alloc] initWithEngineAndExpressionAndLength:[RCEngine mainEngine] expression: [rse GetHandle] length: 1];
         XCTAssertNil([vector Names]);
         [vector release];
         [rse release];
@@ -54,8 +54,8 @@
 
 - (void)testNamesWithNames {
     @autoreleasepool {
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
-        RVector* vector = [[RVector alloc] initWithEngineAndExpressionAndLength:[REngine mainEngine] expression: [rse GetHandle] length: 1];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RCVector* vector = [[RCVector alloc] initWithEngineAndExpressionAndLength:[RCEngine mainEngine] expression: [rse GetHandle] length: 1];
         NSArray<NSString*>* names = [vector Names];
         XCTAssertNotNil(names);
         XCTAssertEqual(2, [names count]);

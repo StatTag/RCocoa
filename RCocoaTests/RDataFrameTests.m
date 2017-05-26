@@ -1,36 +1,36 @@
 //
-//  RDataFrameTests.m
-//  RAutomation
+//  RCDataFrameTests.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/16/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#include "RAutomation.h"
+#include "RCocoa.h"
 
 
-@interface RDataFrameTests : XCTestCase
+@interface RCDataFrameTests : XCTestCase
 
 @end
 
-@implementation RDataFrameTests
+@implementation RCDataFrameTests
 
-- (void)setUp {
++ (void)setUp {
     [super setUp];
-    [[REngine mainEngine] activate];
+    [[RCEngine mainEngine] activate];
 }
 
-- (void)tearDown {
++ (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
-    [REngine shutdown];
+    [RCEngine shutdown];
 }
 
 - (void)testDataFrame_ColumnNames {
     @autoreleasepool {
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
-        RDataFrame* dataFrame = [rse AsDataFrame];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RCDataFrame* dataFrame = [rse AsDataFrame];
         NSArray<NSString*>* names = [dataFrame ColumnNames];
         XCTAssertEqual(2, [names count]);
         XCTAssertEqualObjects(@"n", names[0]);
@@ -43,16 +43,16 @@
 
 - (void)testDataFrame_ColumnAccess {
     @autoreleasepool {
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
-        RDataFrame* dataFrame = [rse AsDataFrame];
-        NSArray<NSString*>* names = [(RVector*)dataFrame[1] AsCharacter];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RCDataFrame* dataFrame = [rse AsDataFrame];
+        NSArray<NSString*>* names = [(RCVector*)dataFrame[1] AsCharacter];
         XCTAssertNotNil(names);
         XCTAssertEqual(2, [names count]);
         XCTAssertEqualObjects(@"a", names[0]);
         XCTAssertEqualObjects(@"b", names[1]);
         [names release];
 
-        NSArray<NSNumber*>* values = [(RVector*)dataFrame[0] AsInteger];
+        NSArray<NSNumber*>* values = [(RCVector*)dataFrame[0] AsInteger];
         XCTAssertNotNil(values);
         XCTAssertEqual(2, [values count]);
         XCTAssertEqual(1, [values[0] integerValue]);
@@ -67,8 +67,8 @@
 
 - (void)testDataFrame_RowNames {
     @autoreleasepool {
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
-        RDataFrame* dataFrame = [rse AsDataFrame];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RCDataFrame* dataFrame = [rse AsDataFrame];
         NSArray<NSString*>* names = [dataFrame RowNames];
         XCTAssertEqual(2, [names count]);
         XCTAssertEqualObjects(@"1", names[0]);

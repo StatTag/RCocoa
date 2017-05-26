@@ -1,34 +1,34 @@
 //
-//  RCharacterMatrixTests.m
-//  RAutomation
+//  RCCharacterMatrixTests.m
+//  RCocoa
 //
 //  Created by Luke Rasmussen on 5/16/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#include "RLogicalMatrix.h"
+#include "RCLogicalMatrix.h"
 
-@interface RLogicalMatrixTests : XCTestCase
+@interface RCLogicalMatrixTests : XCTestCase
 
 @end
 
-@implementation RLogicalMatrixTests
+@implementation RCLogicalMatrixTests
 
-- (void)setUp {
++ (void)setUp {
     [super setUp];
-    [[REngine mainEngine] activate];
+    [[RCEngine mainEngine] activate];
 }
 
-- (void)tearDown {
++ (void)tearDown {
     [super tearDown];
-    [REngine shutdown];
+    [RCEngine shutdown];
 }
 
 - (void)testElementAtReturnsValue {
     @autoreleasepool {
-        RSymbolicExpression* rse = [[REngine mainEngine] Evaluate: @"x <- matrix(c(TRUE, FALSE, FALSE, TRUE), nrow=2, ncol=2)"];
-        RLogicalMatrix* results = [rse AsLogicalMatrix];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c(TRUE, FALSE, FALSE, TRUE), nrow=2, ncol=2)"];
+        RCLogicalMatrix* results = [rse AsLogicalMatrix];
         XCTAssertTrue([results ElementAt:0 column:0]);
         XCTAssertFalse([results ElementAt:0 column:1]);
         XCTAssertFalse([results ElementAt:1 column:0]);
