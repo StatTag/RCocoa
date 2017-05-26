@@ -15,12 +15,12 @@
 
 @implementation RCRealMatrixTests
 
-- (void)setUp {
++ (void)setUp {
     [super setUp];
     [[RCEngine mainEngine] activate];
 }
 
-- (void)tearDown {
++ (void)tearDown {
     [super tearDown];
     [RCEngine shutdown];
 }

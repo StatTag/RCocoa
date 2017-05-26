@@ -182,11 +182,13 @@
 
 - (void)testGetAttributeNames_Filled {
     @autoreleasepool {
-        RCEngine* engine = [RCEngine mainEngine];
-        RCSymbolicExpression* rse = [engine Evaluate: @"library(survival)"];
-        rse = [engine Evaluate: @"data(pbc)"];
-        rse = [engine Evaluate: @"library(tableone)"];
-        rse = [engine Evaluate: @"table1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"library(survival)"];
+        [rse release];
+        rse = [[RCEngine mainEngine] Evaluate: @"data(pbc)"];
+        [rse release];
+        rse = [[RCEngine mainEngine] Evaluate: @"library(tableone)"];
+        [rse release];
+        rse = [[RCEngine mainEngine] Evaluate: @"table1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
         XCTAssertNotNil(rse);
         NSArray<NSString*>* attrs = [rse GetAttributeNames];
         XCTAssertNotNil(attrs);
@@ -200,11 +202,13 @@
 
 - (void)testGetAttribute {
     @autoreleasepool {
-        RCEngine* engine = [RCEngine mainEngine];
-        RCSymbolicExpression* rse = [engine Evaluate: @"library(survival)"];
-        rse = [engine Evaluate: @"data(pbc)"];
-        rse = [engine Evaluate: @"library(tableone)"];
-        rse = [engine Evaluate: @"table1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"library(survival)"];
+        [rse release];
+        rse = [[RCEngine mainEngine] Evaluate: @"data(pbc)"];
+        [rse release];
+        rse = [[RCEngine mainEngine] Evaluate: @"library(tableone)"];
+        [rse release];
+        rse = [[RCEngine mainEngine] Evaluate: @"table1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
         XCTAssertNotNil(rse);
         RCSymbolicExpression* attrExp = [rse GetAttribute:@"class"];
         XCTAssertNotNil(attrExp);

@@ -59,24 +59,27 @@ BOOL preventReentrance = NO;
 
 @implementation RCEngine
 
+static RCEngine* _mainRengine = nil;
+
 + (RCEngine*) mainEngine
 {
-    static RCEngine* _mainRengine = nil;
-    static dispatch_once_t onceToken;
-    if (_mainRengine) return _mainRengine;
-    dispatch_once(&onceToken, ^{
-        _mainRengine = [[RCEngine alloc] init];
-    });
-    //if (_mainRengine == nil)
-        
+    @synchronized(self) {
+        if (_mainRengine == nil) {
+            _mainRengine = [[RCEngine alloc] init];
+        };
+    }    
     return _mainRengine;
 }
 
 + (void) shutdown
 {
-//    if (mainRengine!=nil) {
-//        [mainRengine release];
-//    }
+    @synchronized(self) {
+        if (_mainRengine != nil) {
+            [_mainRengine release];
+            _mainRengine = nil;
+            R_RunExitFinalizers();
+        }
+    }
 }
 
 + (id <REPLHandler>) mainHandler

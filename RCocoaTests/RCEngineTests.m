@@ -15,30 +15,30 @@
 
 @implementation RCEngineTests
 
-- (void)testActivate {
-    @autoreleasepool {
-        XCTAssert([[RCEngine mainEngine] activate]);
-        [RCEngine shutdown];
-    }
++ (void)setUp {
+    [super setUp];
+    [[RCEngine mainEngine] activate];
 }
+
++ (void)tearDown {
+    [super tearDown];
+    [RCEngine shutdown];
+}
+
 - (void)testNilValue {
     @autoreleasepool {
-        XCTAssert([[RCEngine mainEngine] activate]);
         RCSymbolicExpression* sexp = [[RCEngine mainEngine] NilValue];
         XCTAssertNotNil(sexp);
         XCTAssertEqual(NILSXP, [sexp Type]);
-        [RCEngine shutdown];
     }
 }
 
 - (void)testNaString {
     @autoreleasepool {
-        XCTAssert([[RCEngine mainEngine] activate]);
         RCSymbolicExpression* sexp = [[RCEngine mainEngine] NaString];
         XCTAssertNotNil(sexp);
         XCTAssertEqual(CHARSXP, [sexp Type]);
         [sexp release];
-        [RCEngine shutdown];
     }
 }
 
