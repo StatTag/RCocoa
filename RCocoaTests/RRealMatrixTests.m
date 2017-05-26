@@ -22,7 +22,7 @@
 
 + (void)tearDown {
     [super tearDown];
-    [RCEngine shutdown];
+    //[RCEngine shutdown];
 }
 
 - (void)testElementAtReturnsValue {
