@@ -136,25 +136,25 @@ void CheckForNullExpression(SEXP expression)
 -(BOOL) IsVector
 {
     CheckForNullExpression(_expression);
-    return TRUE == Rf_isVector(_expression);
+    return R_TRUE == Rf_isVector(_expression);
 }
 
 -(BOOL) IsFactor
 {
     CheckForNullExpression(_expression);
-    return TRUE == Rf_isFactor(_expression);
+    return R_TRUE == Rf_isFactor(_expression);
 }
 
 -(BOOL) IsMatrix
 {
     CheckForNullExpression(_expression);
-    return TRUE == Rf_isMatrix(_expression);
+    return R_TRUE == Rf_isMatrix(_expression);
 }
 
 -(BOOL) IsDataFrame
 {
     CheckForNullExpression(_expression);
-    return TRUE == Rf_isFrame(_expression);
+    return R_TRUE == Rf_isFrame(_expression);
 }
 
 -(NSArray*) AsInteger

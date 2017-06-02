@@ -60,14 +60,19 @@ BOOL preventReentrance = NO;
 @implementation RCEngine
 
 static RCEngine* _mainRengine = nil;
+static BOOL _activated = FALSE;
 
 + (RCEngine*) mainEngine
 {
     @synchronized(self) {
         if (_mainRengine == nil) {
             _mainRengine = [[RCEngine alloc] init];
+            if (![_mainRengine activate]) {
+                [RCEngine shutdown];
+                return nil;
+            }
         };
-    }    
+    }
     return _mainRengine;
 }
 
@@ -215,6 +220,10 @@ static RCEngine* _mainRengine = nil;
 
 - (BOOL) activate
 {
+    if (_activated) {
+        return _activated;
+    }
+
 	SLog(@"RCEngine.activate: starting R ...");
 	RENGINE_BEGIN;
 	{
@@ -227,6 +236,7 @@ static RCEngine* _mainRengine = nil;
 		lastError = [[NSString alloc] initWithUTF8String:lastInitRError];
 	} else lastError=nil;
 	SLog(@"RCEngine.activate: %@", (lastError)?lastError:@"R started with no error");
+    _activated = active;
     return active;
 }
 

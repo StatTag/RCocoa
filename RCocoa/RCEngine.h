@@ -36,9 +36,29 @@
 #import <Cocoa/Cocoa.h>
 
 #import <Foundation/Foundation.h>
-#undef TRUE
+
+/* 
+ * When we use the RCocoa framework in other applications, we end up with a compilation conflict
+ * because of FALSE and TRUE being defined, and the way in which the typedef is being declared
+ * as an anonymous type.  To resolve this, we circumvent the Rext/Boolean.h definition entirely
+ * (hence our use of #define R_EXT_BOOLEAN_H_), and define it in a way that won't cause compiler
+ * complaints.
+ */
+#ifndef R_EXT_BOOLEAN_H_
+#define R_EXT_BOOLEAN_H_
 #undef FALSE
-#include <R.h>
+#undef TRUE
+#ifdef  __cplusplus
+extern "C" {
+#endif
+    typedef enum Rboolean { R_FALSE = 0, R_TRUE /*, MAYBE */ } Rboolean;
+#ifdef  __cplusplus
+}
+#endif
+#endif /* R_EXT_BOOLEAN_H_ */
+
+
+#import <R/R.h>
 #import "RSEXP.h"
 #import "Rcallbacks.h"
 #import "RCSymbolicExpression.h"

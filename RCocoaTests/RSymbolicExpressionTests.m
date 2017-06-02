@@ -136,8 +136,8 @@
         NSArray* results = [rse AsLogical];
         XCTAssertNotNil(results);
         XCTAssertEqual(2, [results count]);
-        XCTAssertEqual(TRUE, [results[0] boolValue]);
-        XCTAssertEqual(FALSE, [results[1] boolValue]);
+        XCTAssertEqual(R_TRUE, [results[0] boolValue]);
+        XCTAssertEqual(R_FALSE, [results[1] boolValue]);
         [results release];
         [rse release];
     }

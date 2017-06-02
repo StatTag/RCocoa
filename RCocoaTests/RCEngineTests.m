@@ -42,4 +42,16 @@
     }
 }
 
+- (void)testMultipleEngineAndActivateRequests {
+    @autoreleasepool {
+        RCEngine* engine1 = [RCEngine mainEngine];
+        RCEngine* engine2 = [RCEngine mainEngine];
+        XCTAssertNotNil(engine1);
+        XCTAssertNotNil(engine2);
+        XCTAssertEqual(engine1, engine2);
+        XCTAssertTrue([[RCEngine mainEngine] activate]);
+        XCTAssertTrue([[RCEngine mainEngine] activate]);
+    }
+}
+
 @end
