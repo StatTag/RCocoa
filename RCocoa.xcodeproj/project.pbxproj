@@ -33,8 +33,6 @@
 		35594B201EBCE0F200DD15C8 /* RCSymbolicExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A231461EA00CA6008AA1EF /* RCSymbolicExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		355F5B511EBA6D4F007248C4 /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 355F5B501EBA6D4F007248C4 /* RCMatrix.m */; };
 		35A231481EA00CC4008AA1EF /* RCSymbolicExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231471EA00CC4008AA1EF /* RCSymbolicExpression.m */; };
-		35A231511EA00DC7008AA1EF /* Rcallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A231491EA00DC7008AA1EF /* Rcallbacks.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		35A231521EA00DC7008AA1EF /* Rcallbacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314A1EA00DC7008AA1EF /* Rcallbacks.m */; };
 		35A231531EA00DC7008AA1EF /* RCEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314B1EA00DC7008AA1EF /* RCEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35A231541EA00DC7008AA1EF /* RCEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314C1EA00DC7008AA1EF /* RCEngine.m */; };
 		35A231551EA00DC7008AA1EF /* Rinit.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314D1EA00DC7008AA1EF /* Rinit.h */; };
@@ -87,8 +85,6 @@
 		355F5B501EBA6D4F007248C4 /* RCMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMatrix.m; sourceTree = "<group>"; };
 		35A231461EA00CA6008AA1EF /* RCSymbolicExpression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCSymbolicExpression.h; sourceTree = "<group>"; };
 		35A231471EA00CC4008AA1EF /* RCSymbolicExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSymbolicExpression.m; sourceTree = "<group>"; };
-		35A231491EA00DC7008AA1EF /* Rcallbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rcallbacks.h; sourceTree = "<group>"; };
-		35A2314A1EA00DC7008AA1EF /* Rcallbacks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rcallbacks.m; sourceTree = "<group>"; };
 		35A2314B1EA00DC7008AA1EF /* RCEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCEngine.h; sourceTree = "<group>"; };
 		35A2314C1EA00DC7008AA1EF /* RCEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCEngine.m; sourceTree = "<group>"; };
 		35A2314D1EA00DC7008AA1EF /* Rinit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rinit.h; sourceTree = "<group>"; };
@@ -150,8 +146,6 @@
 				350C8C751E1E8FEF003DE3F8 /* Info.plist */,
 				350C8C731E1E8FEF003DE3F8 /* RCocoa.h */,
 				350F872A1E7C6EAE00796EE3 /* RCocoa.m */,
-				35A231491EA00DC7008AA1EF /* Rcallbacks.h */,
-				35A2314A1EA00DC7008AA1EF /* Rcallbacks.m */,
 				35380DDA1EBA247000AF2E49 /* RCCharacterMatrix.h */,
 				35380DD81EBA246100AF2E49 /* RCCharacterMatrix.m */,
 				35B564F01ECB965E003F347E /* RCDataFrame.h */,
@@ -208,7 +202,6 @@
 				35A231531EA00DC7008AA1EF /* RCEngine.h in Headers */,
 				3500D24B1EBCD35700BCB198 /* RCCharacterMatrix.h in Headers */,
 				3500D24A1EBCD34F00BCB198 /* RCIntegerVector.h in Headers */,
-				35A231511EA00DC7008AA1EF /* Rcallbacks.h in Headers */,
 				353870511ECD45D000B253F2 /* RCDataFrame.h in Headers */,
 				3500D24C1EBCD35C00BCB198 /* RCVector.h in Headers */,
 				35594B201EBCE0F200DD15C8 /* RCSymbolicExpression.h in Headers */,
@@ -327,7 +320,6 @@
 				355F5B511EBA6D4F007248C4 /* RCMatrix.m in Sources */,
 				350F872B1E7C6EAE00796EE3 /* RCocoa.m in Sources */,
 				35A231561EA00DC7008AA1EF /* Rinit.m in Sources */,
-				35A231521EA00DC7008AA1EF /* Rcallbacks.m in Sources */,
 				352BEE6B1ECB6A9700D1166B /* RCRealMatrix.m in Sources */,
 				35B564EF1ECB9653003F347E /* RCDataFrame.m in Sources */,
 				35A231481EA00CC4008AA1EF /* RCSymbolicExpression.m in Sources */,

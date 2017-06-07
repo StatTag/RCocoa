@@ -60,7 +60,6 @@ extern "C" {
 
 #import <R/R.h>
 #import "RSEXP.h"
-#import "Rcallbacks.h"
 #import "RCSymbolicExpression.h"
 
 /* since R 2.0 parse is mapped to Rf_parse which is deadly ... 
@@ -69,22 +68,13 @@ extern "C" {
 #undef parse
 #endif
 
-#define RENGINE_BEGIN [self begin]
-#define RENGINE_END   [self end]
-
 /* macros for translatable strings */
 #define NLS(S) NSLocalizedString(S,@"")
 #define NLSC(S,C) NSLocalizedString(S,C)
 
-extern int insideR;
 extern BOOL preventReentrance;
 
 @interface RCEngine : NSObject {
-	/* the object handling all regular R callbacks - the Rcallback.h for the protocol definition - this one must be provided */
-    id <REPLHandler> replHandler;
-	/* this callback handler is optional and involves various GUI stuff. those callback are activated only if Aqua/Cocoa is specified as GUI */
-	id <CocoaHandler> cocoaHandler;
-	
 	/* set to NO if the engine is initialized but activate was not called yet - that is R was not really initialized yet */
 	BOOL active;
 
@@ -108,22 +98,16 @@ extern BOOL preventReentrance;
 }
 
 + (RCEngine*) mainEngine;
-+ (id <REPLHandler>) mainHandler;
-+ (id <CocoaHandler>) cocoaHandler;
 + (void) shutdown;
 
 - (id) init;
-- (id) initWithHandler: (id <REPLHandler>) hand;
-- (id) initWithHandler: (id <REPLHandler>) hand arguments: (char**) args;
+- (id) initWithArgs: (char**) args;
 - (BOOL) activate;
 
 - (BOOL) isLoopRunning;
 - (BOOL) isActive;
 
 - (NSString*) lastError;
-
-- (void) begin;
-- (void) end;
 
 - (BOOL) allowEvents;
 
@@ -136,25 +120,10 @@ extern BOOL preventReentrance;
 - (void) disableRSignalHandlers: (BOOL) disable;
 
 // eval mode
-//- (RSEXP*) parse: (NSString*) str;
 - (NSMutableArray<RCSymbolicExpression*>*) Parse: (NSString*) str __attribute((ns_returns_retained));
 - (RCSymbolicExpression*) Evaluate: (NSString*) str __attribute((ns_returns_retained));
-//- (RSEXP*) parse: (NSString*) str withParts: (int) count;
-//- (NSMutableArray<RCSymbolicExpression*>*) parse: (NSString*) str withParts: (int) count;
-- (RCSymbolicExpression*) evaluateExpressions: (RCSymbolicExpression*) expr;
-//- (RCSymbolicExpression*) evaluateString: (NSString*) str;
-//- (RCSymbolicExpression*) evaluateString: (NSString*) str withParts: (int) count;
-//- (BOOL)   executeString: (NSString*) str; // void eval
-
-// REPL mode
-- (id <REPLHandler>) handler;
-- (id <CocoaHandler>) cocoaHandler; // beware, nil is legal!
-- (void) setCocoaHandler: (id <CocoaHandler>) ch;
-- (void) runREPL; // starts REPL and does not return until REPL finishes
-- (void) runDelayedREPL; // starts REPL with delayed=1 thus returns immediately
 
 // From RController
-- (void) setStatusLineText: (NSString*) text;
 - (void) initREnvironment;
 
 

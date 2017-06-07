@@ -27,6 +27,8 @@
  *  Suite 330, Boston, MA  02111-1307  USA.
  */
 
+#import <Foundation/Foundation.h>
+
 #include <Rversion.h>
 #if R_VERSION < R_Version(3,0,0)
 #error R >= 3.0.0 is required
@@ -38,7 +40,6 @@
 #include <R.h>
 #include <Rinternals.h>
 #include "Rinit.h"
-#include "Rcallbacks.h"
 #include <R_ext/Parse.h>
 
 #include <R_ext/GraphicsEngine.h>
@@ -95,39 +96,16 @@ int initR(int argc, char **argv, int save_action)
         return -2;
     }
 
-	if (state.buflen<128) state.buflen=1024;
+    if (state.buflen<128) {
+        state.buflen=1024;
+    }
 	state.buf=(unsigned char*) malloc(state.buflen);
-	
-   // printf("R primary initialization done. Setting up parameters.\n");
 
     R_Outputfile = NULL;
     R_Consolefile = NULL;
     R_Interactive = 1;
     SaveAction = (save_action==Rinit_save_yes)?SA_SAVE:((save_action==Rinit_save_no)?SA_NOSAVE:SA_SAVEASK);
 
-    /* ptr_R_Suicide = Re_Suicide; */
-    /* ptr_R_CleanUp = Re_CleanUp; */
-    ptr_R_ShowMessage = Re_ShowMessage;
-    ptr_R_ReadConsole =  Re_ReadConsole;
-    ptr_R_WriteConsole = NULL;
-    ptr_R_WriteConsoleEx = Re_WriteConsoleEx;
-    ptr_R_ResetConsole = Re_ResetConsole;
-    ptr_R_FlushConsole = Re_FlushConsole;
-    ptr_R_ClearerrConsole = Re_ClearerrConsole;
-    ptr_R_Busy = Re_RBusy;
-    ptr_R_ProcessEvents =  Re_ProcessEvents;
-    ptr_do_dataentry = Re_dataentry;
-    ptr_do_selectlist = Re_do_selectlist;
-    ptr_R_loadhistory = Re_loadhistory;
-    ptr_R_savehistory = Re_savehistory;
-
-    ptr_R_EditFile = Re_Edit;
-	
-    ptr_R_ShowFiles = Re_ShowFiles;
-    ptr_R_EditFiles = Re_EditFiles;
-    ptr_R_ChooseFile = Re_ChooseFile;
-	
-    ptr_CocoaSystem = Re_system;
     setup_Rmainloop();
 
     return 0;
@@ -135,7 +113,8 @@ int initR(int argc, char **argv, int save_action)
 
 static int firstRun=1;
 
-void setRSignalHandlers(int val) {
+void setRSignalHandlers(int val)
+{
     R_SignalHandlers = val;
 }
 
@@ -156,28 +135,28 @@ void run_RCEngineRmainloop(int delayed)
     R_ReplDLLinit();
 
     if (firstRun) {
-	firstRun = 0;
-	return;
+        firstRun = 0;
+        return;
     }
 
     main_loop_result = 1;
     while (main_loop_result > 0) {
-	@try {
+        @try {
 #ifdef USE_POOLS
-	    if (main_loop_pool) {
-		[main_loop_pool release];
-		main_loop_pool = nil;
-	    }
-	    main_loop_pool = [[NSAutoreleasePool alloc] init];
+            if (main_loop_pool) {
+                [main_loop_pool release];
+                main_loop_pool = nil;
+            }
+            main_loop_pool = [[NSAutoreleasePool alloc] init];
 #endif
-	    main_loop_result = R_ReplDLLdo1();
+            main_loop_result = R_ReplDLLdo1();
 #ifdef USE_POOLS
-	    [main_loop_pool release];
-	    main_loop_pool = nil;
+            [main_loop_pool release];
+            main_loop_pool = nil;
 #endif
-	}
-	@catch (NSException *foo) {
+        }
+        @catch (NSException *foo) {
 	    NSLog(@"*** run_RCEngineRmainloop: exception %@ caught during REPL iteration. Update to the latest GUI version and consider reporting this properly (see FAQ) if it persists and is not known.\nConsider saving your work soon in case this develops into a problem.", foo);
-	}
+        }
     }
 }
