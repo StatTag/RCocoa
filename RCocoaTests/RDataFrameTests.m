@@ -79,4 +79,45 @@
     }
 }
 
+
+- (void)testDataFrame_RowCount {
+    @autoreleasepool {
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2,3)\n s=c('a','b','c')\n df = data.frame(n, s)"];
+        RCDataFrame* dataFrame = [rse AsDataFrame];
+        XCTAssertEqual(3, [dataFrame RowCount]);
+        [dataFrame release];
+        [rse release];
+    }
+}
+
+- (void)testDataFrame_RowCount_Empty {
+    @autoreleasepool {
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"data.frame(n=integer())"];
+        RCDataFrame* dataFrame = [rse AsDataFrame];
+        XCTAssertEqual(0, [dataFrame RowCount]);
+        [dataFrame release];
+        [rse release];
+    }
+}
+
+- (void)testDataFrame_ColumnCount {
+    @autoreleasepool {
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2,3)\n s=c('a','b','c')\n df = data.frame(n, s)"];
+        RCDataFrame* dataFrame = [rse AsDataFrame];
+        XCTAssertEqual(2, [dataFrame ColumnCount]);
+        [dataFrame release];
+        [rse release];
+    }
+}
+
+- (void)testDataFrame_ColumnCount_Empty {
+    @autoreleasepool {
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @""];
+        RCDataFrame* dataFrame = [rse AsDataFrame];
+        XCTAssertEqual(0, [dataFrame ColumnCount]);
+        [dataFrame release];
+        [rse release];
+    }
+}
+
 @end

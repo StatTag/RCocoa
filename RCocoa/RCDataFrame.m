@@ -57,4 +57,28 @@
     return [self Names];
 }
 
+
+-(int) RowCount
+{
+    if ([self ColumnCount] == 0) {
+        return 0;
+    }
+    
+    RCVector* firstRow = (RCVector*)[self objectAtIndexedSubscript:0];
+    if (firstRow == nil) {
+        return 0;
+    }
+    
+    return [firstRow Length];
+}
+
+-(int) ColumnCount
+{
+    if (_expression == nil) {
+        return 0;
+    }
+    
+    return Rf_length(_expression);
+}
+
 @end

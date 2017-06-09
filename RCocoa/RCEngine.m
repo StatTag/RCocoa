@@ -51,6 +51,7 @@ static BOOL _activated = FALSE;
     @synchronized(self) {
         if (_mainRengine == nil) {
             _mainRengine = [[RCEngine alloc] init];
+            [_mainRengine disableRSignalHandlers:TRUE];
             if (![_mainRengine activate]) {
                 [RCEngine shutdown];
                 return nil;
@@ -177,13 +178,12 @@ static BOOL _activated = FALSE;
         return _activated;
     }
 
-
     int res = initR(argc, argv,
                     [saveAction isEqual:@"yes"] ? Rinit_save_yes :
                         ([saveAction isEqual:@"no"] ? Rinit_save_no : Rinit_save_ask));
     active = (res==0) ? YES : NO;
-    
-	if (lastInitRError) {
+
+    if (lastInitRError) {
         if (lastError) { [lastError release]; }
 		lastError = [[NSString alloc] initWithUTF8String:lastInitRError];
     } else {
