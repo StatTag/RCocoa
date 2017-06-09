@@ -54,4 +54,34 @@
     }
 }
 
+- (void)testMultipleEngineActivateAndParseRequests {
+    __block BOOL hasCalledBack = NO;
+    
+    void (^completionBlock)(void) = ^(void){
+        NSLog(@"Completion Block!");
+        hasCalledBack = YES;
+    };
+    
+    NSLog(@"START");
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSLog(@"ASYNC");
+        for (int index = 0; index < 100; index++) {
+            NSLog(@"ITERATION");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"RUN");
+                XCTAssertTrue([[RCEngine mainEngine] activate]);
+                [[RCEngine mainEngine] Evaluate:@"x <- 2"];
+                [[RCEngine mainEngine] Evaluate:@"x"];
+                [[RCEngine mainEngine] Evaluate:@""];
+            });
+        }
+    });
+    
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    while (hasCalledBack == NO && [loopUntil timeIntervalSinceNow] > 0) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }
+}
+
 @end
