@@ -123,6 +123,11 @@ extern BOOL preventReentrance;
 - (NSMutableArray<RCSymbolicExpression*>*) Parse: (NSString*) str __attribute((ns_returns_retained));
 - (RCSymbolicExpression*) Evaluate: (NSString*) str __attribute((ns_returns_retained));
 
+// Methods used within parse/evaluation
+- (NSMutableArray<NSString*>*) PreProcessStatement: (NSString*)statement;
+- (NSArray<NSString*>*) ProcessLine: (NSString*)line;
+- (BOOL) IsClosedString: (NSString*) string;
+
 // From RController
 - (void) initREnvironment;
 

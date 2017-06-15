@@ -37,6 +37,11 @@
 #include <R_ext/Parse.h>
 #import "RCEngine.h"
 
+// Used by R to allow multiple statements on a single line (e.g., "x <- 2; x + 1")
+NSString* const R_STATEMENT_DELIMITER = @";";
+
+NSString* const R_COMMENT = @"#";
+
 // this flag causes some parts of the code to not use RCEngine if that would cause re-entrance
 // it is meant for the user-level code, not for RCEngine itself - such that the UI can react and display appropriate warnings
 BOOL preventReentrance = NO;
@@ -264,36 +269,191 @@ static BOOL _activated = FALSE;
 	setRSignalHandlers(disable?0:1);
 }
 
-- (NSMutableArray<RCSymbolicExpression*>*) Parse: (NSString*) str
+// The approach for this method derived from: https://stackoverflow.com/questions/4158646/most-efficient-way-to-iterate-over-all-the-chars-in-an-nsstring/25938062#25938062
+- (NSArray<NSNumber*>*) IndexOfAll: (NSString*)line search:(NSString*)search
 {
-    NSMutableArray<RCSymbolicExpression*>* results = [[NSMutableArray<RCSymbolicExpression*> alloc] init];
-    
-    ParseStatus parseStatus;
-    SEXP cmdexpr, cmdSexp;
-    
-    if (!active) return nil;
-    PROTECT(cmdSexp=allocVector(STRSXP, 1));
-    SET_STRING_ELT(cmdSexp, 0, mkChar([str UTF8String]));
-    cmdexpr = R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue);
+    NSMutableArray* foundIndices = [NSMutableArray array];
 
-    // If the vector is empty, return a nil response
-    if (cmdexpr == nil || parseStatus != PARSE_OK) { return nil; }
-    
-    // With help from: http://www.hep.by/gnu/r-patched/r-exts/R-exts_121.html
-    int errVal = 0;
-    int exprLen = Rf_length(cmdexpr);
-    for (R_len_t i = 0; i < exprLen; i++) {
-        SEXP cmdElement = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
-        if (cmdElement == nil) { continue; }
-        SEXP cmdEvalElement = R_tryEval(cmdElement, R_GlobalEnv, &errVal);
-        if (cmdEvalElement == nil) { continue; }
-        [results addObject:[[RCSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
+    [line enumerateSubstringsInRange: NSMakeRange(0, [line length]) options: NSStringEnumerationByComposedCharacterSequences
+                          usingBlock: ^(NSString *inSubstring, NSRange inSubstringRange, NSRange inEnclosingRange, BOOL *outStop) {
+                              if ([inSubstring isEqualToString:search]) {
+                                  [foundIndices addObject:[NSNumber numberWithInteger:inEnclosingRange.location]];
+                              }
+                          }];
+    return foundIndices;
+}
+
+- (BOOL) IsClosedString: (NSString*) string
+{
+    BOOL inSingleQuote = FALSE;
+    BOOL inDoubleQuotes = FALSE;
+
+    for (int index = 0; index < [string length]; index++) {
+        if ([[string substringWithRange:NSMakeRange(index, 1)] isEqualToString:@"'"]) {
+            if (index > 0 && [[string substringWithRange:NSMakeRange(index - 1, 1)] isEqualToString:@"\\"]) {
+                continue;
+            }
+            if (inDoubleQuotes) {
+                continue;
+            }
+            inSingleQuote = !inSingleQuote;
+        }
+        else if ([[string substringWithRange:NSMakeRange(index, 1)] isEqualToString:@"\""]) {
+            if (index > 0 && [[string substringWithRange:NSMakeRange(index - 1, 1)] isEqualToString:@"\\"]) {
+                continue;
+            }
+            if (inSingleQuote) {
+                continue;
+            }
+            inDoubleQuotes = !inDoubleQuotes;
+        }
     }
-    
-    UNPROTECT(1);
+
+    return (!inSingleQuote) && (!inDoubleQuotes);
+}
+
+- (NSInteger) EvenStringDelimiters: (NSString*)statement whereHash:(NSArray<NSNumber*>*)whereHash
+{
+    for (int index = 0; index < [whereHash count]; index++) {
+        NSString* subString = [statement substringToIndex:[whereHash[index] integerValue]];
+        if ([self IsClosedString:subString]) {
+            return [whereHash[index] integerValue];
+        }
+    }
+
+    return -1;
+}
+
+// This method assumes you have already called PreProcessStatement, and are feeding in a line from that collection.
+- (NSArray<NSString*>*) ProcessLine: (NSString*)line
+{
+    if ([line hasPrefix:R_COMMENT]) {
+        return @[ line ];
+    }
+
+    // Split the string to account for multiple statements on a single line
+    NSArray<NSString*>* statements = [line componentsSeparatedByString:R_STATEMENT_DELIMITER];
+
+    NSMutableArray<NSString*>* results = [[NSMutableArray alloc] init];
+    for (int index = 0; index < [statements count]; index++) {
+        NSString* statement = statements[index];
+        if (![statement containsString:R_COMMENT]) {
+            [results addObject:[statement stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+        }
+        else {
+            NSArray<NSNumber*>* whereHash = [self IndexOfAll:statement search:R_COMMENT];
+            NSInteger firstComment = [self EvenStringDelimiters:statement whereHash:whereHash];
+            if (firstComment < 0) {
+                // Incomplete statement?  such as:
+                // paste('this is the # ', ' start of an incomplete # statement
+                [results addObject:statement];
+            }
+            else {
+                [results addObject:[statement substringToIndex:firstComment]];
+                // firstComment is a valid comment marker - not need to process "the rest"
+            }
+        }
+    }
+
     return results;
 }
 
+- (NSMutableArray<NSString*>*) PreProcessStatement: (NSString*)statement
+{
+    if (statement == nil) {
+        return nil;
+    }
+
+    // Clean up newlines within the string, so we can simplify breaking it apart later.  We don't know what we'll get... so we
+    // assume \r\n or \n\r are supposed to be considered a combined newline, and any remaining \r should be converted to \n.
+    // In the end we will just split the string using \n.
+    NSString* cleanParseString = [[[statement stringByReplacingOccurrencesOfString:@"\n\r" withString:@"\n"] stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"] stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
+    NSArray<NSString*>* stringComponents = [cleanParseString componentsSeparatedByString:@"\n"];
+    if (stringComponents == nil || [stringComponents count] == 0) {
+        return nil;
+    }
+    NSMutableArray<NSString*>* cleanStringComponents = [stringComponents mutableCopy];
+    for (int index = 0; index < [cleanStringComponents count]; index++) {
+        cleanStringComponents[index] = [cleanStringComponents[index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    return cleanStringComponents;
+}
+
+// Given a string, break it into valid statements that R can interpret.  This includes some
+// manipulation of the string to break it apart by lines and expression termination delimiters, and
+// ensure that complete, valid expressions are passed by tracking expression fragments over multiple
+// lines.
+// This code and helper methods are ported directly from the R.NET library.
+- (NSMutableArray<RCSymbolicExpression*>*) Parse: (NSString*) str
+{
+    if (!active) return nil;
+
+    NSMutableArray<RCSymbolicExpression*>* results = [[NSMutableArray<RCSymbolicExpression*> alloc] init];
+    NSMutableArray<NSString*>* preProcessedLines = [self PreProcessStatement:str];
+    if (preProcessedLines == nil || [preProcessedLines count] == 0) {
+        return results;
+    }
+
+    // For the pre-processed lines, we will now go through and try to do the parsing and evaluation
+    // with R.  We will need to check as we go along if we have incomplete statements, and if so we'll
+    // get the next line and include that.  If it is a complete statement, we'll proceed with processing
+    // it and incorporating the results.
+    NSMutableString* incompleteStatement = [[NSMutableString alloc] init];
+    ParseStatus parseStatus = PARSE_NULL;
+    for (int index = 0; index < [preProcessedLines count]; index++) {
+        NSArray<NSString*>* processedLineResults = [self ProcessLine:preProcessedLines[index]];
+        for (int processedIndex = 0; processedIndex < [processedLineResults count]; processedIndex++) {
+            [incompleteStatement appendString:processedLineResults[processedIndex]];
+            SEXP cmdSexp;
+            PROTECT(cmdSexp=allocVector(STRSXP, 1));
+            SET_STRING_ELT(cmdSexp, 0, mkChar([incompleteStatement UTF8String]));
+            SEXP cmdexpr = R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue);
+            if (parseStatus == PARSE_OK) {
+                [incompleteStatement release];
+                incompleteStatement = [[NSMutableString alloc] init];
+
+                // With help from: http://www.hep.by/gnu/r-patched/r-exts/R-exts_121.html
+                int errVal = 0;
+                int exprLen = Rf_length(cmdexpr);
+                for (R_len_t i = 0; i < exprLen; i++) {
+                    SEXP cmdElement = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
+                    if (cmdElement == nil) { continue; }
+                    SEXP cmdEvalElement = R_tryEval(cmdElement, R_GlobalEnv, &errVal);
+                    if (cmdEvalElement == nil) { continue; }
+                    [results addObject:[[RCSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
+                }
+            }
+            else if (parseStatus == PARSE_INCOMPLETE) {
+                // Purposely blank - we don't want to throw an exception, and we don't want to handle
+                // the expression as if it were valid.  There's a check at the end to handle if an
+                // incomplete expression was the last status we had.
+            }
+            else {
+                NSException* exc = [NSException
+                                    exceptionWithName:@"ParseException"
+                                    reason:[NSString stringWithFormat:@"There was an error interpreting the expression:\r\n'%@'", incompleteStatement]
+                                    userInfo:nil];
+                @throw exc;
+            }
+            UNPROTECT(1);
+        }
+    }
+
+    if (parseStatus == PARSE_INCOMPLETE) {
+        NSException* exc = [NSException
+                            exceptionWithName:@"ParseException"
+                            reason:[NSString stringWithFormat:@"The following expression appears to be incomplete:\r\n'%@'", incompleteStatement]
+                            userInfo:nil];
+        @throw exc;
+    }
+
+    return results;
+}
+
+// Given a block of code, parse the string into individual statements and evaluate them against
+// the R engine.  If there are multiple statements are sent, only the results of the last statement
+// are returned.  If nothing is evaluated, nil is returned.  If there is an error in the parse/
+// evaluate process, an exception will be thrown.
 - (RCSymbolicExpression*) Evaluate: (NSString*) str
 {
     // Don't process anything if we haven't activated the engine yet
@@ -314,11 +474,13 @@ static BOOL _activated = FALSE;
     return lastExpression;
 }
 
+// Return the internal R NilValue expression as an RCocoa expression
 - (RCSymbolicExpression*) NilValue
 {
     return [[RCSymbolicExpression alloc] initWithEngineAndExpression:self expression:R_NilValue];
 }
 
+// Return the internal R NaString expression as an RCocoa expression
 - (RCSymbolicExpression*) NaString
 {
     return [[RCSymbolicExpression alloc] initWithEngineAndExpression:self expression:R_NaString];
