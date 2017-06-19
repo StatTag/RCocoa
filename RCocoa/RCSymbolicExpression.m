@@ -22,6 +22,15 @@ void CheckForNullExpression(SEXP expression)
     }
 }
 
++(RCFunction*) _getAsListFunction
+{
+    static RCFunction *asListFunction = nil;
+    if (asListFunction == nil) {
+        asListFunction = [[[RCEngine mainEngine] Evaluate:@"invisible(as.list)"] AsFunction];
+    }
+    return asListFunction;
+}
+
 -(id) initWithEngineAndExpression: (RCEngine*) engine expression: (SEXP)sexp
 {
     self = [super init];
@@ -157,6 +166,22 @@ void CheckForNullExpression(SEXP expression)
     return R_TRUE == Rf_isFrame(_expression);
 }
 
+// Gets whether the specified expression is a list
+-(BOOL) IsList
+{
+    // As noted by R.NET library, Rf_isList in the R API is NOT the correct thing to use
+    CheckForNullExpression(_expression);
+    return ([self Type] == VECSXP) || ([self Type] == LISTSXP && Rf_length(_expression));
+}
+
+// Gets whether the specified expression is a function
+-(BOOL) IsFunction
+{
+    // As noted by R.NET library, Rf_isList in the R API is NOT the correct thing to use
+    CheckForNullExpression(_expression);
+    return R_TRUE == Rf_isFunction(_expression);
+}
+
 -(NSArray*) AsInteger
 {
     if (![self IsVector]) { return nil; }
@@ -219,6 +244,36 @@ void CheckForNullExpression(SEXP expression)
     if (![self IsVector]) { return nil; }
     RCDataFrame* dataFrame = [[RCDataFrame alloc] initWithEngineAndExpression: _engine expression:_expression];
     return dataFrame;
+}
+
+-(RCVector*) AsList
+{
+    if (![self IsList]) { return nil; }
+    RCFunction* asList = [RCSymbolicExpression _getAsListFunction];
+    NSArray<RCSymbolicExpression*>* args = @[self];
+    RCSymbolicExpression* newExpression = [asList Invoke:args];
+    return [[RCVector alloc] initWithEngineAndExpression:_engine expression:[newExpression GetHandle]];
+}
+
+-(RCFunction*) AsFunction
+{
+    if (![self IsFunction]) { return nil; }
+
+    switch ([self Type]) {
+        case CLOSXP:
+            return [[RCClosure alloc] initWithEngineAndExpression: _engine expression:_expression];
+        case BUILTINSXP:
+            return [[RCBuiltinFunction alloc] initWithEngineAndExpression: _engine expression:_expression];
+        case SPECIALSXP:
+            return [[RCSpecialFunction alloc] initWithEngineAndExpression: _engine expression:_expression];
+        default: {
+            NSException* exc = [NSException
+                                exceptionWithName:@"ArgumentException"
+                                reason:@"The expression is not a function"
+                                userInfo:nil];
+            @throw exc;
+        }
+    }
 }
 
 

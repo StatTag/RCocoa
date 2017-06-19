@@ -26,6 +26,7 @@
     return self;
 }
 
+// Abstract method (requires implementation)
 -(void) SetVector: (NSArray<id>*) values;
 {
     [self doesNotRecognizeSelector:_cmd];

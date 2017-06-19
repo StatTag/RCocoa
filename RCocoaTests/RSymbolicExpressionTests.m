@@ -104,6 +104,23 @@
     }
 }
 
+
+- (void)testIsList{
+    @autoreleasepool {
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n ls = list(n, s)"];
+        XCTAssert([rse IsList]);
+        [rse release];
+    }
+}
+
+- (void)testIsFunction{
+    @autoreleasepool {
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"invisible(as.list)"];
+        XCTAssert([rse IsFunction]);
+        [rse release];
+    }
+}
+
 - (void)testAsInteger{
     @autoreleasepool {
         RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- c(1, 2)"];
@@ -227,4 +244,23 @@
     }
 }
 
+- (void)testAsList{
+    @autoreleasepool {
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n ls = list(n, s)"];
+        RCVector* list = [rse AsList];
+        XCTAssertNotNil(list);
+        [list release];
+        [rse release];
+    }
+}
+
+- (void)testAsFunction{
+    @autoreleasepool {
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"invisible(as.list)"];
+        RCFunction* fn = [rse AsFunction];
+        XCTAssertNotNil(fn);
+        [fn release];
+        [rse release];
+    }
+}
 @end

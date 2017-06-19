@@ -11,6 +11,10 @@
 		3500D24B1EBCD35700BCB198 /* RCCharacterMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 35380DDA1EBA247000AF2E49 /* RCCharacterMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3500D24C1EBCD35C00BCB198 /* RCVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 35380DDB1EBA25C500AF2E49 /* RCVector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3500D24D1EBCD36100BCB198 /* RCMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 355F5B4F1EBA6D3E007248C4 /* RCMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		350155371EF85EA200AE80F7 /* RCFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 350155361EF85EA200AE80F7 /* RCFunction.m */; };
+		3501553A1EF8626D00AE80F7 /* RCClosure.m in Sources */ = {isa = PBXBuildFile; fileRef = 350155391EF8626C00AE80F7 /* RCClosure.m */; };
+		3501553C1EF8627800AE80F7 /* RCBuiltinFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 3501553B1EF8627800AE80F7 /* RCBuiltinFunction.m */; };
+		350155401EF8629C00AE80F7 /* RCSpecialFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 3501553F1EF8629C00AE80F7 /* RCSpecialFunction.m */; };
 		350C8C741E1E8FEF003DE3F8 /* RCocoa.h in Headers */ = {isa = PBXBuildFile; fileRef = 350C8C731E1E8FEF003DE3F8 /* RCocoa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350C8C7B1E1E8FF0003DE3F8 /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C701E1E8FEF003DE3F8 /* RCocoa.framework */; };
 		350C8C801E1E8FF0003DE3F8 /* RCEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C8C7F1E1E8FF0003DE3F8 /* RCEngineTests.m */; };
@@ -58,6 +62,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		350155351EF85E9300AE80F7 /* RCFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCFunction.h; sourceTree = "<group>"; };
+		350155361EF85EA200AE80F7 /* RCFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCFunction.m; sourceTree = "<group>"; };
+		350155381EF8626400AE80F7 /* RCClosure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCClosure.h; sourceTree = "<group>"; };
+		350155391EF8626C00AE80F7 /* RCClosure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCClosure.m; sourceTree = "<group>"; };
+		3501553B1EF8627800AE80F7 /* RCBuiltinFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBuiltinFunction.m; sourceTree = "<group>"; };
+		3501553D1EF8628400AE80F7 /* RCBuiltinFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCBuiltinFunction.h; sourceTree = "<group>"; };
+		3501553E1EF8629200AE80F7 /* RCSpecialFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCSpecialFunction.h; sourceTree = "<group>"; };
+		3501553F1EF8629C00AE80F7 /* RCSpecialFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSpecialFunction.m; sourceTree = "<group>"; };
 		350C8C701E1E8FEF003DE3F8 /* RCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		350C8C731E1E8FEF003DE3F8 /* RCocoa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCocoa.h; sourceTree = "<group>"; };
 		350C8C751E1E8FEF003DE3F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -170,6 +182,14 @@
 				35A231471EA00CC4008AA1EF /* RCSymbolicExpression.m */,
 				35380DDB1EBA25C500AF2E49 /* RCVector.h */,
 				35380DDC1EBA25D100AF2E49 /* RCVector.m */,
+				350155351EF85E9300AE80F7 /* RCFunction.h */,
+				350155361EF85EA200AE80F7 /* RCFunction.m */,
+				350155381EF8626400AE80F7 /* RCClosure.h */,
+				350155391EF8626C00AE80F7 /* RCClosure.m */,
+				3501553D1EF8628400AE80F7 /* RCBuiltinFunction.h */,
+				3501553B1EF8627800AE80F7 /* RCBuiltinFunction.m */,
+				3501553E1EF8629200AE80F7 /* RCSpecialFunction.h */,
+				3501553F1EF8629C00AE80F7 /* RCSpecialFunction.m */,
 			);
 			path = RCocoa;
 			sourceTree = "<group>";
@@ -312,8 +332,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3501553C1EF8627800AE80F7 /* RCBuiltinFunction.m in Sources */,
 				35D14D2A1ECB660600B77A3E /* RCIntegerMatrix.m in Sources */,
+				350155401EF8629C00AE80F7 /* RCSpecialFunction.m in Sources */,
 				35A231581EA00DC7008AA1EF /* RSEXP.m in Sources */,
+				3501553A1EF8626D00AE80F7 /* RCClosure.m in Sources */,
 				35380DD91EBA246100AF2E49 /* RCCharacterMatrix.m in Sources */,
 				3552183F1ECB615C0011C53F /* RCLogicalMatrix.m in Sources */,
 				35A231541EA00DC7008AA1EF /* RCEngine.m in Sources */,
@@ -324,6 +347,7 @@
 				35B564EF1ECB9653003F347E /* RCDataFrame.m in Sources */,
 				35A231481EA00CC4008AA1EF /* RCSymbolicExpression.m in Sources */,
 				35380DD71EBA244000AF2E49 /* RCIntegerVector.m in Sources */,
+				350155371EF85EA200AE80F7 /* RCFunction.m in Sources */,
 				35380DDD1EBA25D100AF2E49 /* RCVector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
