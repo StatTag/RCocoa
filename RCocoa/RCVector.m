@@ -32,6 +32,28 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
+// Get the element at a specific index.  While an id type is returned for the base
+// RCVector, it will be an RCSymbolicExpression.  Inherited classes will return
+// more specific types.
+-(id) ElementAt: (int)index
+{
+    if (index < 0 || index >= [self Length]) {
+        NSException* exc = [NSException
+                            exceptionWithName:@"ArgumentOutOfRangeException"
+                            reason:@"Index is out of range"
+                            userInfo:nil];
+        @throw exc;
+    }
+
+    return [[RCSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:VECTOR_ELT(_expression, index)];
+}
+
+// The use of the R_xlen_t here will allow us to support long vectors
+-(R_xlen_t) Length
+{
+    return Rf_xlength(_expression);
+}
+
 -(NSArray<NSString*>*) Names
 {
     SEXP names = Rf_getAttrib(_expression, R_NamesSymbol);

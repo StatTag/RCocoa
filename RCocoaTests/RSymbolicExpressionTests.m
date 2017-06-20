@@ -249,6 +249,8 @@
         RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n ls = list(n, s)"];
         RCVector* list = [rse AsList];
         XCTAssertNotNil(list);
+        XCTAssertNotNil([list ElementAt:0]);
+        XCTAssertNotNil([list ElementAt:1]);
         [list release];
         [rse release];
     }
