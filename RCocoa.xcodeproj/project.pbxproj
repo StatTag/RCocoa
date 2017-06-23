@@ -15,6 +15,10 @@
 		3501553A1EF8626D00AE80F7 /* RCClosure.m in Sources */ = {isa = PBXBuildFile; fileRef = 350155391EF8626C00AE80F7 /* RCClosure.m */; };
 		3501553C1EF8627800AE80F7 /* RCBuiltinFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 3501553B1EF8627800AE80F7 /* RCBuiltinFunction.m */; };
 		350155401EF8629C00AE80F7 /* RCSpecialFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 3501553F1EF8629C00AE80F7 /* RCSpecialFunction.m */; };
+		350155411EF9AD6000AE80F7 /* RCSpecialFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 3501553E1EF8629200AE80F7 /* RCSpecialFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		350155421EF9AD6400AE80F7 /* RCBuiltinFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 3501553D1EF8628400AE80F7 /* RCBuiltinFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		350155431EF9AD6900AE80F7 /* RCClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = 350155381EF8626400AE80F7 /* RCClosure.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		350155441EF9AD6C00AE80F7 /* RCFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 350155351EF85E9300AE80F7 /* RCFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350C8C741E1E8FEF003DE3F8 /* RCocoa.h in Headers */ = {isa = PBXBuildFile; fileRef = 350C8C731E1E8FEF003DE3F8 /* RCocoa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350C8C7B1E1E8FF0003DE3F8 /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C701E1E8FEF003DE3F8 /* RCocoa.framework */; };
 		350C8C801E1E8FF0003DE3F8 /* RCEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C8C7F1E1E8FF0003DE3F8 /* RCEngineTests.m */; };
@@ -231,6 +235,10 @@
 				353870501ECD45C900B253F2 /* RCLogicalMatrix.h in Headers */,
 				350C8C741E1E8FEF003DE3F8 /* RCocoa.h in Headers */,
 				35A231551EA00DC7008AA1EF /* Rinit.h in Headers */,
+				350155441EF9AD6C00AE80F7 /* RCFunction.h in Headers */,
+				350155411EF9AD6000AE80F7 /* RCSpecialFunction.h in Headers */,
+				350155421EF9AD6400AE80F7 /* RCBuiltinFunction.h in Headers */,
+				350155431EF9AD6900AE80F7 /* RCClosure.h in Headers */,
 				3500D24D1EBCD36100BCB198 /* RCMatrix.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
