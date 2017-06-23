@@ -466,10 +466,6 @@ static BOOL _activated = FALSE;
     NSMutableArray<RCSymbolicExpression*>* parsedExpressions = [self Parse: str];
     if (parsedExpressions == nil) { return nil; }
     RCSymbolicExpression* lastExpression = [parsedExpressions lastObject];
-	if ([lastExpression Type] == NILSXP) {
-        [parsedExpressions release];
-        return nil;
-    }
 	[parsedExpressions release];
     return lastExpression;
 }

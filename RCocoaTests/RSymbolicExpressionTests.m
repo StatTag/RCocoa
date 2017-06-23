@@ -80,6 +80,19 @@
     }
 }
 
+- (void)testCommandReturnsNullType {
+    // R will return symbolic expressions that are of a null type, which is different from a null response.
+    // We want to ensure that we get a symbolic expression returned when we issue commands that return
+    // a null expression type.
+    @autoreleasepool {
+        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"png(\"test.png\")"];
+        XCTAssertNotNil(rse);
+        XCTAssertEqual(NILSXP, [rse Type]);
+        rse = [[RCEngine mainEngine] Evaluate: @"dev.off()"];
+        [rse release];
+    }
+}
+
 - (void)testIsMatrix{
     @autoreleasepool {
         RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c(1,2,3,4), nrow=2, ncol=2, byrow=TRUE)"];
