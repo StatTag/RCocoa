@@ -65,6 +65,7 @@ extern int  (*ptr_CocoaSystem)(const char *);
 int end_Rmainloop(void);    /* from src/main.c */
 int Rf_initialize_R(int ac, char **av); /* from src/unix/system.c */
 
+
 /*--- note: the REPL code was modified, R_ReplState is not the same as used internally in R */
 
 typedef struct {
@@ -85,13 +86,17 @@ char *lastInitRError = 0;
 /* Note: R_SignalHandlers are evaluated in setup_Rmainloop which is called inside initR */
 int initR(int argc, char **argv, int save_action) 
 {
-    if (!getenv("R_HOME")) {
-        lastInitRError = "R_HOME is not set. Please set all required environment variables before running this program.";
-        return -1;
-    }
+  if (!getenv("R_HOME")) {
+      lastInitRError = "R_HOME is not set. Please set all required environment variables before running this program.";
+      return -1;
+  }
     
-    int stat=Rf_initialize_R(argc, argv);
-    if (stat<0) {
+  int stat=Rf_initialize_R(argc, argv);
+
+  //http://grokbase.com/t/r/r-devel/0776ak67sd/rd-how-to-disable-rs-c-stack-checking
+  R_CStackLimit=-1;
+    
+  if (stat<0) {
         lastInitRError = "Failed to initialize R!";;
         return -2;
     }
@@ -101,14 +106,14 @@ int initR(int argc, char **argv, int save_action)
     }
 	state.buf=(unsigned char*) malloc(state.buflen);
 
-    R_Outputfile = NULL;
-    R_Consolefile = NULL;
-    R_Interactive = 1;
-    SaveAction = (save_action==Rinit_save_yes)?SA_SAVE:((save_action==Rinit_save_no)?SA_NOSAVE:SA_SAVEASK);
+  R_Outputfile = NULL;
+  R_Consolefile = NULL;
+  R_Interactive = 1;
+  SaveAction = (save_action==Rinit_save_yes)?SA_SAVE:((save_action==Rinit_save_no)?SA_NOSAVE:SA_SAVEASK);
 
-    setup_Rmainloop();
+  setup_Rmainloop();
 
-    return 0;
+  return 0;
 }
 
 static int firstRun=1;

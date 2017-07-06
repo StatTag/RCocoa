@@ -51,30 +51,55 @@ BOOL preventReentrance = NO;
 static RCEngine* _mainRengine = nil;
 static BOOL _activated = FALSE;
 
+
 + (RCEngine*) mainEngine
 {
-    @synchronized(self) {
-        if (_mainRengine == nil) {
-            _mainRengine = [[RCEngine alloc] init];
-            [_mainRengine disableRSignalHandlers:TRUE];
-            if (![_mainRengine activate]) {
-                [RCEngine shutdown];
-                return nil;
-            }
-        };
-    }
-    return _mainRengine;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+      _mainRengine = [[RCEngine alloc] init];
+      [_mainRengine disableRSignalHandlers:TRUE];
+      if (![_mainRengine activate]) {
+        [RCEngine shutdown];
+      }
+  });
+  
+  return _mainRengine;
+  
+  //https://stackoverflow.com/questions/9119042/why-does-apple-recommend-to-use-dispatch-once-for-implementing-the-singleton-pat
+  /*
+  @synchronized(self) {
+    if (_mainRengine == nil) {
+      _mainRengine = [[RCEngine alloc] init];
+      [_mainRengine disableRSignalHandlers:TRUE];
+      if (![_mainRengine activate]) {
+        [RCEngine shutdown];
+        return nil;
+      }
+    };
+  }
+  */
 }
 
 + (void) shutdown
 {
-    @synchronized(self) {
-        if (_mainRengine != nil) {
-            [_mainRengine release];
-            _mainRengine = nil;
-            R_RunExitFinalizers();
-        }
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+      if (_mainRengine != nil) {
+        [_mainRengine release];
+        _mainRengine = nil;
+        R_RunExitFinalizers();
+      }
+  });
+
+  /*
+  @synchronized(self) {
+    if (_mainRengine != nil) {
+      [_mainRengine release];
+      _mainRengine = nil;
+      R_RunExitFinalizers();
     }
+  }
+  */
 }
 
 
@@ -407,7 +432,9 @@ static BOOL _activated = FALSE;
             SEXP cmdSexp;
             PROTECT(cmdSexp=allocVector(STRSXP, 1));
             SET_STRING_ELT(cmdSexp, 0, mkChar([incompleteStatement UTF8String]));
+            //SEXP cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue));
             SEXP cmdexpr = R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue);
+          
             if (parseStatus == PARSE_OK) {
                 [incompleteStatement release];
                 incompleteStatement = [[NSMutableString alloc] init];
@@ -416,11 +443,23 @@ static BOOL _activated = FALSE;
                 int errVal = 0;
                 int exprLen = Rf_length(cmdexpr);
                 for (R_len_t i = 0; i < exprLen; i++) {
-                    SEXP cmdElement = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
-                    if (cmdElement == nil) { continue; }
-                    SEXP cmdEvalElement = R_tryEval(cmdElement, R_GlobalEnv, &errVal);
-                    if (cmdEvalElement == nil) { continue; }
-                    [results addObject:[[RCSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
+                    int err = 0;
+                    R_tryEval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv, &err);
+                    if(err)
+                    {
+                      //FIXME: figure out how to get the command / error details back to the user
+                      NSException* exc = [NSException
+                                          exceptionWithName:@"ParseException"
+                                          reason:[NSString stringWithFormat:@"There was an error interpreting the expression"]
+                                          userInfo:nil];
+                      @throw exc;
+                    } else {
+                      SEXP cmdElement = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
+                      if (cmdElement == nil) { continue; }
+                      SEXP cmdEvalElement = R_tryEval(cmdElement, R_GlobalEnv, &errVal);
+                      if (cmdEvalElement == nil) { continue; }
+                      [results addObject:[[RCSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
+                    }
                 }
             }
             else if (parseStatus == PARSE_INCOMPLETE) {
@@ -435,6 +474,8 @@ static BOOL _activated = FALSE;
                                     userInfo:nil];
                 @throw exc;
             }
+            //UNPROTECT(2);
+
             UNPROTECT(1);
         }
     }

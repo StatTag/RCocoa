@@ -174,15 +174,31 @@
 {
     @autoreleasepool {
         @try {
-            NSString* statement = @"this really should not work";
-            [[RCEngine mainEngine] Parse:statement];
-            XCTAssertTrue(false);
+          NSString* statement = @"this really should not work";
+          [[RCEngine mainEngine] Parse:statement];
+          XCTAssertTrue(false);
         }
         @catch (NSException* exc) {
             XCTAssertEqualObjects(exc.description, @"There was an error interpreting the expression:\r\n'this really should not work'");
         }
     }
 }
+
+//This command is known to crash R if sent into the parser
+- (void)testParse_InvalidWithKnownCrashable
+{
+  @autoreleasepool {
+    @try {
+      NSString* statement = @"blah";
+      [[RCEngine mainEngine] Parse:statement];
+      XCTAssertTrue(false);
+    }
+    @catch (NSException* exc) {
+      XCTAssertEqualObjects(exc.description, @"There was an error interpreting the expression");
+    }
+  }
+}
+
 
 - (void)testIsClosedString
 {

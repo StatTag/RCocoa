@@ -53,6 +53,7 @@
 		35B564F21ECB9779003F347E /* RDataFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B564F11ECB9779003F347E /* RDataFrameTests.m */; };
 		35D14D2A1ECB660600B77A3E /* RCIntegerMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D291ECB660600B77A3E /* RCIntegerMatrix.m */; };
 		35D14D2C1ECB667300B77A3E /* RIntegerMatrixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */; };
+		381CC7661F0AD71600CC220E /* RCTestAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 381CC7651F0AD71600CC220E /* RCTestAsync.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +116,7 @@
 		35D14D281ECB65F800B77A3E /* RCIntegerMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCIntegerMatrix.h; sourceTree = "<group>"; };
 		35D14D291ECB660600B77A3E /* RCIntegerMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCIntegerMatrix.m; sourceTree = "<group>"; };
 		35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIntegerMatrixTests.m; sourceTree = "<group>"; };
+		381CC7651F0AD71600CC220E /* RCTestAsync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTestAsync.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 		350C8C7E1E1E8FF0003DE3F8 /* RCocoaTests */ = {
 			isa = PBXGroup;
 			children = (
+				381CC7651F0AD71600CC220E /* RCTestAsync.m */,
 				350C8C811E1E8FF0003DE3F8 /* Info.plist */,
 				350C8C7F1E1E8FF0003DE3F8 /* RCEngineTests.m */,
 				3552183B1ECB513A0011C53F /* RCharacterMatrixTests.m */,
@@ -367,6 +370,7 @@
 				35B564F21ECB9779003F347E /* RDataFrameTests.m in Sources */,
 				35D14D2C1ECB667300B77A3E /* RIntegerMatrixTests.m in Sources */,
 				35A2315A1EA010EF008AA1EF /* RSymbolicExpressionTests.m in Sources */,
+				381CC7661F0AD71600CC220E /* RCTestAsync.m in Sources */,
 				350C8C801E1E8FF0003DE3F8 /* RCEngineTests.m in Sources */,
 				35B4B6491EC656DA00834E3F /* RIntegerVectorTests.m in Sources */,
 				355218421ECB62AC0011C53F /* RLogicalMatrixTests.m in Sources */,
