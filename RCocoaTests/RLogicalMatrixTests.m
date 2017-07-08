@@ -15,19 +15,10 @@
 
 @implementation RCLogicalMatrixTests
 
-+ (void)setUp {
-    [super setUp];
-    [[RCEngine mainEngine] activate];
-}
-
-+ (void)tearDown {
-    [super tearDown];
-    //[RCEngine shutdown];
-}
-
 - (void)testElementAtReturnsValue {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c(TRUE, FALSE, FALSE, TRUE), nrow=2, ncol=2)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c(TRUE, FALSE, FALSE, TRUE), nrow=2, ncol=2)"];
         RCLogicalMatrix* results = [rse AsLogicalMatrix];
         XCTAssertTrue([results ElementAt:0 column:0]);
         XCTAssertFalse([results ElementAt:0 column:1]);
