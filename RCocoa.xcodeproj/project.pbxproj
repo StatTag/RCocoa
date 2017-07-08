@@ -40,17 +40,21 @@
 		355218421ECB62AC0011C53F /* RLogicalMatrixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 355218411ECB62AC0011C53F /* RLogicalMatrixTests.m */; };
 		35594B201EBCE0F200DD15C8 /* RCSymbolicExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A231461EA00CA6008AA1EF /* RCSymbolicExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		355F5B511EBA6D4F007248C4 /* RCMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 355F5B501EBA6D4F007248C4 /* RCMatrix.m */; };
+		356DB9CD1F0ED50000548414 /* RCCharacterDeviceAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 356DB9CC1F0ED50000548414 /* RCCharacterDeviceAdapter.m */; };
 		35A231481EA00CC4008AA1EF /* RCSymbolicExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231471EA00CC4008AA1EF /* RCSymbolicExpression.m */; };
 		35A231531EA00DC7008AA1EF /* RCEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314B1EA00DC7008AA1EF /* RCEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35A231541EA00DC7008AA1EF /* RCEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314C1EA00DC7008AA1EF /* RCEngine.m */; };
-		35A231551EA00DC7008AA1EF /* Rinit.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314D1EA00DC7008AA1EF /* Rinit.h */; };
-		35A231561EA00DC7008AA1EF /* Rinit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A2314E1EA00DC7008AA1EF /* Rinit.m */; };
 		35A231571EA00DC7008AA1EF /* RSEXP.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A2314F1EA00DC7008AA1EF /* RSEXP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35A231581EA00DC7008AA1EF /* RSEXP.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231501EA00DC7008AA1EF /* RSEXP.m */; };
 		35A2315A1EA010EF008AA1EF /* RSymbolicExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */; };
+		35B2796E1F1028C900EE875E /* RCDefaultDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B2796D1F1028C900EE875E /* RCDefaultDevice.m */; };
 		35B4B6491EC656DA00834E3F /* RIntegerVectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B4B6481EC656DA00834E3F /* RIntegerVectorTests.m */; };
 		35B564EF1ECB9653003F347E /* RCDataFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B564EE1ECB9653003F347E /* RCDataFrame.m */; };
 		35B564F21ECB9779003F347E /* RDataFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B564F11ECB9779003F347E /* RDataFrameTests.m */; };
+		35BBCB551F1086FB00892180 /* RCCharacterDeviceAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 356DB9CB1F0ED4F100548414 /* RCCharacterDeviceAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		35BBCB561F10870600892180 /* RCDefaultDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 35B2796C1F1028BE00EE875E /* RCDefaultDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		35BBCB571F10870C00892180 /* RCICharacterDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 356DB9CF1F0ED5B300548414 /* RCICharacterDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		35BBCB591F10934100892180 /* RCDeviceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BBCB581F10934100892180 /* RCDeviceTests.m */; };
 		35D14D2A1ECB660600B77A3E /* RCIntegerMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D291ECB660600B77A3E /* RCIntegerMatrix.m */; };
 		35D14D2C1ECB667300B77A3E /* RIntegerMatrixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */; };
 		381CC7661F0AD71600CC220E /* RCTestAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 381CC7651F0AD71600CC220E /* RCTestAsync.m */; };
@@ -100,19 +104,23 @@
 		355218411ECB62AC0011C53F /* RLogicalMatrixTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLogicalMatrixTests.m; sourceTree = "<group>"; };
 		355F5B4F1EBA6D3E007248C4 /* RCMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCMatrix.h; sourceTree = "<group>"; };
 		355F5B501EBA6D4F007248C4 /* RCMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMatrix.m; sourceTree = "<group>"; };
+		356DB9CB1F0ED4F100548414 /* RCCharacterDeviceAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCCharacterDeviceAdapter.h; sourceTree = "<group>"; };
+		356DB9CC1F0ED50000548414 /* RCCharacterDeviceAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCharacterDeviceAdapter.m; sourceTree = "<group>"; };
+		356DB9CF1F0ED5B300548414 /* RCICharacterDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCICharacterDevice.h; sourceTree = "<group>"; };
 		35A231461EA00CA6008AA1EF /* RCSymbolicExpression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCSymbolicExpression.h; sourceTree = "<group>"; };
 		35A231471EA00CC4008AA1EF /* RCSymbolicExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSymbolicExpression.m; sourceTree = "<group>"; };
 		35A2314B1EA00DC7008AA1EF /* RCEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCEngine.h; sourceTree = "<group>"; };
 		35A2314C1EA00DC7008AA1EF /* RCEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCEngine.m; sourceTree = "<group>"; };
-		35A2314D1EA00DC7008AA1EF /* Rinit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rinit.h; sourceTree = "<group>"; };
-		35A2314E1EA00DC7008AA1EF /* Rinit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rinit.m; sourceTree = "<group>"; };
 		35A2314F1EA00DC7008AA1EF /* RSEXP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSEXP.h; sourceTree = "<group>"; };
 		35A231501EA00DC7008AA1EF /* RSEXP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSEXP.m; sourceTree = "<group>"; };
 		35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSymbolicExpressionTests.m; sourceTree = "<group>"; };
+		35B2796C1F1028BE00EE875E /* RCDefaultDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCDefaultDevice.h; sourceTree = "<group>"; };
+		35B2796D1F1028C900EE875E /* RCDefaultDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDefaultDevice.m; sourceTree = "<group>"; };
 		35B4B6481EC656DA00834E3F /* RIntegerVectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIntegerVectorTests.m; sourceTree = "<group>"; };
 		35B564EE1ECB9653003F347E /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
 		35B564F01ECB965E003F347E /* RCDataFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
 		35B564F11ECB9779003F347E /* RDataFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDataFrameTests.m; sourceTree = "<group>"; };
+		35BBCB581F10934100892180 /* RCDeviceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDeviceTests.m; sourceTree = "<group>"; };
 		35D14D281ECB65F800B77A3E /* RCIntegerMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCIntegerMatrix.h; sourceTree = "<group>"; };
 		35D14D291ECB660600B77A3E /* RCIntegerMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCIntegerMatrix.m; sourceTree = "<group>"; };
 		35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIntegerMatrixTests.m; sourceTree = "<group>"; };
@@ -161,6 +169,7 @@
 		350C8C721E1E8FEF003DE3F8 /* RCocoa */ = {
 			isa = PBXGroup;
 			children = (
+				356DB9CE1F0ED59C00548414 /* Devices */,
 				350C8C751E1E8FEF003DE3F8 /* Info.plist */,
 				350C8C731E1E8FEF003DE3F8 /* RCocoa.h */,
 				350F872A1E7C6EAE00796EE3 /* RCocoa.m */,
@@ -170,8 +179,6 @@
 				35B564EE1ECB9653003F347E /* RCDataFrame.m */,
 				35A2314B1EA00DC7008AA1EF /* RCEngine.h */,
 				35A2314C1EA00DC7008AA1EF /* RCEngine.m */,
-				35A2314D1EA00DC7008AA1EF /* Rinit.h */,
-				35A2314E1EA00DC7008AA1EF /* Rinit.m */,
 				35D14D281ECB65F800B77A3E /* RCIntegerMatrix.h */,
 				35D14D291ECB660600B77A3E /* RCIntegerMatrix.m */,
 				35380DD51EBA242500AF2E49 /* RCIntegerVector.h */,
@@ -215,8 +222,21 @@
 				35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */,
 				35380DDE1EBA28F700AF2E49 /* RVectorTests.m */,
 				35B564F11ECB9779003F347E /* RDataFrameTests.m */,
+				35BBCB581F10934100892180 /* RCDeviceTests.m */,
 			);
 			path = RCocoaTests;
+			sourceTree = "<group>";
+		};
+		356DB9CE1F0ED59C00548414 /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				356DB9CB1F0ED4F100548414 /* RCCharacterDeviceAdapter.h */,
+				356DB9CC1F0ED50000548414 /* RCCharacterDeviceAdapter.m */,
+				356DB9CF1F0ED5B300548414 /* RCICharacterDevice.h */,
+				35B2796C1F1028BE00EE875E /* RCDefaultDevice.h */,
+				35B2796D1F1028C900EE875E /* RCDefaultDevice.m */,
+			);
+			name = Devices;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,12 +257,14 @@
 				352BEE691ECB6A9000D1166B /* RCRealMatrix.h in Headers */,
 				353870501ECD45C900B253F2 /* RCLogicalMatrix.h in Headers */,
 				350C8C741E1E8FEF003DE3F8 /* RCocoa.h in Headers */,
-				35A231551EA00DC7008AA1EF /* Rinit.h in Headers */,
 				350155441EF9AD6C00AE80F7 /* RCFunction.h in Headers */,
 				350155411EF9AD6000AE80F7 /* RCSpecialFunction.h in Headers */,
 				350155421EF9AD6400AE80F7 /* RCBuiltinFunction.h in Headers */,
 				350155431EF9AD6900AE80F7 /* RCClosure.h in Headers */,
 				3500D24D1EBCD36100BCB198 /* RCMatrix.h in Headers */,
+				35BBCB551F1086FB00892180 /* RCCharacterDeviceAdapter.h in Headers */,
+				35BBCB571F10870C00892180 /* RCICharacterDevice.h in Headers */,
+				35BBCB561F10870600892180 /* RCDefaultDevice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +367,7 @@
 			files = (
 				3501553C1EF8627800AE80F7 /* RCBuiltinFunction.m in Sources */,
 				35D14D2A1ECB660600B77A3E /* RCIntegerMatrix.m in Sources */,
+				356DB9CD1F0ED50000548414 /* RCCharacterDeviceAdapter.m in Sources */,
 				350155401EF8629C00AE80F7 /* RCSpecialFunction.m in Sources */,
 				35A231581EA00DC7008AA1EF /* RSEXP.m in Sources */,
 				3501553A1EF8626D00AE80F7 /* RCClosure.m in Sources */,
@@ -352,8 +375,8 @@
 				3552183F1ECB615C0011C53F /* RCLogicalMatrix.m in Sources */,
 				35A231541EA00DC7008AA1EF /* RCEngine.m in Sources */,
 				355F5B511EBA6D4F007248C4 /* RCMatrix.m in Sources */,
+				35B2796E1F1028C900EE875E /* RCDefaultDevice.m in Sources */,
 				350F872B1E7C6EAE00796EE3 /* RCocoa.m in Sources */,
-				35A231561EA00DC7008AA1EF /* Rinit.m in Sources */,
 				352BEE6B1ECB6A9700D1166B /* RCRealMatrix.m in Sources */,
 				35B564EF1ECB9653003F347E /* RCDataFrame.m in Sources */,
 				35A231481EA00CC4008AA1EF /* RCSymbolicExpression.m in Sources */,
@@ -377,6 +400,7 @@
 				3552183A1ECB512C0011C53F /* RMatrixTests.m in Sources */,
 				35380DDF1EBA28F700AF2E49 /* RVectorTests.m in Sources */,
 				3552183C1ECB513A0011C53F /* RCharacterMatrixTests.m in Sources */,
+				35BBCB591F10934100892180 /* RCDeviceTests.m in Sources */,
 				352BEE6D1ECB6AFC00D1166B /* RRealMatrixTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

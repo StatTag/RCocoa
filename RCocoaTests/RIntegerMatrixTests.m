@@ -15,19 +15,11 @@
 
 @implementation RCIntegerMatrixTests
 
-+ (void)setUp {
-    [super setUp];
-    [[RCEngine mainEngine] activate];
-}
-
-+ (void)tearDown {
-    [super tearDown];
-    //[RCEngine shutdown];
-}
 
 - (void)testElementAtReturnsValue {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c(1, 2, 3, 4), nrow=2, ncol=2)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c(1, 2, 3, 4), nrow=2, ncol=2)"];
         RCIntegerMatrix* results = [rse AsIntegerMatrix];
         XCTAssertEqual(1, [results ElementAt:0 column:0]);
         XCTAssertEqual(2, [results ElementAt:0 column:1]);

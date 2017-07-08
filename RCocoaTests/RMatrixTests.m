@@ -15,20 +15,10 @@
 
 @implementation RCMatrixTests
 
-+ (void)setUp {
-    [super setUp];
-    [[RCEngine mainEngine] activate];
-}
-
-+ (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-    //[RCEngine shutdown];
-}
-
 - (void)testRowColCounts {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
         RCCharacterMatrix* results = [rse AsCharacterMatrix];
         XCTAssertEqual(2, [results RowCount]);
         XCTAssertEqual(1, [results ColumnCount]);
@@ -46,7 +36,8 @@
 
 - (void)testCheckIndicesThrows {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
         RCCharacterMatrix* results = [rse AsCharacterMatrix];
         XCTAssertThrows([results CheckIndices:2 column:1]);
         XCTAssertThrows([results CheckIndices:-1 column:0]);

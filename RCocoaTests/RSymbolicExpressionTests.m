@@ -15,16 +15,6 @@
 
 @implementation RCSymbolicExpressionTests
 
-+ (void)setUp {
-    [super setUp];
-    [[RCEngine mainEngine] activate];
-}
-
-+ (void)tearDown {
-    [super tearDown];
-    //[RCEngine shutdown];
-}
-
 - (void)testInitWithNils {
     @autoreleasepool {
         RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: nil expression: nil];
@@ -37,7 +27,8 @@
 
 - (void)testInitWithEngine {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: [RCEngine mainEngine] expression: nil];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: mainEngine expression: nil];
         XCTAssertNotNil(rse);
         XCTAssertNotNil([rse Engine]);
         XCTAssertEqual(NILSXP, [rse Type]);
@@ -66,7 +57,8 @@
 
 - (void)testIsVector_Nil{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: [RCEngine mainEngine] expression: nil];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: mainEngine expression: nil];
         XCTAssertThrows([rse IsVector]);
         [rse release];
     }
@@ -74,7 +66,8 @@
 
 - (void)testIsMatrix_Nil{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: [RCEngine mainEngine] expression: nil];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: mainEngine expression: nil];
         XCTAssertThrows([rse IsMatrix]);
         [rse release];
     }
@@ -85,17 +78,19 @@
     // We want to ensure that we get a symbolic expression returned when we issue commands that return
     // a null expression type.
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"png(\"test.png\")"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"png(\"test.png\")"];
         XCTAssertNotNil(rse);
         XCTAssertEqual(NILSXP, [rse Type]);
-        rse = [[RCEngine mainEngine] Evaluate: @"dev.off()"];
+        rse = [mainEngine Evaluate: @"dev.off()"];
         [rse release];
     }
 }
 
 - (void)testIsMatrix{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c(1,2,3,4), nrow=2, ncol=2, byrow=TRUE)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c(1,2,3,4), nrow=2, ncol=2, byrow=TRUE)"];
         XCTAssertTrue([rse IsMatrix]);
         [rse release];
     }
@@ -103,7 +98,8 @@
 
 - (void)testIsVector{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- c(1, 2)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- c(1, 2)"];
         XCTAssert([rse IsVector]);
         [rse release];
     }
@@ -111,7 +107,8 @@
 
 - (void)testIsDataFrame{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
         XCTAssert([rse IsDataFrame]);
         [rse release];
     }
@@ -120,7 +117,8 @@
 
 - (void)testIsList{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n ls = list(n, s)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2)\n s=c('a','b')\n ls = list(n, s)"];
         XCTAssert([rse IsList]);
         [rse release];
     }
@@ -128,7 +126,8 @@
 
 - (void)testIsFunction{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"invisible(as.list)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"invisible(as.list)"];
         XCTAssert([rse IsFunction]);
         [rse release];
     }
@@ -136,7 +135,8 @@
 
 - (void)testAsInteger{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- c(1, 2)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- c(1, 2)"];
         NSArray* results = [rse AsInteger];
         XCTAssertNotNil(results);
         XCTAssertEqual(2, [results count]);
@@ -149,7 +149,8 @@
 
 - (void)testAsReal{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- c(1, 2)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- c(1, 2)"];
         NSArray* results = [rse AsReal];
         XCTAssertNotNil(results);
         XCTAssertEqual(2, [results count]);
@@ -162,7 +163,8 @@
 
 - (void)testAsLogical{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- c(1, 0)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- c(1, 0)"];
         NSArray* results = [rse AsLogical];
         XCTAssertNotNil(results);
         XCTAssertEqual(2, [results count]);
@@ -175,7 +177,8 @@
 
 - (void)testAsCharacter{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- c('hello', 'world')"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- c('hello', 'world')"];
         NSArray* results = [rse AsCharacter];
         XCTAssertNotNil(results);
         XCTAssertEqual(2, [results count]);
@@ -188,7 +191,8 @@
 
 - (void)testAsCharacterMatrix{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c('hello', 'world'), nrow=2, ncol=1)"];
         RCCharacterMatrix* results = [rse AsCharacterMatrix];
         XCTAssertNotNil(results);
     }
@@ -196,7 +200,8 @@
 
 - (void)testAsIntegerMatrix{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c(5, 10), nrow=2, ncol=1)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c(5, 10), nrow=2, ncol=1)"];
         RCIntegerMatrix* results = [rse AsIntegerMatrix];
         XCTAssertNotNil(results);
     }
@@ -204,7 +209,8 @@
 
 - (void)testAsLogicalMatrix{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"x <- matrix(c(FALSE, TRUE), nrow=2, ncol=1)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c(FALSE, TRUE), nrow=2, ncol=1)"];
         RCLogicalMatrix* results = [rse AsLogicalMatrix];
         XCTAssertNotNil(results);
     }
@@ -212,19 +218,15 @@
 
 - (void)testGetAttributeNames_Filled {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"library(survival)"];
-        [rse release];
-        rse = [[RCEngine mainEngine] Evaluate: @"data(pbc)"];
-        [rse release];
-        rse = [[RCEngine mainEngine] Evaluate: @"library(tableone)"];
-        [rse release];
-        rse = [[RCEngine mainEngine] Evaluate: @"table1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
         XCTAssertNotNil(rse);
         NSArray<NSString*>* attrs = [rse GetAttributeNames];
         XCTAssertNotNil(attrs);
-        XCTAssertEqual(2, [attrs count]);
+        XCTAssertEqual(3, [attrs count]);
         XCTAssertEqualObjects(@"names", attrs[0]);
-        XCTAssertEqualObjects(@"class", attrs[1]);
+        XCTAssertEqualObjects(@"row.names", attrs[1]);
+        XCTAssertEqualObjects(@"class", attrs[2]);
         [attrs release];
         [rse release];
     }
@@ -232,13 +234,8 @@
 
 - (void)testGetAttribute {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"library(survival)"];
-        [rse release];
-        rse = [[RCEngine mainEngine] Evaluate: @"data(pbc)"];
-        [rse release];
-        rse = [[RCEngine mainEngine] Evaluate: @"library(tableone)"];
-        [rse release];
-        rse = [[RCEngine mainEngine] Evaluate: @"table1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
         XCTAssertNotNil(rse);
         RCSymbolicExpression* attrExp = [rse GetAttribute:@"class"];
         XCTAssertNotNil(attrExp);
@@ -249,7 +246,8 @@
 
 - (void)testAsDataFrame{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
         RCDataFrame* dataFrame = [rse AsDataFrame];
         XCTAssertNotNil(dataFrame);
         [dataFrame release];
@@ -259,7 +257,8 @@
 
 - (void)testAsList{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n ls = list(n, s)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2)\n s=c('a','b')\n ls = list(n, s)"];
         RCVector* list = [rse AsList];
         XCTAssertNotNil(list);
         XCTAssertNotNil([list ElementAt:0]);
@@ -271,7 +270,8 @@
 
 - (void)testAsFunction{
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"invisible(as.list)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"invisible(as.list)"];
         RCFunction* fn = [rse AsFunction];
         XCTAssertNotNil(fn);
         [fn release];

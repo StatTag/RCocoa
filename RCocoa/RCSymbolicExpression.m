@@ -26,7 +26,8 @@ void CheckForNullExpression(SEXP expression)
 {
     static RCFunction *asListFunction = nil;
     if (asListFunction == nil) {
-        asListFunction = [[[RCEngine mainEngine] Evaluate:@"invisible(as.list)"] AsFunction];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        asListFunction = [[mainEngine Evaluate:@"invisible(as.list)"] AsFunction];
     }
     return asListFunction;
 }

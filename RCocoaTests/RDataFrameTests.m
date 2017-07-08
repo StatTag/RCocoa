@@ -16,20 +16,10 @@
 
 @implementation RCDataFrameTests
 
-+ (void)setUp {
-    [super setUp];
-    [[RCEngine mainEngine] activate];
-}
-
-+ (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-    //[RCEngine shutdown];
-}
-
 - (void)testDataFrame_ColumnNames {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
         RCDataFrame* dataFrame = [rse AsDataFrame];
         NSArray<NSString*>* names = [dataFrame ColumnNames];
         XCTAssertEqual(2, [names count]);
@@ -43,7 +33,8 @@
 
 - (void)testDataFrame_ColumnAccess {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
         RCDataFrame* dataFrame = [rse AsDataFrame];
         NSArray<NSString*>* names = [(RCVector*)dataFrame[1] AsCharacter];
         XCTAssertNotNil(names);
@@ -67,7 +58,8 @@
 
 - (void)testDataFrame_RowNames {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2)\n s=c('a','b')\n df = data.frame(n, s)"];
         RCDataFrame* dataFrame = [rse AsDataFrame];
         NSArray<NSString*>* names = [dataFrame RowNames];
         XCTAssertEqual(2, [names count]);
@@ -82,7 +74,8 @@
 
 - (void)testDataFrame_RowCount {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2,3)\n s=c('a','b','c')\n df = data.frame(n, s)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2,3)\n s=c('a','b','c')\n df = data.frame(n, s)"];
         RCDataFrame* dataFrame = [rse AsDataFrame];
         XCTAssertEqual(3, [dataFrame RowCount]);
         [dataFrame release];
@@ -92,7 +85,8 @@
 
 - (void)testDataFrame_RowCount_Empty {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"data.frame(n=integer())"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"data.frame(n=integer())"];
         RCDataFrame* dataFrame = [rse AsDataFrame];
         XCTAssertEqual(0, [dataFrame RowCount]);
         [dataFrame release];
@@ -102,7 +96,8 @@
 
 - (void)testDataFrame_ColumnCount {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @"n = c(1,2,3)\n s=c('a','b','c')\n df = data.frame(n, s)"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"n = c(1,2,3)\n s=c('a','b','c')\n df = data.frame(n, s)"];
         RCDataFrame* dataFrame = [rse AsDataFrame];
         XCTAssertEqual(2, [dataFrame ColumnCount]);
         [dataFrame release];
@@ -112,7 +107,8 @@
 
 - (void)testDataFrame_ColumnCount_Empty {
     @autoreleasepool {
-        RCSymbolicExpression* rse = [[RCEngine mainEngine] Evaluate: @""];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @""];
         RCDataFrame* dataFrame = [rse AsDataFrame];
         XCTAssertEqual(0, [dataFrame ColumnCount]);
         [dataFrame release];

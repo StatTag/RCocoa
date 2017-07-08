@@ -31,10 +31,40 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#include "Rinit.h"
+//R#include "Rinit.h"
+//#include <R.h>
+//#include <Rinternals.h>
+//#include <R_ext/Parse.h>
+
+#import "RCDefaultDevice.h"
+
+#include <Rversion.h>
+#if R_VERSION < R_Version(3,0,0)
+#error R >= 3.0.0 is required
+#endif
+
+#define R_INTERFACE_PTRS 1
+#define CSTACK_DEFNS 1
+
 #include <R.h>
 #include <Rinternals.h>
+//#include "Rinit.h"
 #include <R_ext/Parse.h>
+#include <Rembedded.h>
+
+/* This constant defines the maximal length of single ReadConsole input, which usually corresponds to the maximal length of a single line. The buffer is allocated dynamically, so an arbitrary size is fine. */
+#ifndef MAX_R_LINE_SIZE
+#define MAX_R_LINE_SIZE 32767
+#endif
+
+#include <Rinterface.h>
+
+//#define Rinit_save_yes 0
+//#define Rinit_save_no  1
+//#define Rinit_save_ask 2
+/* and SaveAction is not officially exported */
+extern SA_TYPE SaveAction;
+
 #import "RCEngine.h"
 
 // Used by R to allow multiple statements on a single line (e.g., "x <- 2; x + 1")
@@ -51,34 +81,52 @@ BOOL preventReentrance = NO;
 static RCEngine* _mainRengine = nil;
 static BOOL _activated = FALSE;
 
-
-+ (RCEngine*) mainEngine
++ (RCEngine*) GetInstance
 {
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-      _mainRengine = [[RCEngine alloc] init];
-      [_mainRengine disableRSignalHandlers:TRUE];
-      if (![_mainRengine activate]) {
-        [RCEngine shutdown];
-      }
-  });
-  
-  return _mainRengine;
-  
-  //https://stackoverflow.com/questions/9119042/why-does-apple-recommend-to-use-dispatch-once-for-implementing-the-singleton-pat
-  /*
-  @synchronized(self) {
-    if (_mainRengine == nil) {
-      _mainRengine = [[RCEngine alloc] init];
-      [_mainRengine disableRSignalHandlers:TRUE];
-      if (![_mainRengine activate]) {
-        [RCEngine shutdown];
-        return nil;
-      }
-    };
-  }
-  */
+    return [RCEngine GetInstance:nil];
 }
+
++ (RCEngine*) GetInstance:(RCICharacterDevice*) device
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _mainRengine = [[RCEngine alloc] init];
+        [_mainRengine disableRSignalHandlers:TRUE];
+        if (![_mainRengine activate:device]) {
+            [RCEngine shutdown];
+        }
+    });
+
+    return _mainRengine;
+}
+
+//+ (RCEngine*) mainEngine
+//{
+//  static dispatch_once_t onceToken;
+//  dispatch_once(&onceToken, ^{
+//      _mainRengine = [[RCEngine alloc] init];
+//      [_mainRengine disableRSignalHandlers:TRUE];
+//      if (![_mainRengine activate]) {
+//        [RCEngine shutdown];
+//      }
+//  });
+//  
+//  return _mainRengine;
+//  
+//  //https://stackoverflow.com/questions/9119042/why-does-apple-recommend-to-use-dispatch-once-for-implementing-the-singleton-pat
+//  /*
+//  @synchronized(self) {
+//    if (_mainRengine == nil) {
+//      _mainRengine = [[RCEngine alloc] init];
+//      [_mainRengine disableRSignalHandlers:TRUE];
+//      if (![_mainRengine activate]) {
+//        [RCEngine shutdown];
+//        return nil;
+//      }
+//    };
+//  }
+//  */
+//}
 
 + (void) shutdown
 {
@@ -192,8 +240,7 @@ static BOOL _activated = FALSE;
 		i++;
 	}
 	argv[i]=0;
-	
-    loopRunning=NO;
+
 	active=NO;
 	maskEvents=0;
 	saveAction=@"ask";
@@ -201,27 +248,47 @@ static BOOL _activated = FALSE;
 	return self;
 }
 
-- (BOOL) activate
+- (BOOL) activate:(RCICharacterDevice*) device
 {
     // If the engine has already been activated, don't allow it to be activated again.
     if (_activated) {
         return _activated;
     }
 
-    int res = initR(argc, argv,
-                    [saveAction isEqual:@"yes"] ? Rinit_save_yes :
-                        ([saveAction isEqual:@"no"] ? Rinit_save_no : Rinit_save_ask));
-    active = (res==0) ? YES : NO;
-
-    if (lastInitRError) {
-        if (lastError) { [lastError release]; }
-		lastError = [[NSString alloc] initWithUTF8String:lastInitRError];
-    } else {
-        lastError=nil;
+    if (!getenv("R_HOME")) {
+        return NO;
     }
 
-    _activated = active;
-    return active;
+    int initialized = Rf_initialize_R(argc, argv);
+    if (initialized < 0) {
+        return NO;
+    }
+
+    if (device == nil) {
+        device = (RCICharacterDevice*)[[RCDefaultDevice alloc] init];
+    }
+
+    adapter = [[RCCharacterDeviceAdapter alloc] initWithDevice:device];
+
+    // http://grokbase.com/t/r/r-devel/0776ak67sd/rd-how-to-disable-rs-c-stack-checking
+    R_CStackLimit=-1;
+
+    R_Outputfile = NULL;
+    R_Consolefile = NULL;
+    R_Interactive = 1;
+    SaveAction = ([saveAction isEqual:@"yes"]) ? SA_SAVE :
+        ([saveAction isEqual:@"no"] ? SA_NOSAVE : SA_SAVEASK);
+
+    // Create our adapter
+    [adapter Install:self];
+
+    R_CStackLimit=-1;
+
+    setup_Rmainloop();
+
+    _activated = YES;
+    active = _activated;
+    return _activated;
 }
 
 - (NSString*) lastError
@@ -230,7 +297,6 @@ static BOOL _activated = FALSE;
 }
 
 - (BOOL) isActive { return active; }
-- (BOOL) isLoopRunning { return loopRunning; }
 
 - (BOOL) allowEvents { return (maskEvents==0); }
 
@@ -248,37 +314,6 @@ static BOOL _activated = FALSE;
 	protectedMode=NO;
 }
 
-- (void) runREPL
-{
-	BOOL keepInLoop = YES;
-	if (!active) return;
-	loopRunning=YES;
-	while (keepInLoop) {
-#ifdef USE_POOLS
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-#endif
-		@try {
-			run_RCEngineRmainloop(0);
-			keepInLoop = NO; // voluntary exit, break the loop
-		}
-		@catch (NSException *foo) {
-			NSLog(@"*** RCEngine.runREPL: caught ObjC exception in the main loop. Update to the latest GUI version and consider reporting this properly (see FAQ) if it persists and is not known. \n*** reason: %@\n*** name: %@, info: %@\n*** Version: R %s.%s (%d) R.app %@%s\nConsider saving your work soon in case this develops into a problem.", [foo reason], [foo name], [foo userInfo], R_MAJOR, R_MINOR, R_SVN_REVISION, [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], getenv("R_ARCH"));
-		}
-#ifdef USE_POOLS
-		[pool release];
-#endif
-	}
-	loopRunning=NO;	
-}
-
-- (void) runDelayedREPL
-{
-	if (!active) return;
-	loopRunning=YES;
-    run_RCEngineRmainloop(1);
-	/* in fact loopRunning is not determinable, because later longjmp may have re-started the loop, so we just keep it at YES */
-}
-
 - (void) setSaveAction: (NSString*) action
 {
 	saveAction = action?action:@"ask";
@@ -291,7 +326,7 @@ static BOOL _activated = FALSE;
 
 - (void) disableRSignalHandlers: (BOOL) disable
 {
-	setRSignalHandlers(disable?0:1);
+    R_SignalHandlers = (disable?0:1);
 }
 
 // The approach for this method derived from: https://stackoverflow.com/questions/4158646/most-efficient-way-to-iterate-over-all-the-chars-in-an-nsstring/25938062#25938062

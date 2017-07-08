@@ -15,19 +15,10 @@
 
 @implementation RCEngineTests
 
-+ (void)setUp {
-    [super setUp];
-    [[RCEngine mainEngine] activate];
-}
-
-+ (void)tearDown {
-    [super tearDown];
-    //[RCEngine shutdown];
-}
-
 - (void)testNilValue {
     @autoreleasepool {
-        RCSymbolicExpression* sexp = [[RCEngine mainEngine] NilValue];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* sexp = [mainEngine NilValue];
         XCTAssertNotNil(sexp);
         XCTAssertEqual(NILSXP, [sexp Type]);
     }
@@ -35,7 +26,8 @@
 
 - (void)testNaString {
     @autoreleasepool {
-        RCSymbolicExpression* sexp = [[RCEngine mainEngine] NaString];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* sexp = [mainEngine NaString];
         XCTAssertNotNil(sexp);
         XCTAssertEqual(CHARSXP, [sexp Type]);
         [sexp release];
@@ -44,13 +36,13 @@
 
 - (void)testMultipleEngineAndActivateRequests {
     @autoreleasepool {
-        RCEngine* engine1 = [RCEngine mainEngine];
-        RCEngine* engine2 = [RCEngine mainEngine];
+        RCEngine* engine1 = [RCEngine GetInstance];
+        RCEngine* engine2 = [RCEngine GetInstance];
         XCTAssertNotNil(engine1);
         XCTAssertNotNil(engine2);
         XCTAssertEqual(engine1, engine2);
-        XCTAssertTrue([[RCEngine mainEngine] activate]);
-        XCTAssertTrue([[RCEngine mainEngine] activate]);
+        XCTAssertTrue([engine1 activate:nil]);
+        XCTAssertTrue([engine2 activate:nil]);
     }
 }
 
@@ -67,10 +59,11 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         for (int index = 0; index < 100; index++) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                XCTAssertTrue([[RCEngine mainEngine] activate]);
-                [[RCEngine mainEngine] Evaluate:@"x <- 2"];
-                [[RCEngine mainEngine] Evaluate:@"x"];
-                [[RCEngine mainEngine] Evaluate:@""];
+                RCEngine* mainEngine = [RCEngine GetInstance];
+                XCTAssertTrue([mainEngine activate:nil]);
+                [mainEngine Evaluate:@"x <- 2"];
+                [mainEngine Evaluate:@"x"];
+                [mainEngine Evaluate:@""];
             });
         }
     });
@@ -86,7 +79,8 @@
 {
     @autoreleasepool {
         NSString* statement = @"test\r\ntest 2\n\r  test 3 \t  \rtest 4\ntest 5\n\n";
-        NSMutableArray<NSString*>* results = [[RCEngine mainEngine] PreProcessStatement:statement];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        NSMutableArray<NSString*>* results = [mainEngine PreProcessStatement:statement];
         XCTAssertEqual(7, [results count]);
         XCTAssertEqualObjects(@"test 3", results[2]);
         XCTAssertEqualObjects(@"", results[6]);
@@ -98,11 +92,12 @@
 {
     @autoreleasepool {
         NSString* statement = @"";
-        NSMutableArray<NSString*>* results = [[RCEngine mainEngine] PreProcessStatement:statement];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        NSMutableArray<NSString*>* results = [mainEngine PreProcessStatement:statement];
         XCTAssertEqual(1, [results count]);
         [results release];
 
-        XCTAssertNil([[RCEngine mainEngine] PreProcessStatement:nil]);
+        XCTAssertNil([mainEngine PreProcessStatement:nil]);
     }
 }
 
@@ -110,7 +105,8 @@
 {
     @autoreleasepool {
         NSString* statement = @"# This is a comment";
-        NSArray<NSString*>* results = [[RCEngine mainEngine] ProcessLine:statement];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        NSArray<NSString*>* results = [mainEngine ProcessLine:statement];
         XCTAssertEqual(1, [results count]);
         XCTAssertEqualObjects(statement, results[0]);
     }
@@ -120,7 +116,8 @@
 {
     @autoreleasepool {
         NSString* statement = @"x <- 2; x + 1";
-        NSArray<NSString*>* results = [[RCEngine mainEngine] ProcessLine:statement];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        NSArray<NSString*>* results = [mainEngine ProcessLine:statement];
         XCTAssertEqual(2, [results count]);
         XCTAssertEqualObjects(@"x <- 2", results[0]);
         XCTAssertEqualObjects(@"x + 1", results[1]);
@@ -132,7 +129,8 @@
 {
     @autoreleasepool {
         NSString* statement = @"paste('this contains ### characters', \" this too ###\", 'Oh, and this # one too') # but \"this\" 'rest' is commented";
-        NSArray<NSString*>* results = [[RCEngine mainEngine] ProcessLine:statement];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        NSArray<NSString*>* results = [mainEngine ProcessLine:statement];
         XCTAssertEqual(1, [results count]);
         XCTAssertEqualObjects(@"paste('this contains ### characters', \" this too ###\", 'Oh, and this # one too') ", results[0]);
     }
@@ -142,7 +140,8 @@
 {
     @autoreleasepool {
         NSString* statement = @"x <- 2; y<-x + 1\r\ny+2";
-        NSMutableArray<RCSymbolicExpression*>* results = [[RCEngine mainEngine] Parse:statement];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        NSMutableArray<RCSymbolicExpression*>* results = [mainEngine Parse:statement];
         XCTAssertEqual(3, [results count]);
     }
 }
@@ -151,7 +150,8 @@
 {
     @autoreleasepool {
         NSString* statement = @"x <-\r\n2";
-        NSMutableArray<RCSymbolicExpression*>* results = [[RCEngine mainEngine] Parse:statement];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        NSMutableArray<RCSymbolicExpression*>* results = [mainEngine Parse:statement];
         XCTAssertEqual(1, [results count]);
     }
 }
@@ -161,7 +161,8 @@
     @autoreleasepool {
         @try {
             NSString* statement = @"x <-\r\n";
-            [[RCEngine mainEngine] Parse:statement];
+            RCEngine* mainEngine = [RCEngine GetInstance];
+            [mainEngine Parse:statement];
             XCTAssertTrue(false);
         }
         @catch (NSException* exc) {
@@ -175,7 +176,8 @@
     @autoreleasepool {
         @try {
           NSString* statement = @"this really should not work";
-          [[RCEngine mainEngine] Parse:statement];
+          RCEngine* mainEngine = [RCEngine GetInstance];
+          [mainEngine Parse:statement];
           XCTAssertTrue(false);
         }
         @catch (NSException* exc) {
@@ -190,7 +192,8 @@
   @autoreleasepool {
     @try {
       NSString* statement = @"blah";
-      [[RCEngine mainEngine] Parse:statement];
+      RCEngine* mainEngine = [RCEngine GetInstance];
+      [mainEngine Parse:statement];
       XCTAssertTrue(false);
     }
     @catch (NSException* exc) {
@@ -204,23 +207,25 @@
 {
     // Tests taken from R.NET comments in IsClosedString
     @autoreleasepool {
-        XCTAssertTrue([[RCEngine mainEngine] IsClosedString:@"paste(\"#hashtag\")"]);
-        XCTAssertTrue([[RCEngine mainEngine] IsClosedString:@"paste(\"#hashtag''''\")"]);
-        XCTAssertFalse([[RCEngine mainEngine] IsClosedString:@"paste(\"#hashtag'''')"]);
-        XCTAssertTrue([[RCEngine mainEngine] IsClosedString:@"paste('#hashtag\"\"\"\"')"]);
-        XCTAssertFalse([[RCEngine mainEngine] IsClosedString:@"paste('#hashtag\"\"\"\")"]);
-        XCTAssertTrue([[RCEngine mainEngine] IsClosedString:@"paste('#hashtag\"\"#\"\"')"]);
-        XCTAssertTrue([[RCEngine mainEngine] IsClosedString:@"paste('#hashtag\"\"#\"\"', \"#hash ''' \")"]);
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        XCTAssertTrue([mainEngine IsClosedString:@"paste(\"#hashtag\")"]);
+        XCTAssertTrue([mainEngine IsClosedString:@"paste(\"#hashtag''''\")"]);
+        XCTAssertFalse([mainEngine IsClosedString:@"paste(\"#hashtag'''')"]);
+        XCTAssertTrue([mainEngine IsClosedString:@"paste('#hashtag\"\"\"\"')"]);
+        XCTAssertFalse([mainEngine IsClosedString:@"paste('#hashtag\"\"\"\")"]);
+        XCTAssertTrue([mainEngine IsClosedString:@"paste('#hashtag\"\"#\"\"')"]);
+        XCTAssertTrue([mainEngine IsClosedString:@"paste('#hashtag\"\"#\"\"', \"#hash ''' \")"]);
     }
 }
 
 - (void)testEvaluate_NoExpressions
 {
     @autoreleasepool {
-        RCSymbolicExpression* result = [[RCEngine mainEngine] Evaluate:@""];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* result = [mainEngine Evaluate:@""];
         XCTAssertNil(result);
 
-        result = [[RCEngine mainEngine] Evaluate:nil];
+        result = [mainEngine Evaluate:nil];
         XCTAssertNil(result);
     }
 }
@@ -229,7 +234,8 @@
 - (void)testEvaluate_MultipleExpressions
 {
     @autoreleasepool {
-        RCSymbolicExpression* result = [[RCEngine mainEngine] Evaluate:@"x <- 2; x + 1"];
+        RCEngine* mainEngine = [RCEngine GetInstance];
+        RCSymbolicExpression* result = [mainEngine Evaluate:@"x <- 2; x + 1"];
         XCTAssertNotNil(result);
     }
 }
