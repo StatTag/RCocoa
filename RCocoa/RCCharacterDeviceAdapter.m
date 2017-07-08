@@ -13,7 +13,7 @@
 
 // Forward declaration of the R interface functions
 extern void (*ptr_R_WriteConsole)(const char *, int);
-extern void (*ptr_R_WriteConsoleEx)(char *, int, int);
+extern void (*ptr_R_WriteConsoleEx)(const char *, int, int);
 
 extern FILE * R_Consolefile;
 extern FILE * R_Outputfile;
@@ -24,12 +24,16 @@ static RCICharacterDevice* _device;
 
 void WriteConsoleEx(const char* buffer, int length, int otype)
 {
-    [_device WriteConsoleEx:buffer length:length otype:otype];
+    @synchronized(_device) {
+        [_device WriteConsoleEx:buffer length:length otype:otype];
+    }
 }
 
 void WriteConsole(const char* buffer, int length)
 {
-    [_device WriteConsole:buffer length:length];
+    @synchronized(_device) {
+        [_device WriteConsole:buffer length:length];
+    }
 }
 
 
@@ -46,7 +50,9 @@ void WriteConsole(const char* buffer, int length)
     }
 
     self = [super init];
-    _device = device;
+    @synchronized(_device) {
+        _device = device;
+    }
     return self;
 }
 

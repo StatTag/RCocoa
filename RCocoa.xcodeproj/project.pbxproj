@@ -54,6 +54,7 @@
 		35BBCB551F1086FB00892180 /* RCCharacterDeviceAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 356DB9CB1F0ED4F100548414 /* RCCharacterDeviceAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35BBCB561F10870600892180 /* RCDefaultDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 35B2796C1F1028BE00EE875E /* RCDefaultDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35BBCB571F10870C00892180 /* RCICharacterDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 356DB9CF1F0ED5B300548414 /* RCICharacterDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		35BBCB591F10934100892180 /* RCDeviceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BBCB581F10934100892180 /* RCDeviceTests.m */; };
 		35D14D2A1ECB660600B77A3E /* RCIntegerMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D291ECB660600B77A3E /* RCIntegerMatrix.m */; };
 		35D14D2C1ECB667300B77A3E /* RIntegerMatrixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */; };
 		381CC7661F0AD71600CC220E /* RCTestAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 381CC7651F0AD71600CC220E /* RCTestAsync.m */; };
@@ -119,6 +120,7 @@
 		35B564EE1ECB9653003F347E /* RCDataFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDataFrame.m; sourceTree = "<group>"; };
 		35B564F01ECB965E003F347E /* RCDataFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCDataFrame.h; sourceTree = "<group>"; };
 		35B564F11ECB9779003F347E /* RDataFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDataFrameTests.m; sourceTree = "<group>"; };
+		35BBCB581F10934100892180 /* RCDeviceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDeviceTests.m; sourceTree = "<group>"; };
 		35D14D281ECB65F800B77A3E /* RCIntegerMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCIntegerMatrix.h; sourceTree = "<group>"; };
 		35D14D291ECB660600B77A3E /* RCIntegerMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCIntegerMatrix.m; sourceTree = "<group>"; };
 		35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIntegerMatrixTests.m; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				35A231591EA010EF008AA1EF /* RSymbolicExpressionTests.m */,
 				35380DDE1EBA28F700AF2E49 /* RVectorTests.m */,
 				35B564F11ECB9779003F347E /* RDataFrameTests.m */,
+				35BBCB581F10934100892180 /* RCDeviceTests.m */,
 			);
 			path = RCocoaTests;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				3552183A1ECB512C0011C53F /* RMatrixTests.m in Sources */,
 				35380DDF1EBA28F700AF2E49 /* RVectorTests.m in Sources */,
 				3552183C1ECB513A0011C53F /* RCharacterMatrixTests.m in Sources */,
+				35BBCB591F10934100892180 /* RCDeviceTests.m in Sources */,
 				352BEE6D1ECB6AFC00D1166B /* RRealMatrixTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
