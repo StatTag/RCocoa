@@ -65,6 +65,8 @@
 /* and SaveAction is not officially exported */
 extern SA_TYPE SaveAction;
 
+extern Rboolean R_Visible;
+
 #import "RCEngine.h"
 
 // Used by R to allow multiple statements on a single line (e.g., "x <- 2; x + 1")
@@ -153,9 +155,10 @@ static BOOL _activated = FALSE;
 
 - (id) init
 {
-    [self initREnvironment];
-    char *args[3]={ "R", "--no-save", 0 };
-    return [self initWithArgs: args];
+  self->autoPrint = true;
+  [self initREnvironment];
+  char *args[4]={ "r_cocoa", "--no-save", "--quiet", 0 };
+  return [self initWithArgs: args];
 }
 
 - (void) initREnvironment
@@ -255,33 +258,32 @@ static BOOL _activated = FALSE;
         return _activated;
     }
 
+    if (device == nil) {
+      device = (RCICharacterDevice*)[[RCDefaultDevice alloc] init];
+    }
+    adapter = [[RCCharacterDeviceAdapter alloc] initWithDevice:device];
+
     if (!getenv("R_HOME")) {
         return NO;
     }
+
+    R_setStartTime();
 
     int initialized = Rf_initialize_R(argc, argv);
     if (initialized < 0) {
         return NO;
     }
 
-    if (device == nil) {
-        device = (RCICharacterDevice*)[[RCDefaultDevice alloc] init];
-    }
-
-    adapter = [[RCCharacterDeviceAdapter alloc] initWithDevice:device];
-
     // http://grokbase.com/t/r/r-devel/0776ak67sd/rd-how-to-disable-rs-c-stack-checking
     R_CStackLimit=-1;
 
-    R_Outputfile = NULL;
-    R_Consolefile = NULL;
-    R_Interactive = 1;
     SaveAction = ([saveAction isEqual:@"yes"]) ? SA_SAVE :
         ([saveAction isEqual:@"no"] ? SA_NOSAVE : SA_SAVEASK);
 
     // Create our adapter
     [adapter Install:self];
 
+    // Needs to be set again after installing the device adapter
     R_CStackLimit=-1;
 
     setup_Rmainloop();
@@ -489,10 +491,17 @@ static BOOL _activated = FALSE;
                                           userInfo:nil];
                       @throw exc;
                     } else {
+                      // Grab the R_Visible value right now.  Our subsequent calls will reset this from the
+                      // value we should keep after R_tryEval
+                      BOOL isResultVisible = R_Visible;
+
                       SEXP cmdElement = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
                       if (cmdElement == nil) { continue; }
                       SEXP cmdEvalElement = R_tryEval(cmdElement, R_GlobalEnv, &errVal);
                       if (cmdEvalElement == nil) { continue; }
+                      if (self->autoPrint && isResultVisible == TRUE) {
+                        Rf_PrintValue(cmdEvalElement);
+                      }
                       [results addObject:[[RCSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
                     }
                 }

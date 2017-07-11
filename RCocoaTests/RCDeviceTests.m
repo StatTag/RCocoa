@@ -56,9 +56,13 @@ RCEngine* mainEngine = nil;
 - (void)testCustomDevice
 {
     @autoreleasepool {
-        RCSymbolicExpression* result = [mainEngine Evaluate:@"x <- 2; x + 1"];
-        XCTAssertNotNil(result);
-        XCTAssertTrue([device WasCalled]);
+      device.WasCalled = false;
+      RCSymbolicExpression* result = [mainEngine Evaluate:@"n_c <- nrow(cars)"];
+      [result release];
+      XCTAssertFalse(device.WasCalled);  // Output not sent for assignments
+      result = [mainEngine Evaluate:@"n_c"];
+      [result release];
+      XCTAssertTrue(device.WasCalled);   // Output sent for printing results
     }
 }
 

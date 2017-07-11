@@ -88,6 +88,9 @@ extern BOOL preventReentrance;
 	/* if >0 ProcessEvents doesn't call the event handler */
 	int maskEvents;
 
+  // Automatically print out results after evaluating
+  BOOL autoPrint;
+
 	/* initial arguments used by activate to initialize R */
 	int  argc;
 	char **argv;

@@ -67,9 +67,9 @@ void WriteConsole(const char* buffer, int length)
     ptr_R_WriteConsole = &WriteConsole;
     ptr_R_WriteConsoleEx = &WriteConsoleEx;
 
-    R_Interactive = -1;
-    R_Outputfile = 0;
-    R_Consolefile = 0;
+    R_Interactive = (Rboolean)0;
+    R_Outputfile = NULL;
+    R_Consolefile = NULL;
 }
 
 
