@@ -470,7 +470,6 @@ static BOOL _activated = FALSE;
             PROTECT(cmdSexp=allocVector(STRSXP, 1));
             SET_STRING_ELT(cmdSexp, 0, mkChar([incompleteStatement UTF8String]));
             SEXP cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue));
-
             if (parseStatus == PARSE_OK) {
                 [incompleteStatement release];
                 incompleteStatement = [[NSMutableString alloc] init];
@@ -481,12 +480,12 @@ static BOOL _activated = FALSE;
                 for (R_len_t i = 0; i < exprLen; i++) {
                     int err = 0;
                     R_tryEval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv, &err);
-                    if(err)
-                    {
+                    if(err) {
+                      NSString* rErrMsg = [NSString stringWithUTF8String: R_curErrorBuf()];
                       //FIXME: figure out how to get the command / error details back to the user
                       NSException* exc = [NSException
                                           exceptionWithName:@"ParseException"
-                                          reason:[NSString stringWithFormat:@"There was an error interpreting the expression"]
+                                          reason:[NSString stringWithFormat:@"There was an error interpreting the expression.\n%@", rErrMsg]
                                           userInfo:nil];
                       @throw exc;
                     } else {
@@ -504,6 +503,7 @@ static BOOL _activated = FALSE;
                       [results addObject:[[RCSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
                     }
                 }
+
                 UNPROTECT(1);
             }
             else if (parseStatus == PARSE_INCOMPLETE) {
