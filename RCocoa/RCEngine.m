@@ -469,9 +469,8 @@ static BOOL _activated = FALSE;
             SEXP cmdSexp;
             PROTECT(cmdSexp=allocVector(STRSXP, 1));
             SET_STRING_ELT(cmdSexp, 0, mkChar([incompleteStatement UTF8String]));
-            //SEXP cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue));
-            SEXP cmdexpr = R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue);
-          
+            SEXP cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue));
+
             if (parseStatus == PARSE_OK) {
                 [incompleteStatement release];
                 incompleteStatement = [[NSMutableString alloc] init];
@@ -505,13 +504,16 @@ static BOOL _activated = FALSE;
                       [results addObject:[[RCSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
                     }
                 }
+                UNPROTECT(1);
             }
             else if (parseStatus == PARSE_INCOMPLETE) {
                 // Purposely blank - we don't want to throw an exception, and we don't want to handle
                 // the expression as if it were valid.  There's a check at the end to handle if an
                 // incomplete expression was the last status we had.
+                UNPROTECT(1);
             }
             else {
+                UNPROTECT(1);
                 NSException* exc = [NSException
                                     exceptionWithName:@"ParseException"
                                     reason:[NSString stringWithFormat:@"There was an error interpreting the expression:\r\n'%@'", incompleteStatement]
