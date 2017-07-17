@@ -22,7 +22,7 @@
 		350C8C741E1E8FEF003DE3F8 /* RCocoa.h in Headers */ = {isa = PBXBuildFile; fileRef = 350C8C731E1E8FEF003DE3F8 /* RCocoa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350C8C7B1E1E8FF0003DE3F8 /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C701E1E8FEF003DE3F8 /* RCocoa.framework */; };
 		350C8C801E1E8FF0003DE3F8 /* RCEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C8C7F1E1E8FF0003DE3F8 /* RCEngineTests.m */; };
-		350C8C8B1E1E903B003DE3F8 /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C8A1E1E903B003DE3F8 /* R.framework */; };
+		350C8C8B1E1E903B003DE3F8 /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C8A1E1E903B003DE3F8 /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		350F872B1E7C6EAE00796EE3 /* RCocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 350F872A1E7C6EAE00796EE3 /* RCocoa.m */; };
 		352BEE691ECB6A9000D1166B /* RCRealMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 352BEE681ECB6A9000D1166B /* RCRealMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		352BEE6B1ECB6A9700D1166B /* RCRealMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 352BEE6A1ECB6A9700D1166B /* RCRealMatrix.m */; };
