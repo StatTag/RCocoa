@@ -202,25 +202,6 @@
   }
 }
 
-// This test (sorry it's generically named) caused us to crash when we weren't appropriately protecting
-// variables.  In addition, it will fail because of an uninstalled package, which causes it to throw
-// an exception.  This controlled throwing is expected behavior.
-- (void)testCrashingCommand
-{
-    @autoreleasepool {
-        @try {
-            RCEngine* mainEngine = [RCEngine GetInstance];
-            [mainEngine Evaluate:@"library(survival)\r\ndata(pbc)\r\nlibrary(tableone)\r\ntable1 <- CreateTableOne(vars = c(\"trt\", \"age\", \"sex\", \"albumin\"), data = pbc, factorVars = c(\"trt\", \"sex\"))"];
-            XCTAssertTrue(false);
-        }
-        @catch (NSException* exc) {
-            XCTAssertEqualObjects(@"There was an error interpreting the expression.\nError in library(tableone) : there is no package called 'tableone'\n", [exc reason]);
-        }
-
-    }
-}
-
-
 - (void)testIsClosedString
 {
     // Tests taken from R.NET comments in IsClosedString

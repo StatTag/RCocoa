@@ -466,9 +466,9 @@ static BOOL _activated = FALSE;
         NSArray<NSString*>* processedLineResults = [self ProcessLine:preProcessedLines[index]];
         for (int processedIndex = 0; processedIndex < [processedLineResults count]; processedIndex++) {
             [incompleteStatement appendString:processedLineResults[processedIndex]];
-            SEXP cmdSexp;
-            PROTECT(cmdSexp=allocVector(STRSXP, 1));
-            SET_STRING_ELT(cmdSexp, 0, mkChar([incompleteStatement UTF8String]));
+            SEXP cmdSexp = PROTECT(allocVector(STRSXP, 1));
+            SEXP statementExp = (mkChar([incompleteStatement UTF8String]));
+            SET_STRING_ELT(cmdSexp, 0, statementExp);
             SEXP cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue));
             if (parseStatus == PARSE_OK) {
                 [incompleteStatement release];
@@ -503,26 +503,22 @@ static BOOL _activated = FALSE;
                       [results addObject:[[RCSymbolicExpression alloc] initWithEngineAndExpression: self expression: cmdEvalElement]];
                     }
                 }
-
-                UNPROTECT(1);
             }
             else if (parseStatus == PARSE_INCOMPLETE) {
                 // Purposely blank - we don't want to throw an exception, and we don't want to handle
                 // the expression as if it were valid.  There's a check at the end to handle if an
                 // incomplete expression was the last status we had.
-                UNPROTECT(1);
             }
             else {
-                UNPROTECT(1);
+                UNPROTECT(2);
                 NSException* exc = [NSException
                                     exceptionWithName:@"ParseException"
                                     reason:[NSString stringWithFormat:@"There was an error interpreting the expression:\r\n'%@'", incompleteStatement]
                                     userInfo:nil];
                 @throw exc;
             }
-            //UNPROTECT(2);
-
-            UNPROTECT(1);
+            
+            UNPROTECT(2);
         }
     }
 

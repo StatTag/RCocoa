@@ -15,6 +15,20 @@
 
 @implementation RCSymbolicExpressionTests
 
+- (void)setUp {
+    [super setUp];
+    RCEngine* mainEngine = [RCEngine GetInstance];
+    RCSymbolicExpression* result = [mainEngine Evaluate:@"gctorture(TRUE)"];
+    [result release];
+}
+
+- (void)tearDown {
+    [super tearDown];
+    RCEngine* mainEngine = [RCEngine GetInstance];
+    RCSymbolicExpression* result = [mainEngine Evaluate:@"gctorture(FALSE)"];
+    [result release];
+}
+
 - (void)testInitWithNils {
     @autoreleasepool {
         RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: nil expression: nil];
