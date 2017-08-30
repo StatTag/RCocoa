@@ -475,14 +475,12 @@ static BOOL _activated = FALSE;
                 incompleteStatement = [[NSMutableString alloc] init];
 
                 // With help from: http://www.hep.by/gnu/r-patched/r-exts/R-exts_121.html
-                int errVal = 0;
                 int exprLen = Rf_length(cmdexpr);
                 for (R_len_t i = 0; i < exprLen; i++) {
                     int err = 0;
-                    R_tryEval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv, &err);
+                    SEXP cmdElement = R_tryEval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv, &err);
                     if(err) {
                       NSString* rErrMsg = [NSString stringWithUTF8String: R_curErrorBuf()];
-                      //FIXME: figure out how to get the command / error details back to the user
                       NSException* exc = [NSException
                                           exceptionWithName:@"ParseException"
                                           reason:[NSString stringWithFormat:@"There was an error interpreting the expression.\n%@", rErrMsg]
@@ -490,12 +488,10 @@ static BOOL _activated = FALSE;
                       @throw exc;
                     } else {
                       // Grab the R_Visible value right now.  Our subsequent calls will reset this from the
-                      // value we should keep after R_tryEval
+                      // value we should keep after Rf_eval
                       BOOL isResultVisible = R_Visible;
 
-                      SEXP cmdElement = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
-                      if (cmdElement == nil) { continue; }
-                      SEXP cmdEvalElement = R_tryEval(cmdElement, R_GlobalEnv, &errVal);
+                      SEXP cmdEvalElement = Rf_eval(cmdElement, R_GlobalEnv);
                       if (cmdEvalElement == nil) { continue; }
                       if (self->autoPrint && isResultVisible == TRUE) {
                         Rf_PrintValue(cmdEvalElement);
