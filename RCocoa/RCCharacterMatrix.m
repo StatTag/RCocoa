@@ -14,7 +14,7 @@
 -(NSString*) ElementAt: (int)row column:(int)column
 {
     [self CheckIndices:row column:column];
-    const char* result = CHAR(STRING_PTR(_expression)[(row * [self RowCount]) + column]);
+    const char* result = CHAR(STRING_PTR(_expression)[(row * [self ColumnCount]) + column]);
     return [NSString stringWithUTF8String: result];
 }
 
