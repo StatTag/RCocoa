@@ -18,4 +18,10 @@
     return result;
 }
 
+-(NSString*)ElementDescriptionAtRow: (int)row andColumn:(int)column
+{
+  return [NSString stringWithFormat:@"%d", [self ElementAt:row column:column]];
+}
+
+
 @end

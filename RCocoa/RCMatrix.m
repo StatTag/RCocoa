@@ -74,4 +74,32 @@
         @throw exc;
     }
 }
+
+-(NSString*)ElementDescriptionAtRow: (int)row andColumn:(int)column
+{
+  return [self ElementAt:row column:column];
+}
+
+
+-(NSString*)description
+{
+  NSMutableString* s = [[NSMutableString alloc] init];
+  for(NSInteger r = 0; r < [self RowCount]; r++)
+  {
+    for(NSInteger c = 0; c < [self ColumnCount]; c++)
+    {
+      [s appendFormat:@"%@", [self ElementDescriptionAtRow:r andColumn:c]];
+      if(c < [self ColumnCount] - 1){
+        [s appendFormat:@"%@", @","];
+      }
+    }
+    if(r < [self RowCount] - 1){
+      [s appendFormat:@"%@", @"\n"];
+    }
+  }
+  
+  return s;
+}
+
+
 @end

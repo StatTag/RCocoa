@@ -14,8 +14,14 @@
 -(double) ElementAt: (int)row column:(int)column
 {
     [self CheckIndices:row column:column];
-    double result = REAL(_expression)[(row * [self RowCount]) + column];
+    double result = REAL(_expression)[(row * [self ColumnCount]) + column];
     return result;
 }
+
+-(NSString*)ElementDescriptionAtRow: (int)row andColumn:(int)column
+{
+  return [NSString stringWithFormat:@"%f", [self ElementAt:row column:column]];
+}
+
 
 @end

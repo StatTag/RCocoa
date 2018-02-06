@@ -14,8 +14,14 @@
 -(BOOL) ElementAt: (int)row column:(int)column
 {
     [self CheckIndices:row column:column];
-    bool result = LOGICAL(_expression)[(row * [self RowCount]) + column];
+    bool result = LOGICAL(_expression)[(row * [self ColumnCount]) + column];
     return result;
 }
+
+-(NSString*)ElementDescriptionAtRow: (int)row andColumn:(int)column
+{
+  return [NSString stringWithFormat:@"%@", ([self ElementAt:row column:column]? @"YES" : @"NO")];
+}
+
 
 @end

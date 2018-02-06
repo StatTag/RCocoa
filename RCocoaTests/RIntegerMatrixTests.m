@@ -35,6 +35,10 @@
     XCTAssertEqual(12, [results ElementAt:5 column:1]);
     XCTAssertEqual(13, [results ElementAt:6 column:0]);
     XCTAssertEqual(14, [results ElementAt:6 column:1]);
+    
+    NSLog(@"%@", [results description]);
+
+    
     [results release];
     [rse release];
   }

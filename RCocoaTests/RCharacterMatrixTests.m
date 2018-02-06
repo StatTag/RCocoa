@@ -32,7 +32,8 @@
         XCTAssertEqualObjects(@"lazy", [results ElementAt:4 column:1]);
         XCTAssertEqualObjects(@"dog", [results ElementAt:5 column:0]);
 
-        
+        NSLog(@"%@", [results description]);
+      
         [results release];
         [rse release];
     }
