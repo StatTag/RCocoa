@@ -14,7 +14,7 @@
 -(int) ElementAt: (int)row column:(int)column
 {
     [self CheckIndices:row column:column];
-    int result = INTEGER(_expression)[(row * [self ColumnCount]) + column];
+    int result = INTEGER(_expression)[(column * [self RowCount]) + row];
     return result;
 }
 

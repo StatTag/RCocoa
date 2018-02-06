@@ -18,19 +18,20 @@
 - (void)testElementAtReturnsValue {
     @autoreleasepool{
         RCEngine* mainEngine = [RCEngine GetInstance];
-        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c('hello', 'world', 'the', 'quick', 'brown', 'fox', 'jumped', 'over', 'the', 'lazy', 'dog'), nrow=6, ncol=2)"];
+        RCSymbolicExpression* rse = [mainEngine Evaluate: @"x <- matrix(c('hello', 'world', 'the', 'quick', 'brown', 'fox', 'jumped', 'over', 'the', 'lazy', 'dog', 'huzzah!'), nrow=6, ncol=2)"];
         RCCharacterMatrix* results = [rse AsCharacterMatrix];
         XCTAssertEqualObjects(@"hello", [results ElementAt:0 column:0]);
-        XCTAssertEqualObjects(@"world", [results ElementAt:0 column:1]);
-        XCTAssertEqualObjects(@"the", [results ElementAt:1 column:0]);
-        XCTAssertEqualObjects(@"quick", [results ElementAt:1 column:1]);
-        XCTAssertEqualObjects(@"brown", [results ElementAt:2 column:0]);
-        XCTAssertEqualObjects(@"fox", [results ElementAt:2 column:1]);
-        XCTAssertEqualObjects(@"jumped", [results ElementAt:3 column:0]);
-        XCTAssertEqualObjects(@"over", [results ElementAt:3 column:1]);
-        XCTAssertEqualObjects(@"the", [results ElementAt:4 column:0]);
-        XCTAssertEqualObjects(@"lazy", [results ElementAt:4 column:1]);
-        XCTAssertEqualObjects(@"dog", [results ElementAt:5 column:0]);
+        XCTAssertEqualObjects(@"world", [results ElementAt:1 column:0]);
+        XCTAssertEqualObjects(@"the", [results ElementAt:2 column:0]);
+        XCTAssertEqualObjects(@"quick", [results ElementAt:3 column:0]);
+        XCTAssertEqualObjects(@"brown", [results ElementAt:4 column:0]);
+        XCTAssertEqualObjects(@"fox", [results ElementAt:5 column:0]);
+        XCTAssertEqualObjects(@"jumped", [results ElementAt:0 column:1]);
+        XCTAssertEqualObjects(@"over", [results ElementAt:1 column:1]);
+        XCTAssertEqualObjects(@"the", [results ElementAt:2 column:1]);
+        XCTAssertEqualObjects(@"lazy", [results ElementAt:3 column:1]);
+        XCTAssertEqualObjects(@"dog", [results ElementAt:4 column:1]);
+      XCTAssertEqualObjects(@"huzzah!", [results ElementAt:5 column:1]);
 
         NSLog(@"%@", [results description]);
       

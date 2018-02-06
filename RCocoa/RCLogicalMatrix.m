@@ -14,7 +14,7 @@
 -(BOOL) ElementAt: (int)row column:(int)column
 {
     [self CheckIndices:row column:column];
-    bool result = LOGICAL(_expression)[(row * [self ColumnCount]) + column];
+    bool result = LOGICAL(_expression)[(column * [self RowCount]) + row];
     return result;
 }
 
