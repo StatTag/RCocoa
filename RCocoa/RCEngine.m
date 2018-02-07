@@ -163,6 +163,12 @@ static BOOL _activated = FALSE;
 
 - (void) initREnvironment
 {
+  
+    if(!getenv("LANG"))
+    {
+      setenv("LANG", "en", 1);
+    }
+  
     if (!getenv("R_HOME")) {
         NSBundle *rfb = [NSBundle bundleWithIdentifier:@"org.r-project.R-framework"];
         if (!rfb) {
