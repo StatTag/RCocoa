@@ -550,7 +550,6 @@ static BOOL _activated = FALSE;
     // Internally, this will take a string expression (which may be multiple commands).  Similar to the R.NET library, we
     // will only return the last evaluated expression, or nil if there are no results.
     NSMutableArray<RCSymbolicExpression*>* parsedExpressions = [self Parse: str];
-    NSLog(@"RCocoa - found %lu parsedEpressions", [parsedExpressions count]);
     if (parsedExpressions == nil) { return nil; }
     RCSymbolicExpression* lastExpression = [parsedExpressions lastObject];
   	[parsedExpressions release];
