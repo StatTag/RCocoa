@@ -484,7 +484,8 @@ static BOOL _activated = FALSE;
                       NSException* exc = [NSException
                                           exceptionWithName:@"ParseException"
                                           reason:[NSString stringWithFormat:@"There was an error interpreting the expression.\n%@", rErrMsg]
-                                          userInfo:nil];
+                                          userInfo: [[NSDictionary alloc] initWithObjectsAndKeys: rErrMsg, @"ErrorDescription", nil]];
+                      
                       @throw exc;
                     } else {
                       // Grab the R_Visible value right now.  Our subsequent calls will reset this from the
@@ -510,7 +511,7 @@ static BOOL _activated = FALSE;
                 NSException* exc = [NSException
                                     exceptionWithName:@"ParseException"
                                     reason:[NSString stringWithFormat:@"There was an error interpreting the expression:\r\n'%@'", incompleteStatement]
-                                    userInfo:nil];
+                                    userInfo:[[NSDictionary alloc] initWithObjectsAndKeys: incompleteStatement, @"ErrorDescription", nil]];
                 @throw exc;
             }
             
@@ -522,7 +523,7 @@ static BOOL _activated = FALSE;
         NSException* exc = [NSException
                             exceptionWithName:@"ParseException"
                             reason:[NSString stringWithFormat:@"The following expression appears to be incomplete:\r\n'%@'", incompleteStatement]
-                            userInfo:nil];
+                            userInfo:[[NSDictionary alloc] initWithObjectsAndKeys: incompleteStatement, @"ErrorDescription", nil]];
         @throw exc;
     }
 
@@ -543,9 +544,10 @@ static BOOL _activated = FALSE;
     // Internally, this will take a string expression (which may be multiple commands).  Similar to the R.NET library, we
     // will only return the last evaluated expression, or nil if there are no results.
     NSMutableArray<RCSymbolicExpression*>* parsedExpressions = [self Parse: str];
+    NSLog(@"RCocoa - found %lu parsedEpressions", [parsedExpressions count]);
     if (parsedExpressions == nil) { return nil; }
     RCSymbolicExpression* lastExpression = [parsedExpressions lastObject];
-	[parsedExpressions release];
+  	[parsedExpressions release];
     return lastExpression;
 }
 
