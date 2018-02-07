@@ -319,6 +319,7 @@
 				TargetAttributes = {
 					350C8C6F1E1E8FEF003DE3F8 = {
 						CreatedOnToolsVersion = 7.2.1;
+						ProvisioningStyle = Automatic;
 					};
 					350C8C791E1E8FF0003DE3F8 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -511,7 +512,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -539,6 +540,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoa;
 				PRODUCT_NAME = RCocoa;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
@@ -552,7 +554,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -581,6 +583,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoa;
 				PRODUCT_NAME = RCocoa;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
