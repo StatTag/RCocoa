@@ -14,8 +14,14 @@
 -(int) ElementAt: (int)row column:(int)column
 {
     [self CheckIndices:row column:column];
-    int result = INTEGER(_expression)[(row * [self RowCount]) + column];
+    int result = INTEGER(_expression)[(column * [self RowCount]) + row];
     return result;
 }
+
+-(NSString*)ElementDescriptionAtRow: (int)row andColumn:(int)column
+{
+  return [NSString stringWithFormat:@"%d", [self ElementAt:row column:column]];
+}
+
 
 @end

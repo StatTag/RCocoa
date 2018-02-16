@@ -163,6 +163,12 @@ static BOOL _activated = FALSE;
 
 - (void) initREnvironment
 {
+  
+    if(!getenv("LANG"))
+    {
+      setenv("LANG", "en", 1);
+    }
+  
     if (!getenv("R_HOME")) {
         NSBundle *rfb = [NSBundle bundleWithIdentifier:@"org.r-project.R-framework"];
         if (!rfb) {
@@ -484,7 +490,8 @@ static BOOL _activated = FALSE;
                       NSException* exc = [NSException
                                           exceptionWithName:@"ParseException"
                                           reason:[NSString stringWithFormat:@"There was an error interpreting the expression.\n%@", rErrMsg]
-                                          userInfo:nil];
+                                          userInfo: [[NSDictionary alloc] initWithObjectsAndKeys: rErrMsg, @"ErrorDescription", nil]];
+                      
                       @throw exc;
                     } else {
                       // Grab the R_Visible value right now.  Our subsequent calls will reset this from the
@@ -510,7 +517,7 @@ static BOOL _activated = FALSE;
                 NSException* exc = [NSException
                                     exceptionWithName:@"ParseException"
                                     reason:[NSString stringWithFormat:@"There was an error interpreting the expression:\r\n'%@'", incompleteStatement]
-                                    userInfo:nil];
+                                    userInfo:[[NSDictionary alloc] initWithObjectsAndKeys: incompleteStatement, @"ErrorDescription", nil]];
                 @throw exc;
             }
             
@@ -522,7 +529,7 @@ static BOOL _activated = FALSE;
         NSException* exc = [NSException
                             exceptionWithName:@"ParseException"
                             reason:[NSString stringWithFormat:@"The following expression appears to be incomplete:\r\n'%@'", incompleteStatement]
-                            userInfo:nil];
+                            userInfo:[[NSDictionary alloc] initWithObjectsAndKeys: incompleteStatement, @"ErrorDescription", nil]];
         @throw exc;
     }
 
@@ -545,7 +552,7 @@ static BOOL _activated = FALSE;
     NSMutableArray<RCSymbolicExpression*>* parsedExpressions = [self Parse: str];
     if (parsedExpressions == nil) { return nil; }
     RCSymbolicExpression* lastExpression = [parsedExpressions lastObject];
-	[parsedExpressions release];
+  	[parsedExpressions release];
     return lastExpression;
 }
 
