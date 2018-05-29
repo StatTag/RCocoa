@@ -11,7 +11,7 @@
 
 @implementation RCVector
 
--(id) initWithEngineAndExpressionAndLength: (RCEngine*)eng expression: (SEXP)sexp length: (int)len
+-(id) initWithEngineAndExpressionAndLength: (RCEngine*)eng expression: (id)sexp length: (int)len
 {
     if (len <= 0) {
         NSException* exc = [NSException
@@ -56,7 +56,7 @@
 
 -(NSArray<NSString*>*) Names
 {
-    SEXP names = Rf_getAttrib(_expression, R_NamesSymbol);
+    id names = Rf_getAttrib(_expression, R_NamesSymbol);
     if (names == nil) {
         return nil;
     }

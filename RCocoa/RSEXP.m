@@ -41,7 +41,7 @@
 
 @implementation RSEXP
 
-- (id) initWithSEXP: (SEXP) ct
+- (id) initWithSEXP: (id) ct
 {
     xp=ct;
     attr=nil;
@@ -149,7 +149,7 @@
 
 - (RSEXP*) attr: (NSString*) name
 {
-	SEXP rx;
+	id rx;
 	if (!xp) return nil;
 	rx=getAttrib(xp, install([name UTF8String]));
 	if (!rx || rx==R_NilValue) return nil;
@@ -158,7 +158,7 @@
 
 - (RSEXP*) listHead
 {
-	SEXP h;
+	id h;
 	if (!xp) return nil;
 	if (TYPEOF(xp)!=LISTSXP) return nil;
 	h = CAR(xp);
@@ -168,7 +168,7 @@
 
 - (RSEXP*) listTail
 {
-	SEXP t;
+	id t;
 	if (!xp) return nil;
 	if (TYPEOF(xp)!=LISTSXP) return nil;
 	t = CDR(xp);
@@ -178,7 +178,7 @@
 
 - (RSEXP*) listTag
 {
-	SEXP t;
+	id t;
 	if (!xp) return nil;
 	if (TYPEOF(xp)!=LISTSXP) return nil;
 	t = TAG(xp);
@@ -186,7 +186,7 @@
 	return [[RSEXP alloc] initWithSEXP: t];
 }
 
-- (SEXP) directSEXP
+- (id) directSEXP
 {
     return xp;
 }

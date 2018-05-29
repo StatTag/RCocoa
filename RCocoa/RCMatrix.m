@@ -11,7 +11,7 @@
 
 @implementation RCMatrix
 
--(id) initWithEngineAndExpressionAndDimensions: (RCEngine*)eng expression: (SEXP)sexp rowCount: (int)rowCount columnCount: (int)columnCount
+-(id) initWithEngineAndExpressionAndDimensions: (RCEngine*)eng expression: (id)sexp rowCount: (int)rowCount columnCount: (int)columnCount
 {
     if (rowCount <= 0) {
         NSException* exc = [NSException

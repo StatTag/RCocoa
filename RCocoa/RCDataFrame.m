@@ -29,7 +29,7 @@
         @throw exc;
     }
     
-    SEXP element = VECTOR_ELT(_expression, index);
+    id element = VECTOR_ELT(_expression, index);
     if (element == nil) {
         return nil;
     }
@@ -39,7 +39,7 @@
 
 -(NSArray<NSString*>*) RowNames
 {
-    SEXP rowNamesAttr = Rf_getAttrib(_expression, R_RowNamesSymbol);
+    id rowNamesAttr = Rf_getAttrib(_expression, R_RowNamesSymbol);
     if (rowNamesAttr == nil) {
         return nil;
     }

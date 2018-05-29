@@ -11,7 +11,7 @@
 
 @implementation RCSymbolicExpression
 
-void CheckForNullExpression(SEXP expression)
+void CheckForNullExpression(id expression)
 {
     if (expression == nil) {
         NSException* exc = [NSException
@@ -32,7 +32,7 @@ void CheckForNullExpression(SEXP expression)
     return asListFunction;
 }
 
--(id) initWithEngineAndExpression: (RCEngine*) engine expression: (SEXP)sexp
+-(id) initWithEngineAndExpression: (RCEngine*) engine expression: (id)sexp
 {
     self = [super init];
     _engine = engine;
@@ -66,7 +66,7 @@ void CheckForNullExpression(SEXP expression)
     return _engine;
 }
 
--(SEXP) GetHandle
+-(id) GetHandle
 {
     return _expression;
 }
@@ -83,9 +83,9 @@ void CheckForNullExpression(SEXP expression)
     NSMutableArray<NSString*>* attrs = [[NSMutableArray<NSString*> alloc] init];
     if (_expression != NULL) {
         int length = (int)Rf_length(ATTRIB(_expression));
-        SEXP pointer = ATTRIB(_expression);
+        id pointer = ATTRIB(_expression);
         for (int index = 0; index < length; index++) {
-            SEXP attrib = PRINTNAME(TAG(pointer));
+            id attrib = PRINTNAME(TAG(pointer));
             const char* name = CHAR(Rf_asChar(attrib));
             [attrs addObject:[NSString stringWithUTF8String:name]];
             pointer = CDR(pointer);
@@ -104,8 +104,8 @@ void CheckForNullExpression(SEXP expression)
         @throw exc;
     }
     
-    SEXP installedName = Rf_install([name UTF8String]);
-    SEXP attribute = Rf_getAttrib(_expression, installedName);
+    id installedName = Rf_install([name UTF8String]);
+    id attribute = Rf_getAttrib(_expression, installedName);
     RCSymbolicExpression* rsx = [[RCSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:attribute];
     return rsx;
 }
@@ -187,7 +187,7 @@ void CheckForNullExpression(SEXP expression)
 {
     if (![self IsVector]) { return nil; }
     NSMutableArray *retVal = [[NSMutableArray alloc] init];
-    SEXP coercedVector = Rf_coerceVector(_expression, INTSXP);
+    id coercedVector = Rf_coerceVector(_expression, INTSXP);
     int length = LENGTH(coercedVector);
     int* results = INTEGER(coercedVector);
     for (int i = 0; i < length; ++i) {
@@ -200,7 +200,7 @@ void CheckForNullExpression(SEXP expression)
 {
     if (![self IsVector]) { return nil; }
     NSMutableArray *retVal = [[NSMutableArray alloc] init];
-    SEXP coercedVector = Rf_coerceVector(_expression, REALSXP);
+    id coercedVector = Rf_coerceVector(_expression, REALSXP);
     int length = LENGTH(coercedVector);
     double* results = REAL(coercedVector);
     for (int i = 0; i < length; ++i) {
@@ -213,7 +213,7 @@ void CheckForNullExpression(SEXP expression)
 {
     if (![self IsVector]) { return nil; }
     NSMutableArray *retVal = [[NSMutableArray alloc] init];
-    SEXP coercedVector = Rf_coerceVector(_expression, LGLSXP);
+    id coercedVector = Rf_coerceVector(_expression, LGLSXP);
     int length = LENGTH(coercedVector);
     int* results = LOGICAL(coercedVector);
     for (int i = 0; i < length; ++i) {
@@ -225,7 +225,7 @@ void CheckForNullExpression(SEXP expression)
 -(NSArray*) AsCharacter
 {
     if (![self IsVector]) { return nil; }
-    SEXP coercedVector = nil;
+    id coercedVector = nil;
     if ([self IsFactor]) {
         coercedVector = Rf_asCharacterFactor(_expression);
     } else {
@@ -313,7 +313,7 @@ void SetMatrixDimensions(RCMatrix* matrix, RCEngine* engine, int rowCount, int c
         columnCount = 1;
     }
     
-    SEXP coercedVector = Rf_coerceVector(_expression, STRSXP);
+    id coercedVector = Rf_coerceVector(_expression, STRSXP);
     RCCharacterMatrix* matrix = [[RCCharacterMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
     SetMatrixDimensions(matrix, _engine, rowCount, columnCount);
     return matrix;
@@ -341,7 +341,7 @@ void SetMatrixDimensions(RCMatrix* matrix, RCEngine* engine, int rowCount, int c
         columnCount = 1;
     }
     
-    SEXP coercedVector = Rf_coerceVector(_expression, LGLSXP);
+    id coercedVector = Rf_coerceVector(_expression, LGLSXP);
     RCLogicalMatrix* matrix = [[RCLogicalMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
     SetMatrixDimensions(matrix, _engine, rowCount, columnCount);
     return matrix;
@@ -369,7 +369,7 @@ void SetMatrixDimensions(RCMatrix* matrix, RCEngine* engine, int rowCount, int c
         columnCount = 1;
     }
     
-    SEXP coercedVector = Rf_coerceVector(_expression, INTSXP);
+    id coercedVector = Rf_coerceVector(_expression, INTSXP);
     RCIntegerMatrix* matrix = [[RCIntegerMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
     SetMatrixDimensions(matrix, _engine, rowCount, columnCount);
     return matrix;
@@ -397,7 +397,7 @@ void SetMatrixDimensions(RCMatrix* matrix, RCEngine* engine, int rowCount, int c
         columnCount = 1;
     }
     
-    SEXP coercedVector = Rf_coerceVector(_expression, REALSXP);
+    id coercedVector = Rf_coerceVector(_expression, REALSXP);
     RCRealMatrix* matrix = [[RCRealMatrix alloc] initWithEngineAndExpression:_engine expression:coercedVector];
     SetMatrixDimensions(matrix, _engine, rowCount, columnCount);
     return matrix;

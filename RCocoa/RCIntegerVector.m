@@ -11,7 +11,7 @@
 
 @implementation RCIntegerVector
 
--(id) initWithEngineAndExpressionAndLength: (RCEngine*)eng expression: (SEXP)sexp length: (int)len
+-(id) initWithEngineAndExpressionAndLength: (RCEngine*)eng expression: (id)sexp length: (int)len
 {
     self = [super initWithEngineAndExpressionAndLength:eng expression:sexp length:len];
     _expression = PROTECT(Rf_allocVector(INTSXP, len));

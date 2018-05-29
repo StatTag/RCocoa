@@ -238,9 +238,10 @@
         NSArray<NSString*>* attrs = [rse GetAttributeNames];
         XCTAssertNotNil(attrs);
         XCTAssertEqual(3, [attrs count]);
-        XCTAssertEqualObjects(@"names", attrs[0]);
-        XCTAssertEqualObjects(@"row.names", attrs[1]);
-        XCTAssertEqualObjects(@"class", attrs[2]);
+        // The attributes can be in any order, so just check for their existance (not index)
+        XCTAssertTrue([attrs containsObject:@"names"]);
+        XCTAssertTrue([attrs containsObject:@"row.names"]);
+        XCTAssertTrue([attrs containsObject:@"class"]);
         [attrs release];
         [rse release];
     }
