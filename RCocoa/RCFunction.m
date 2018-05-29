@@ -74,9 +74,9 @@
 //
 
 
--(SEXP) _evaluateCall:(SEXP)call
+-(id) _evaluateCall:(id)call
 {
-    SEXP result = NULL;
+    id result = NULL;
     int errorOccurred = 0;
     @try {
         result = R_tryEval(call, R_GlobalEnv, &errorOccurred);
@@ -119,7 +119,7 @@
 
 -(RCSymbolicExpression*) InvokeOrderedArguments:(NSArray<RCSymbolicExpression*>*) args
 {
-    SEXP argument = R_NilValue;
+    id argument = R_NilValue;
     if (args != nil && [args count] > 0) {
         for (int index = ([args count] - 1); index >= 0; index--) {
             argument = Rf_cons([args[index] GetHandle], argument);
@@ -129,10 +129,10 @@
     return [self _createCallAndEvaluate:argument];
 }
 
--(RCSymbolicExpression*) _createCallAndEvaluate:(SEXP)argument
+-(RCSymbolicExpression*) _createCallAndEvaluate:(id)argument
 {
-    SEXP call = Rf_lcons(_expression, argument);
-    SEXP result = [self _evaluateCall:call];
+    id call = Rf_lcons(_expression, argument);
+    id result = [self _evaluateCall:call];
     return [[RCSymbolicExpression alloc] initWithEngineAndExpression:_engine expression:result];
 }
 

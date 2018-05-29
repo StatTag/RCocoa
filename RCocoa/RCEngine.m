@@ -472,10 +472,10 @@ static BOOL _activated = FALSE;
         NSArray<NSString*>* processedLineResults = [self ProcessLine:preProcessedLines[index]];
         for (int processedIndex = 0; processedIndex < [processedLineResults count]; processedIndex++) {
             [incompleteStatement appendString:processedLineResults[processedIndex]];
-            SEXP cmdSexp = PROTECT(allocVector(STRSXP, 1));
-            SEXP statementExp = (mkChar([incompleteStatement UTF8String]));
+            id cmdSexp = PROTECT(allocVector(STRSXP, 1));
+            id statementExp = (mkChar([incompleteStatement UTF8String]));
             SET_STRING_ELT(cmdSexp, 0, statementExp);
-            SEXP cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue));
+            id cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &parseStatus, R_NilValue));
             if (parseStatus == PARSE_OK) {
                 [incompleteStatement release];
                 incompleteStatement = [[NSMutableString alloc] init];
@@ -484,7 +484,7 @@ static BOOL _activated = FALSE;
                 int exprLen = Rf_length(cmdexpr);
                 for (R_len_t i = 0; i < exprLen; i++) {
                     int err = 0;
-                    SEXP cmdElement = R_tryEval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv, &err);
+                    id cmdElement = R_tryEval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv, &err);
                     if(err) {
                       NSString* rErrMsg = [NSString stringWithUTF8String: R_curErrorBuf()];
                       NSException* exc = [NSException
@@ -498,7 +498,7 @@ static BOOL _activated = FALSE;
                       // value we should keep after Rf_eval
                       BOOL isResultVisible = R_Visible;
 
-                      SEXP cmdEvalElement = Rf_eval(cmdElement, R_GlobalEnv);
+                      id cmdEvalElement = Rf_eval(cmdElement, R_GlobalEnv);
                       if (cmdEvalElement == nil) { continue; }
                       if (self->autoPrint && isResultVisible == TRUE) {
                         Rf_PrintValue(cmdEvalElement);
