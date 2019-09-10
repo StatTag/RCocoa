@@ -470,8 +470,17 @@ static BOOL _activated = FALSE;
     ParseStatus parseStatus = PARSE_NULL;
     for (int index = 0; index < [preProcessedLines count]; index++) {
         NSArray<NSString*>* processedLineResults = [self ProcessLine:preProcessedLines[index]];
-        for (int processedIndex = 0; processedIndex < [processedLineResults count]; processedIndex++) {
+        long segmentCount = [processedLineResults count];
+        for (long processedIndex = 0; processedIndex < segmentCount; processedIndex++) {
             [incompleteStatement appendString:processedLineResults[processedIndex]];
+            if (processedIndex == segmentCount - 1) {
+              if (![processedLineResults[processedIndex] isEqualToString:@""]) {
+                [incompleteStatement appendString:@"\n"];
+              }
+            }
+            else {
+              [incompleteStatement appendString:@";"];
+            }
             id cmdSexp = PROTECT(allocVector(STRSXP, 1));
             id statementExp = (mkChar([incompleteStatement UTF8String]));
             SET_STRING_ELT(cmdSexp, 0, statementExp);
@@ -516,7 +525,7 @@ static BOOL _activated = FALSE;
                 UNPROTECT(2);
                 NSException* exc = [NSException
                                     exceptionWithName:@"ParseException"
-                                    reason:[NSString stringWithFormat:@"There was an error interpreting the expression:\r\n'%@'", incompleteStatement]
+                                    reason:[NSString stringWithFormat:@"There was an error interpreting the expression:\r\n'%@'", [incompleteStatement stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]
                                     userInfo:[[NSDictionary alloc] initWithObjectsAndKeys: incompleteStatement, @"ErrorDescription", nil]];
                 @throw exc;
             }
@@ -528,7 +537,7 @@ static BOOL _activated = FALSE;
     if (parseStatus == PARSE_INCOMPLETE) {
         NSException* exc = [NSException
                             exceptionWithName:@"ParseException"
-                            reason:[NSString stringWithFormat:@"The following expression appears to be incomplete:\r\n'%@'", incompleteStatement]
+                            reason:[NSString stringWithFormat:@"The following expression appears to be incomplete:\r\n'%@'", [incompleteStatement stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]
                             userInfo:[[NSDictionary alloc] initWithObjectsAndKeys: incompleteStatement, @"ErrorDescription", nil]];
         @throw exc;
     }
