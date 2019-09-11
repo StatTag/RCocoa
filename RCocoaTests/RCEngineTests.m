@@ -186,6 +186,18 @@
     }
 }
 
+- (void)testParse_ReferenceUserFunction
+{
+  @autoreleasepool {
+    NSString* statement = @"f <- function(i){\n  r <- substr(i,1,5)\n  r\n}\nlapply(\"debugdebug\",f)";
+    RCEngine* mainEngine = [RCEngine GetInstance];
+    NSMutableArray<RCSymbolicExpression*>* results = [mainEngine Parse:statement];
+    XCTAssertEqual(2, [results count]);
+    XCTAssertEqual(CLOSXP, [[results objectAtIndex:0] Type]);
+    XCTAssertEqual(VECSXP, [[results objectAtIndex:1] Type]);
+  }
+}
+
 //This command is known to crash R if sent into the parser
 - (void)testParse_InvalidWithKnownCrashable
 {
