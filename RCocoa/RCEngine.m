@@ -495,7 +495,12 @@ static BOOL _activated = FALSE;
                     int err = 0;
                     id cmdElement = R_tryEval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv, &err);
                     if(err) {
+                      // Sometimes the error buffer comes back empty.  If that happens, we still want to show something to the user,
+                      // so our backup is to display the input command.
                       NSString* rErrMsg = [NSString stringWithUTF8String: R_curErrorBuf()];
+                      if (rErrMsg == nil) {
+                        rErrMsg = processedLineResults[processedIndex];
+                      }
                       NSException* exc = [NSException
                                           exceptionWithName:@"ParseException"
                                           reason:[NSString stringWithFormat:@"There was an error interpreting the expression.\n%@", rErrMsg]
@@ -523,6 +528,7 @@ static BOOL _activated = FALSE;
             }
             else {
                 UNPROTECT(2);
+
                 NSException* exc = [NSException
                                     exceptionWithName:@"ParseException"
                                     reason:[NSString stringWithFormat:@"There was an error interpreting the expression:\r\n'%@'", [incompleteStatement stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]
