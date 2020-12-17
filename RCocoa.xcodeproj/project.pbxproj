@@ -19,7 +19,6 @@
 		350155421EF9AD6400AE80F7 /* RCBuiltinFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 3501553D1EF8628400AE80F7 /* RCBuiltinFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350155431EF9AD6900AE80F7 /* RCClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = 350155381EF8626400AE80F7 /* RCClosure.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350155441EF9AD6C00AE80F7 /* RCFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 350155351EF85E9300AE80F7 /* RCFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		350C8C741E1E8FEF003DE3F8 /* RCocoa.h in Headers */ = {isa = PBXBuildFile; fileRef = 350C8C731E1E8FEF003DE3F8 /* RCocoa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		350C8C7B1E1E8FF0003DE3F8 /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C701E1E8FEF003DE3F8 /* RCocoa.framework */; };
 		350C8C801E1E8FF0003DE3F8 /* RCEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C8C7F1E1E8FF0003DE3F8 /* RCEngineTests.m */; };
 		350C8C8B1E1E903B003DE3F8 /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 350C8C8A1E1E903B003DE3F8 /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -58,6 +57,7 @@
 		35D14D2A1ECB660600B77A3E /* RCIntegerMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D291ECB660600B77A3E /* RCIntegerMatrix.m */; };
 		35D14D2C1ECB667300B77A3E /* RIntegerMatrixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D14D2B1ECB667300B77A3E /* RIntegerMatrixTests.m */; };
 		381CC7661F0AD71600CC220E /* RCTestAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 381CC7651F0AD71600CC220E /* RCTestAsync.m */; };
+		38AB26D7258AC1A6007D30A2 /* RCocoa.h in Headers */ = {isa = PBXBuildFile; fileRef = 350C8C731E1E8FEF003DE3F8 /* RCocoa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,12 +251,12 @@
 				3500D24A1EBCD34F00BCB198 /* RCIntegerVector.h in Headers */,
 				353870511ECD45D000B253F2 /* RCDataFrame.h in Headers */,
 				3500D24C1EBCD35C00BCB198 /* RCVector.h in Headers */,
+				38AB26D7258AC1A6007D30A2 /* RCocoa.h in Headers */,
 				35594B201EBCE0F200DD15C8 /* RCSymbolicExpression.h in Headers */,
 				353870521ECD45D600B253F2 /* RCIntegerMatrix.h in Headers */,
 				35A231571EA00DC7008AA1EF /* RSEXP.h in Headers */,
 				352BEE691ECB6A9000D1166B /* RCRealMatrix.h in Headers */,
 				353870501ECD45C900B253F2 /* RCLogicalMatrix.h in Headers */,
-				350C8C741E1E8FEF003DE3F8 /* RCocoa.h in Headers */,
 				350155441EF9AD6C00AE80F7 /* RCFunction.h in Headers */,
 				350155411EF9AD6000AE80F7 /* RCSpecialFunction.h in Headers */,
 				350155421EF9AD6400AE80F7 /* RCBuiltinFunction.h in Headers */,
@@ -279,6 +279,7 @@
 				350C8C6C1E1E8FEF003DE3F8 /* Frameworks */,
 				350C8C6D1E1E8FEF003DE3F8 /* Headers */,
 				350C8C6E1E1E8FEF003DE3F8 /* Resources */,
+				38EAE38E258BB86700729904 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -314,12 +315,12 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = RC;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "Northwestern University";
 				TargetAttributes = {
 					350C8C6F1E1E8FEF003DE3F8 = {
 						CreatedOnToolsVersion = 7.2.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					350C8C791E1E8FF0003DE3F8 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -331,6 +332,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 350C8C661E1E8FEF003DE3F8;
@@ -360,6 +362,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		38EAE38E258BB86700729904 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nBuildRVersion=$(otool -L \"$TARGET_BUILD_DIR/RCocoa.Framework/$TARGET_NAME\" | grep -Eo \"R.framework\\/Versions\\/(.*)\\/Resources\" | grep -Eo '[+-]?[0-9]+([.][0-9]+)?')\n#echo $BuildRVersion\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/RCocoa.Framework/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/RCocoa.Framework/Versions/A/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/RCocoa.Framework/Versions/Current/$TARGET_NAME\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		350C8C6B1E1E8FEF003DE3F8 /* Sources */ = {
@@ -421,7 +443,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -458,7 +479,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -468,7 +490,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -498,7 +519,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -507,12 +529,12 @@
 		350C8C851E1E8FF0003DE3F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -541,7 +563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoa;
 				PRODUCT_NAME = RCocoa;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -549,12 +571,12 @@
 		350C8C861E1E8FF0003DE3F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -576,6 +598,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-F/Library/Frameworks",
 					"-framework",
@@ -584,7 +607,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoa;
 				PRODUCT_NAME = RCocoa;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -592,7 +615,6 @@
 		350C8C881E1E8FF0003DE3F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;
@@ -619,14 +641,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoaTests;
 				PRODUCT_NAME = RCocoa;
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		350C8C891E1E8FF0003DE3F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = NO;
@@ -654,7 +675,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = StatTag.RCocoaTests;
 				PRODUCT_NAME = RCocoa;
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
