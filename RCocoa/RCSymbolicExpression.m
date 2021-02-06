@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RCocoa.h"
+#include <R/Rinternals.h>
 
 @implementation RCSymbolicExpression
 

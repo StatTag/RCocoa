@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RCVector.h"
+#include <R/Rinternals.h>
 
 @implementation RCVector
 

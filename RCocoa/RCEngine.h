@@ -58,7 +58,7 @@ extern "C" {
 #endif /* R_EXT_BOOLEAN_H_ */
 
 
-#import <R/R.h>
+//#import <R/R.h>
 
 #import "RSEXP.h"
 #import "RCSymbolicExpression.h"

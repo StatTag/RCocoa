@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RCIntegerVector.h"
+#include <R/Rinternals.h>
 
 @implementation RCIntegerVector
 

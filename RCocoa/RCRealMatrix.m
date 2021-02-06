@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #include "RCRealMatrix.h"
+#include <R/Rinternals.h>
 
 @implementation RCRealMatrix
 

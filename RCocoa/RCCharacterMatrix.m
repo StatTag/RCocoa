@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #include "RCCharacterMatrix.h"
+#include <R/Rinternals.h>
 
 @implementation RCCharacterMatrix
 

@@ -9,7 +9,7 @@
 #ifndef RCSymbolicExpression_h
 #define RCSymbolicExpression_h
 
-#include <Rinternals.h>
+//#include <R/Rinternals.h>
 
 /*
  Note on memory management

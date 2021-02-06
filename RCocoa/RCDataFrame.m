@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RCDataFrame.h"
+#include <R/Rinternals.h>
 
 @implementation RCDataFrame
 

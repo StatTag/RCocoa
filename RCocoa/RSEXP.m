@@ -38,6 +38,8 @@
 */
 
 #import "RSEXP.h"
+#include <R/Rinternals.h>
+#include <R/Rversion.h>
 
 @implementation RSEXP
 

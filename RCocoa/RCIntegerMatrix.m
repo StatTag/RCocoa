@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #include "RCIntegerMatrix.h"
+#include <R/Rinternals.h>
 
 @implementation RCIntegerMatrix
 

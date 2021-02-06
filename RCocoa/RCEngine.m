@@ -31,6 +31,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <R/R.h>
 
 //R#include "Rinit.h"
 //#include <R.h>

@@ -39,8 +39,8 @@
 #undef TRUE
 #undef FALSE
 #undef TRUE
-#include <Rinternals.h>
-#include <Rversion.h>
+//#include <Rinternals.h>
+//#include <Rversion.h>
 
 @interface RSEXP : NSObject {
     id xp;

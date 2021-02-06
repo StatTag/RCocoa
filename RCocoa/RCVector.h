@@ -6,10 +6,15 @@
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
+#ifndef R_xlen_t
+typedef ptrdiff_t R_xlen_t;
+#endif
+
 #ifndef RCVector_h
 #define RCVector_h
 
 #import "RCSymbolicExpression.h"
+//#include <R/Rinternals.h>
 
 @class RCEngine;
 
