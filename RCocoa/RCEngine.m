@@ -85,7 +85,7 @@ BOOL preventReentrance = NO;
 static RCEngine* _mainRengine = nil;
 static BOOL _activated = FALSE;
 
-static BOOL _RIsInsalled = FALSE;
+static BOOL _RIsInstalled = FALSE;
 static NSString* _RHome;
 
 + (RCEngine*) GetInstance
@@ -165,7 +165,7 @@ static NSString* _RHome;
 {
   self->autoPrint = true;
   [self initREnvironment];
-  if(_RIsInsalled){
+  if(_RIsInstalled){
     char *args[4]={ "r_cocoa", "--no-save", "--quiet", 0 };
     return [self initWithArgs: args];
   } else {
@@ -188,23 +188,23 @@ static NSString* _RHome;
             if ([fm fileExistsAtPath:@"/Library/Frameworks/R.framework/Resources/bin/R"]) {
                 NSLog(@" * I'm being desperate and I found R at /Library/Frameworks/R.framework - so I'll use it, wish me luck");
                 setenv("R_HOME", "/Library/Frameworks/R.framework/Resources", 1);
-               _RIsInsalled = YES;
+               _RIsInstalled = YES;
             } else {
               NSLog(@" * I didn't even find R framework in the default location, I'm giving up - you're on your own");
-              _RIsInsalled = NO;
+              _RIsInstalled = NO;
               return;
             }
             [fm release];
         } else {
             NSLog(@"   %s", [[rfb resourcePath] UTF8String]);
             setenv("R_HOME", [[rfb resourcePath] UTF8String], 1);
-           _RIsInsalled = YES;
+           _RIsInstalled = YES;
         }
     }
     NSString* home = @"";
     if (getenv("R_HOME")) {
       home = [[NSString alloc] initWithUTF8String:getenv("R_HOME")];
-      _RIsInsalled = YES;
+      _RIsInstalled = YES;
     }
     else
         home = [[NSString alloc] initWithString:@""];
