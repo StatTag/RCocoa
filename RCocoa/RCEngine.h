@@ -111,6 +111,7 @@ extern BOOL preventReentrance;
 + (void) shutdown;
 + (RCEngine*) GetInstance;
 + (RCEngine*) GetInstance:(RCICharacterDevice*) device;
++ (NSString*) RHome;
 
 - (id) init;
 - (id) initWithArgs: (char**) args;

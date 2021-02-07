@@ -85,6 +85,9 @@ BOOL preventReentrance = NO;
 static RCEngine* _mainRengine = nil;
 static BOOL _activated = FALSE;
 
+static BOOL _RIsInsalled = FALSE;
+static NSString* _RHome;
+
 + (RCEngine*) GetInstance
 {
     return [RCEngine GetInstance:nil];
@@ -154,13 +157,20 @@ static BOOL _activated = FALSE;
   */
 }
 
++ (NSString*)RHome {
+  return _RHome;
+}
 
 - (id) init
 {
   self->autoPrint = true;
   [self initREnvironment];
-  char *args[4]={ "r_cocoa", "--no-save", "--quiet", 0 };
-  return [self initWithArgs: args];
+  if(_RIsInsalled){
+    char *args[4]={ "r_cocoa", "--no-save", "--quiet", 0 };
+    return [self initWithArgs: args];
+  } else {
+    return nil;
+  }
 }
 
 - (void) initREnvironment
@@ -178,18 +188,24 @@ static BOOL _activated = FALSE;
             if ([fm fileExistsAtPath:@"/Library/Frameworks/R.framework/Resources/bin/R"]) {
                 NSLog(@" * I'm being desperate and I found R at /Library/Frameworks/R.framework - so I'll use it, wish me luck");
                 setenv("R_HOME", "/Library/Frameworks/R.framework/Resources", 1);
+               _RIsInsalled = YES;
             } else {
-                NSLog(@" * I didn't even find R framework in the default location, I'm giving up - you're on your own");
+              NSLog(@" * I didn't even find R framework in the default location, I'm giving up - you're on your own");
+              _RIsInsalled = NO;
+              return;
             }
             [fm release];
         } else {
             NSLog(@"   %s", [[rfb resourcePath] UTF8String]);
             setenv("R_HOME", [[rfb resourcePath] UTF8String], 1);
+           _RIsInsalled = YES;
         }
     }
     NSString* home = @"";
-    if (getenv("R_HOME"))
-        home = [[NSString alloc] initWithUTF8String:getenv("R_HOME")];
+    if (getenv("R_HOME")) {
+      home = [[NSString alloc] initWithUTF8String:getenv("R_HOME")];
+      _RIsInsalled = YES;
+    }
     else
         home = [[NSString alloc] initWithString:@""];
     
@@ -208,6 +224,8 @@ static BOOL _activated = FALSE;
         }
     }
     
+  _RHome = home;
+  
 #if defined __i386__
 #define arch_lib_nss @"/lib/i386"
 #define arch_str "/i386"
