@@ -157,10 +157,6 @@ static NSString* _RHome;
   */
 }
 
-+ (NSString*)RHome {
-  return _RHome;
-}
-
 - (id) init
 {
   self->autoPrint = true;
@@ -600,6 +596,26 @@ static NSString* _RHome;
 - (RCSymbolicExpression*) NaString
 {
     return [[RCSymbolicExpression alloc] initWithEngineAndExpression:self expression:R_NaString];
+}
+
+
+- (NSString*)RHome {
+  return _RHome;
+}
+
+-(NSString*)ActiveRVersion {
+  NSString* RVersion = @"";
+  @autoreleasepool {
+    RCEngine* Engine = [RCEngine GetInstance];
+    if(Engine != nil){
+      NSString* command = @"strsplit(version[['version.string']], ' ')[[1]][3]";
+        RCSymbolicExpression* result = [Engine Evaluate:command];
+      if([result IsVector]){
+        RVersion = [[result AsCharacter] firstObject];
+      }
+    }
+  }
+  return RVersion;
 }
 
 @end

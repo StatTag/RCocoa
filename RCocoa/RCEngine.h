@@ -111,7 +111,6 @@ extern BOOL preventReentrance;
 + (void) shutdown;
 + (RCEngine*) GetInstance;
 + (RCEngine*) GetInstance:(RCICharacterDevice*) device;
-+ (NSString*) RHome;
 
 - (id) init;
 - (id) initWithArgs: (char**) args;
@@ -147,6 +146,9 @@ extern BOOL preventReentrance;
 // RDotNet functions
 - (RCSymbolicExpression*) NilValue;
 - (RCSymbolicExpression*) NaString;
+
+-(NSString*) RHome;
+-(NSString*)ActiveRVersion;
 
 @end
 
