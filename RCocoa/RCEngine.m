@@ -88,6 +88,10 @@ static BOOL _activated = FALSE;
 static BOOL _RIsInstalled = FALSE;
 static NSString* _RHome;
 
+static dispatch_once_t onceTokenStart = 0;
+static dispatch_once_t onceTokenShutdown = 0;
+
+
 + (RCEngine*) GetInstance
 {
     return [RCEngine GetInstance:nil];
@@ -95,12 +99,13 @@ static NSString* _RHome;
 
 + (RCEngine*) GetInstance:(RCICharacterDevice*) device
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceTokenStart, ^{
+      //NSLog(@"running getinstance once");
         _mainRengine = [[RCEngine alloc] init];
         [_mainRengine disableRSignalHandlers:TRUE];
         if (![_mainRengine activate:device]) {
-            [RCEngine shutdown];
+          NSLog(@"Shutting down due to invalid device activation");
+          [RCEngine shutdown];
         }
     });
 
@@ -137,24 +142,37 @@ static NSString* _RHome;
 
 + (void) shutdown
 {
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-      if (_mainRengine != nil) {
-        [_mainRengine release];
-        _mainRengine = nil;
-        R_RunExitFinalizers();
-      }
-  });
 
-  /*
-  @synchronized(self) {
-    if (_mainRengine != nil) {
-      [_mainRengine release];
-      _mainRengine = nil;
-      R_RunExitFinalizers();
-    }
+  NSLog(@"running shutdown once");
+  if (_mainRengine != nil) {
+    NSLog(@"R_RunExitFinalizers");
+    R_RunExitFinalizers();
+    NSLog(@"R_CleanTempDir");
+    R_CleanTempDir();
+    
+    RCSymbolicExpression* result;
+    NSLog(@"running quit command");
+    result = [_mainRengine Evaluate:@"q(\"no\")"];
+    
+    //Rf_KillAllDevices();
+    //R_gc();
+    //Rf_endEmbeddedR(1);
+    Rf_endEmbeddedR(0); //if we do this we cannot start a new session, apparently
+    //rs_restartR();
+    //suspend_and_restart
+    
+    NSLog(@"releasing engine");
+    [_mainRengine release];
+    NSLog(@"setting engine to nil");
+    _mainRengine = nil;
+    NSLog(@"setting activated to NO");
+    _activated = NO;
   }
-  */
+
+  NSLog(@"setting onceTokenStart to 0");
+  onceTokenStart = 0;
+  NSLog(@"setting onceTokenShutdown to 0");
+  onceTokenShutdown = 0;
 }
 
 - (id) init
@@ -349,6 +367,10 @@ static NSString* _RHome;
 
 - (void) disableRSignalHandlers: (BOOL) disable
 {
+  if(!R_SignalHandlers){
+    NSLog(@"R_SignalHandlers invalid");
+    return;
+  }
     R_SignalHandlers = (disable?0:1);
 }
 
