@@ -152,7 +152,9 @@ extern BOOL preventReentrance;
 - (RCSymbolicExpression*) NaString;
 
 -(NSString*) RHome;
--(NSString*)ActiveRVersion;
+-(NSString*)ActiveRVersionPath;
+-(NSString*)ActiveRVersionNumber;
+
 
 +(BOOL)RIsInstalled;
 +(BOOL)RInstallationIsValidForPath:(NSString*)filePath;

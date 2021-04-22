@@ -93,8 +93,8 @@ static dispatch_once_t onceTokenShutdown = 0;
 static NSString* DefaultRLibraryDirectory = @"/Library/Frameworks/R.framework/Versions/";
 static NSString* RCurrentVersionDirectoryKey = @"Current";
 static NSString* RDylibPath = @"Resources/lib/libR.dylib";
-static NSString* CurrentRVersionPath;
-static NSString* CurrentRVersionNumber;
+static NSString* _ActiveRVersionPath;
+static NSString* _ActiveRVersionNumber;
 
 
 + (RCEngine*) GetInstance
@@ -272,10 +272,10 @@ static NSString* CurrentRVersionNumber;
 #warning "Unknown architecture, R_ARCH won't be set automatically."
 #endif
 
-//  if(_RIsInstalled){
-//    CurrentRVersionPath = [self GetCurrentRVersionPath];
-//    CurrentRVersionNumber = [self GetCurrentRVersionNumber];
-//  }
+  if(_RIsInstalled){
+    _ActiveRVersionPath = [RCEngine GetCurrentRVersionPath];
+    _ActiveRVersionNumber = [RCEngine GetCurrentRVersionNumber];
+  }
   
 }
 
@@ -634,6 +634,15 @@ static NSString* CurrentRVersionNumber;
 - (NSString*)RHome {
   return _RHome;
 }
+
+-(NSString*)ActiveRVersionPath {
+  return _ActiveRVersionPath;
+}
+
+-(NSString*)ActiveRVersionNumber {
+  return _ActiveRVersionNumber;
+}
+
 
 //MARK: R version information
 
