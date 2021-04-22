@@ -6,7 +6,6 @@
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "RCDataFrame.h"
 #include <R/Rinternals.h>
 

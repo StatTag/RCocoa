@@ -30,12 +30,13 @@
  *
  */
 
+#import <Foundation/Foundation.h>
+
 #ifndef RCEngine_h
 #define RCEngine_h
 
-#import <Cocoa/Cocoa.h>
+//#import <Cocoa/Cocoa.h>
 
-#import <Foundation/Foundation.h>
 
 /* 
  * When we use the RCocoa framework in other applications, we end up with a compilation conflict
@@ -105,6 +106,9 @@ extern BOOL preventReentrance;
 	NSString *saveAction;
 
     RCCharacterDeviceAdapter* adapter;
+  
+  
+  
 }
 
 //+ (RCEngine*) mainEngine;
@@ -149,6 +153,13 @@ extern BOOL preventReentrance;
 
 -(NSString*) RHome;
 -(NSString*)ActiveRVersion;
+
++(BOOL)RIsInstalled;
++(BOOL)RInstallationIsValidForPath:(NSString*)filePath;
++(NSString*)GetCurrentRVersionPath;
++(NSString*)GetCurrentRVersionNumber;
+-(NSDictionary<NSString*, NSString*>*)GetRVersions;
+
 
 
 @end

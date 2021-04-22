@@ -6,6 +6,8 @@
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 #ifndef RCCharacterMatrix_h
 #define RCCharacterMatrix_h
 

@@ -6,6 +6,7 @@
 //  Copyright © 2017 Luke Rasmussen. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #include "RCEngine.h"
 #include "RCSymbolicExpression.h"
 #include "RCVector.h"

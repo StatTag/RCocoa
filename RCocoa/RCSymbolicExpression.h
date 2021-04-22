@@ -107,6 +107,42 @@
 //(NSArray*) AsComplexMatrix;
 //(NSArray*) AsRawMatrix;
 
+//FIXME: this is NOT ideal, but we want to mask RInternals, so we're redefining the enums/typedefs
+//taken from RInternals.h so we can share without having to import the RInternals.h in the host framework/applicaiton
+//prefix is required because of the variable conflict
+typedef NS_ENUM(NSUInteger, RC_SEXPTYPE) {
+  RC_NILSXP  = 0,  /* nil = NULL */
+  RC_SYMSXP  = 1,  /* symbols */
+  RC_LISTSXP  = 2,  /* lists of dotted pairs */
+  RC_CLOSXP  = 3,  /* closures */
+  RC_ENVSXP  = 4,  /* environments */
+  RC_PROMSXP  = 5,  /* promises: [un]evaluated closure arguments */
+  RC_LANGSXP  = 6,  /* language constructs (special lists) */
+  RC_SPECIALSXP  = 7,  /* special forms */
+  RC_BUILTINSXP  = 8,  /* builtin non-special forms */
+  RC_CHARSXP  = 9,  /* "scalar" string type (internal only)*/
+  RC_LGLSXP  = 10,  /* logical vectors */
+  RC_INTSXP  = 13,  /* integer vectors */
+  RC_REALSXP  = 14,  /* real variables */
+  RC_CPLXSXP  = 15,  /* complex variables */
+  RC_STRSXP  = 16,  /* string vectors */
+  RC_DOTSXP  = 17,  /* dot-dot-dot object */
+  RC_ANYSXP  = 18,  /* make "any" args work */
+  RC_VECSXP  = 19,  /* generic vectors */
+  RC_EXPRSXP  = 20,  /* expressions vectors */
+  RC_BCODESXP  = 21,  /* byte code */
+  RC_EXTPTRSXP  = 22,  /* external pointer */
+  RC_WEAKREFSXP  = 23,  /* weak reference */
+  RC_RAWSXP  = 24,  /* raw bytes */
+  RC_S4SXP  = 25,  /* S4 non-vector */
+
+  RC_NEWSXP      = 30,   /* fresh node creaed in new page */
+  RC_FREESXP     = 31,   /* node released by GC */
+
+  RC_FUNSXP  = 99,  /* Closure or Builtin */
+};
+
+
 @end
 
 #endif /* RCSymbolicExpression_h */

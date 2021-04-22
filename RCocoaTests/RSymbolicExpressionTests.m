@@ -34,7 +34,7 @@
         RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: nil expression: nil];
         XCTAssertNotNil(rse);
         XCTAssertNil([rse Engine]);
-        XCTAssertEqual(NILSXP, [rse Type]);
+        XCTAssertEqual(RC_NILSXP, [rse Type]);
         [rse release];
     }
 }
@@ -45,7 +45,7 @@
         RCSymbolicExpression* rse = [ [RCSymbolicExpression alloc] initWithEngineAndExpression: mainEngine expression: nil];
         XCTAssertNotNil(rse);
         XCTAssertNotNil([rse Engine]);
-        XCTAssertEqual(NILSXP, [rse Type]);
+        XCTAssertEqual(RC_NILSXP, [rse Type]);
         [rse release];
     }
 }
@@ -95,7 +95,7 @@
         RCEngine* mainEngine = [RCEngine GetInstance];
         RCSymbolicExpression* rse = [mainEngine Evaluate: @"png(\"test.png\")"];
         XCTAssertNotNil(rse);
-        XCTAssertEqual(NILSXP, [rse Type]);
+        XCTAssertEqual(RC_NILSXP, [rse Type]);
         rse = [mainEngine Evaluate: @"dev.off()"];
         [rse release];
     }

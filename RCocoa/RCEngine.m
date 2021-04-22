@@ -30,7 +30,6 @@
  *
  */
 
-#import <Cocoa/Cocoa.h>
 #import <R/R.h>
 
 //R#include "Rinit.h"
@@ -90,6 +89,12 @@ static NSString* _RHome;
 
 static dispatch_once_t onceTokenStart = 0;
 static dispatch_once_t onceTokenShutdown = 0;
+
+static NSString* DefaultRLibraryDirectory = @"/Library/Frameworks/R.framework/Versions/";
+static NSString* RCurrentVersionDirectoryKey = @"Current";
+static NSString* RDylibPath = @"Resources/lib/libR.dylib";
+static NSString* CurrentRVersionPath;
+static NSString* CurrentRVersionNumber;
 
 
 + (RCEngine*) GetInstance
@@ -267,6 +272,11 @@ static dispatch_once_t onceTokenShutdown = 0;
 #warning "Unknown architecture, R_ARCH won't be set automatically."
 #endif
 
+//  if(_RIsInstalled){
+//    CurrentRVersionPath = [self GetCurrentRVersionPath];
+//    CurrentRVersionNumber = [self GetCurrentRVersionNumber];
+//  }
+  
 }
 
 - (id) initWithArgs: (char**) args
@@ -625,6 +635,8 @@ static dispatch_once_t onceTokenShutdown = 0;
   return _RHome;
 }
 
+//MARK: R version information
+
 -(NSString*)ActiveRVersion {
   NSString* RVersion = @"";
   @autoreleasepool {
@@ -639,5 +651,52 @@ static dispatch_once_t onceTokenShutdown = 0;
   }
   return RVersion;
 }
+
++ (BOOL) RIsInstalled {
+  BOOL RIsInstalled = NO;
+  RIsInstalled = [RCEngine RInstallationIsValidForPath:[RCEngine GetCurrentRVersionPath]];
+  return RIsInstalled;
+}
+
++ (BOOL) RInstallationIsValidForPath:(NSString*)filePath {
+  BOOL RInstallationIsValid = NO;
+  if ([[NSFileManager defaultManager] fileExistsAtPath:[filePath stringByAppendingPathComponent:RDylibPath]]){
+    RInstallationIsValid = YES;
+  } else {
+    NSLog(@"Invalid R installation (no libR.dylib found) at %@", filePath);
+  }
+  return RInstallationIsValid;
+}
+
++ (NSString*)GetCurrentRVersionPath {
+  NSString* ActiveRPath;
+  NSString* RCurrentVersionPath = [NSString stringWithFormat:@"%@%@", DefaultRLibraryDirectory, RCurrentVersionDirectoryKey];
+  ActiveRPath = [RCurrentVersionPath stringByResolvingSymlinksInPath];
+  return ActiveRPath;
+}
+
++ (NSString*)GetCurrentRVersionNumber {
+  return [[RCEngine GetCurrentRVersionPath] lastPathComponent];
+}
+
+- (NSDictionary<NSString*, NSString*>*)GetRVersions {
+  NSString *directoryPath = DefaultRLibraryDirectory;
+  NSArray *fileNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:nil];
+  NSMutableDictionary<NSString*, NSString*> *RVersions = [[NSMutableDictionary<NSString*, NSString*> alloc] init];
+
+  for(NSString *filePath in fileNames) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[directoryPath stringByAppendingPathComponent:[filePath stringByAppendingPathComponent:RDylibPath]]]){
+      NSString* DirectoryName = [filePath lastPathComponent];
+      if(![DirectoryName isEqualToString:RCurrentVersionDirectoryKey]){
+        [RVersions setValue:[NSString stringWithFormat:@"%@%@", directoryPath, filePath] forKey:DirectoryName];
+      }
+    } else {
+      NSLog(@"Invalid R installation (no libR.dylib found) at %@", filePath);
+    }
+  }
+  
+  return RVersions;
+}
+
 
 @end
