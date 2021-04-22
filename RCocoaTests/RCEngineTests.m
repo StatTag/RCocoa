@@ -20,7 +20,7 @@
         RCEngine* mainEngine = [RCEngine GetInstance];
         RCSymbolicExpression* sexp = [mainEngine NilValue];
         XCTAssertNotNil(sexp);
-        XCTAssertEqual(NILSXP, [sexp Type]);
+        XCTAssertEqual(RC_NILSXP, [sexp Type]);
     }
 }
 
@@ -29,7 +29,7 @@
         RCEngine* mainEngine = [RCEngine GetInstance];
         RCSymbolicExpression* sexp = [mainEngine NaString];
         XCTAssertNotNil(sexp);
-        XCTAssertEqual(CHARSXP, [sexp Type]);
+        XCTAssertEqual(RC_CHARSXP, [sexp Type]);
         [sexp release];
     }
 }
@@ -193,8 +193,8 @@
     RCEngine* mainEngine = [RCEngine GetInstance];
     NSMutableArray<RCSymbolicExpression*>* results = [mainEngine Parse:statement];
     XCTAssertEqual(2, [results count]);
-    XCTAssertEqual(CLOSXP, [[results objectAtIndex:0] Type]);
-    XCTAssertEqual(VECSXP, [[results objectAtIndex:1] Type]);
+    XCTAssertEqual(RC_CLOSXP, [[results objectAtIndex:0] Type]);
+    XCTAssertEqual(RC_VECSXP, [[results objectAtIndex:1] Type]);
   }
 }
 

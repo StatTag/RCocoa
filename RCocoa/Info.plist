@@ -24,5 +24,7 @@
 	<string>Copyright © 2017-2020 Northwestern University. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
+	<key>R_COMPILE_VERSION</key>
+	<string>4.0</string>
 </dict>
 </plist>

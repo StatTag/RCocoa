@@ -30,12 +30,13 @@
  *
  */
 
+#import <Foundation/Foundation.h>
+
 #ifndef RCEngine_h
 #define RCEngine_h
 
-#import <Cocoa/Cocoa.h>
+//#import <Cocoa/Cocoa.h>
 
-#import <Foundation/Foundation.h>
 
 /* 
  * When we use the RCocoa framework in other applications, we end up with a compilation conflict
@@ -58,7 +59,7 @@ extern "C" {
 #endif /* R_EXT_BOOLEAN_H_ */
 
 
-#import <R/R.h>
+//#import <R/R.h>
 
 #import "RSEXP.h"
 #import "RCSymbolicExpression.h"
@@ -105,6 +106,9 @@ extern BOOL preventReentrance;
 	NSString *saveAction;
 
     RCCharacterDeviceAdapter* adapter;
+  
+  
+  
 }
 
 //+ (RCEngine*) mainEngine;
@@ -146,6 +150,17 @@ extern BOOL preventReentrance;
 // RDotNet functions
 - (RCSymbolicExpression*) NilValue;
 - (RCSymbolicExpression*) NaString;
+
+-(NSString*) RHome;
+-(NSString*)ActiveRVersion;
+
++(BOOL)RIsInstalled;
++(BOOL)RInstallationIsValidForPath:(NSString*)filePath;
++(NSString*)GetCurrentRVersionPath;
++(NSString*)GetCurrentRVersionNumber;
+-(NSDictionary<NSString*, NSString*>*)GetRVersions;
+
+
 
 @end
 

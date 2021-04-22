@@ -5,6 +5,7 @@
 //  Created by Luke Rasmussen on 7/6/17.
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
+#import <Cocoa/Cocoa.h>
 
 #ifndef RCICharacterDevice_h
 #define RCICharacterDevice_h

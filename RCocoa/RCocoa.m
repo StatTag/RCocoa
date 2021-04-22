@@ -6,5 +6,4 @@
 //  Copyright © 2017 Northwestern University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #include "RCocoa.h"

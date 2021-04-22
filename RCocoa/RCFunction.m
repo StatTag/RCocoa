@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #include "RCFunction.h"
+#include <R/Rinternals.h>
 
 @implementation RCFunction
 

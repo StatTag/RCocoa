@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #include "RCLogicalMatrix.h"
+#include <R/Rinternals.h>
 
 @implementation RCLogicalMatrix
 

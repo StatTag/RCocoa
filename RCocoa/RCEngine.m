@@ -30,7 +30,7 @@
  *
  */
 
-#import <Cocoa/Cocoa.h>
+#import <R/R.h>
 
 //R#include "Rinit.h"
 //#include <R.h>
@@ -84,6 +84,19 @@ BOOL preventReentrance = NO;
 static RCEngine* _mainRengine = nil;
 static BOOL _activated = FALSE;
 
+static BOOL _RIsInstalled = FALSE;
+static NSString* _RHome;
+
+static dispatch_once_t onceTokenStart = 0;
+static dispatch_once_t onceTokenShutdown = 0;
+
+static NSString* DefaultRLibraryDirectory = @"/Library/Frameworks/R.framework/Versions/";
+static NSString* RCurrentVersionDirectoryKey = @"Current";
+static NSString* RDylibPath = @"Resources/lib/libR.dylib";
+static NSString* CurrentRVersionPath;
+static NSString* CurrentRVersionNumber;
+
+
 + (RCEngine*) GetInstance
 {
     return [RCEngine GetInstance:nil];
@@ -91,12 +104,13 @@ static BOOL _activated = FALSE;
 
 + (RCEngine*) GetInstance:(RCICharacterDevice*) device
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceTokenStart, ^{
+      //NSLog(@"running getinstance once");
         _mainRengine = [[RCEngine alloc] init];
         [_mainRengine disableRSignalHandlers:TRUE];
         if (![_mainRengine activate:device]) {
-            [RCEngine shutdown];
+          NSLog(@"Shutting down due to invalid device activation");
+          [RCEngine shutdown];
         }
     });
 
@@ -133,33 +147,49 @@ static BOOL _activated = FALSE;
 
 + (void) shutdown
 {
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-      if (_mainRengine != nil) {
-        [_mainRengine release];
-        _mainRengine = nil;
-        R_RunExitFinalizers();
-      }
-  });
 
-  /*
-  @synchronized(self) {
-    if (_mainRengine != nil) {
-      [_mainRengine release];
-      _mainRengine = nil;
-      R_RunExitFinalizers();
-    }
+  NSLog(@"running shutdown once");
+  if (_mainRengine != nil) {
+    NSLog(@"R_RunExitFinalizers");
+    R_RunExitFinalizers();
+    NSLog(@"R_CleanTempDir");
+    R_CleanTempDir();
+    
+    RCSymbolicExpression* result;
+    NSLog(@"running quit command");
+    result = [_mainRengine Evaluate:@"q(\"no\")"];
+    
+    //Rf_KillAllDevices();
+    //R_gc();
+    //Rf_endEmbeddedR(1);
+    Rf_endEmbeddedR(0); //if we do this we cannot start a new session, apparently
+    //rs_restartR();
+    //suspend_and_restart
+    
+    NSLog(@"releasing engine");
+    [_mainRengine release];
+    NSLog(@"setting engine to nil");
+    _mainRengine = nil;
+    NSLog(@"setting activated to NO");
+    _activated = NO;
   }
-  */
-}
 
+  NSLog(@"setting onceTokenStart to 0");
+  onceTokenStart = 0;
+  NSLog(@"setting onceTokenShutdown to 0");
+  onceTokenShutdown = 0;
+}
 
 - (id) init
 {
   self->autoPrint = true;
   [self initREnvironment];
-  char *args[4]={ "r_cocoa", "--no-save", "--quiet", 0 };
-  return [self initWithArgs: args];
+  if(_RIsInstalled){
+    char *args[4]={ "r_cocoa", "--no-save", "--quiet", 0 };
+    return [self initWithArgs: args];
+  } else {
+    return nil;
+  }
 }
 
 - (void) initREnvironment
@@ -177,18 +207,24 @@ static BOOL _activated = FALSE;
             if ([fm fileExistsAtPath:@"/Library/Frameworks/R.framework/Resources/bin/R"]) {
                 NSLog(@" * I'm being desperate and I found R at /Library/Frameworks/R.framework - so I'll use it, wish me luck");
                 setenv("R_HOME", "/Library/Frameworks/R.framework/Resources", 1);
+               _RIsInstalled = YES;
             } else {
-                NSLog(@" * I didn't even find R framework in the default location, I'm giving up - you're on your own");
+              NSLog(@" * I didn't even find R framework in the default location, I'm giving up - you're on your own");
+              _RIsInstalled = NO;
+              return;
             }
             [fm release];
         } else {
             NSLog(@"   %s", [[rfb resourcePath] UTF8String]);
             setenv("R_HOME", [[rfb resourcePath] UTF8String], 1);
+           _RIsInstalled = YES;
         }
     }
     NSString* home = @"";
-    if (getenv("R_HOME"))
-        home = [[NSString alloc] initWithUTF8String:getenv("R_HOME")];
+    if (getenv("R_HOME")) {
+      home = [[NSString alloc] initWithUTF8String:getenv("R_HOME")];
+      _RIsInstalled = YES;
+    }
     else
         home = [[NSString alloc] initWithString:@""];
     
@@ -207,6 +243,8 @@ static BOOL _activated = FALSE;
         }
     }
     
+  _RHome = home;
+  
 #if defined __i386__
 #define arch_lib_nss @"/lib/i386"
 #define arch_str "/i386"
@@ -234,6 +272,11 @@ static BOOL _activated = FALSE;
 #warning "Unknown architecture, R_ARCH won't be set automatically."
 #endif
 
+//  if(_RIsInstalled){
+//    CurrentRVersionPath = [self GetCurrentRVersionPath];
+//    CurrentRVersionNumber = [self GetCurrentRVersionNumber];
+//  }
+  
 }
 
 - (id) initWithArgs: (char**) args
@@ -334,6 +377,10 @@ static BOOL _activated = FALSE;
 
 - (void) disableRSignalHandlers: (BOOL) disable
 {
+  if(!R_SignalHandlers){
+    NSLog(@"R_SignalHandlers invalid");
+    return;
+  }
     R_SignalHandlers = (disable?0:1);
 }
 
@@ -582,5 +629,74 @@ static BOOL _activated = FALSE;
 {
     return [[RCSymbolicExpression alloc] initWithEngineAndExpression:self expression:R_NaString];
 }
+
+
+- (NSString*)RHome {
+  return _RHome;
+}
+
+//MARK: R version information
+
+-(NSString*)ActiveRVersion {
+  NSString* RVersion = @"";
+  @autoreleasepool {
+    RCEngine* Engine = [RCEngine GetInstance];
+    if(Engine != nil){
+      NSString* command = @"strsplit(version[['version.string']], ' ')[[1]][3]";
+        RCSymbolicExpression* result = [Engine Evaluate:command];
+      if([result IsVector]){
+        RVersion = [[result AsCharacter] firstObject];
+      }
+    }
+  }
+  return RVersion;
+}
+
++ (BOOL) RIsInstalled {
+  BOOL RIsInstalled = NO;
+  RIsInstalled = [RCEngine RInstallationIsValidForPath:[RCEngine GetCurrentRVersionPath]];
+  return RIsInstalled;
+}
+
++ (BOOL) RInstallationIsValidForPath:(NSString*)filePath {
+  BOOL RInstallationIsValid = NO;
+  if ([[NSFileManager defaultManager] fileExistsAtPath:[filePath stringByAppendingPathComponent:RDylibPath]]){
+    RInstallationIsValid = YES;
+  } else {
+    NSLog(@"Invalid R installation (no libR.dylib found) at %@", filePath);
+  }
+  return RInstallationIsValid;
+}
+
++ (NSString*)GetCurrentRVersionPath {
+  NSString* ActiveRPath;
+  NSString* RCurrentVersionPath = [NSString stringWithFormat:@"%@%@", DefaultRLibraryDirectory, RCurrentVersionDirectoryKey];
+  ActiveRPath = [RCurrentVersionPath stringByResolvingSymlinksInPath];
+  return ActiveRPath;
+}
+
++ (NSString*)GetCurrentRVersionNumber {
+  return [[RCEngine GetCurrentRVersionPath] lastPathComponent];
+}
+
+- (NSDictionary<NSString*, NSString*>*)GetRVersions {
+  NSString *directoryPath = DefaultRLibraryDirectory;
+  NSArray *fileNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:nil];
+  NSMutableDictionary<NSString*, NSString*> *RVersions = [[NSMutableDictionary<NSString*, NSString*> alloc] init];
+
+  for(NSString *filePath in fileNames) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[directoryPath stringByAppendingPathComponent:[filePath stringByAppendingPathComponent:RDylibPath]]]){
+      NSString* DirectoryName = [filePath lastPathComponent];
+      if(![DirectoryName isEqualToString:RCurrentVersionDirectoryKey]){
+        [RVersions setValue:[NSString stringWithFormat:@"%@%@", directoryPath, filePath] forKey:DirectoryName];
+      }
+    } else {
+      NSLog(@"Invalid R installation (no libR.dylib found) at %@", filePath);
+    }
+  }
+  
+  return RVersions;
+}
+
 
 @end
