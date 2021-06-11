@@ -21,10 +21,10 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2017-2020 Northwestern University. All rights reserved.</string>
+	<string>Copyright © 2017-2021 Northwestern University. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
 	<key>R_COMPILE_VERSION</key>
-	<string>4.0</string>
+	<string>3.3</string>
 </dict>
 </plist>
