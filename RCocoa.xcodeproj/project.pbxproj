@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -279,8 +279,8 @@
 				350C8C6C1E1E8FEF003DE3F8 /* Frameworks */,
 				350C8C6D1E1E8FEF003DE3F8 /* Headers */,
 				350C8C6E1E1E8FEF003DE3F8 /* Resources */,
-				3813095225E0672000EB10CF /* ShellScript */,
-				38EAE38E258BB86700729904 /* ShellScript */,
+				3813095225E0672000EB10CF /* Run Script - Set R Version in PLIST */,
+				38EAE38E258BB86700729904 /* Run Script - Relink R to Current */,
 			);
 			buildRules = (
 			);
@@ -365,8 +365,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3813095225E0672000EB10CF /* ShellScript */ = {
+		3813095225E0672000EB10CF /* Run Script - Set R Version in PLIST */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -374,6 +375,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script - Set R Version in PLIST";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -382,8 +384,9 @@
 			shellPath = /bin/sh;
 			shellScript = "BuildRVersion=$(otool -L \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/$TARGET_NAME\" | grep -Eo \"R.framework\\/Versions\\/(.*)\\/Resources\" | grep -Eo '[+-]?[0-9]+([.][0-9]+)?')\nplutil -replace R_COMPILE_VERSION -string $BuildRVersion $SRCROOT/$TARGET_NAME/Info.plist\n";
 		};
-		38EAE38E258BB86700729904 /* ShellScript */ = {
+		38EAE38E258BB86700729904 /* Run Script - Relink R to Current */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -391,6 +394,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script - Relink R to Current";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -574,7 +578,12 @@
 				HEADER_SEARCH_PATHS = /Library/Frameworks/R.framework/Headers;
 				INFOPLIST_FILE = RCocoa/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /Library/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+					/Library/Frameworks,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"-F/Library/Frameworks",
@@ -618,7 +627,12 @@
 				HEADER_SEARCH_PATHS = /Library/Frameworks/R.framework/Headers;
 				INFOPLIST_FILE = RCocoa/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /Library/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+					/Library/Frameworks,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -654,7 +668,11 @@
 					/Library/Frameworks/R.framework/Headers,
 				);
 				INFOPLIST_FILE = RCocoaTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-F/Library/Frameworks",
@@ -688,7 +706,11 @@
 					/Library/Frameworks/R.framework/Headers,
 				);
 				INFOPLIST_FILE = RCocoaTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-F/Library/Frameworks",

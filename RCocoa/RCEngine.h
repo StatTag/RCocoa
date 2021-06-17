@@ -157,9 +157,13 @@ extern BOOL preventReentrance;
 
 
 +(BOOL)RIsInstalled;
++ (BOOL)RInstallationIsValid;
 +(BOOL)RInstallationIsValidForPath:(NSString*)filePath;
 +(NSString*)GetCurrentRVersionPath;
 +(NSString*)GetCurrentRVersionNumber;
++(NSString*)GetCompileRVersion;
++(BOOL)CurrentRVersionCanRunAgainstCompiledVersion;
++(NSNumber*)ConvertVersionStringToVersionNumber:(NSString*)numberString;
 -(NSDictionary<NSString*, NSString*>*)GetRVersions;
 
 

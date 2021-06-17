@@ -663,18 +663,38 @@ static NSString* _ActiveRVersionNumber;
 
 + (BOOL) RIsInstalled {
   BOOL RIsInstalled = NO;
-  RIsInstalled = [RCEngine RInstallationIsValidForPath:[RCEngine GetCurrentRVersionPath]];
+  
+  BOOL InstallationValidForPath = [RCEngine RInstallationIsValid];
+  BOOL RVersionsCompatible = [RCEngine CurrentRVersionCanRunAgainstCompiledVersion];
+  
+  if(InstallationValidForPath && RVersionsCompatible){
+    RIsInstalled = YES;
+  } else {
+    NSLog(@"Unable to safely run RCocoa. The R installation is either invalid or RCocoa was compiled against a version of R that is not compatible with the installed version of R.");
+  }
+
   return RIsInstalled;
+}
+
++ (BOOL) RInstallationIsValid {
+  return [RCEngine RInstallationIsValidForPath:[RCEngine GetCurrentRVersionPath]];
 }
 
 + (BOOL) RInstallationIsValidForPath:(NSString*)filePath {
   BOOL RInstallationIsValid = NO;
   if ([[NSFileManager defaultManager] fileExistsAtPath:[filePath stringByAppendingPathComponent:RDylibPath]]){
+    NSLog(@"RCocoa - Detected valid R dylib at %@", filePath);
     RInstallationIsValid = YES;
   } else {
-    NSLog(@"Invalid R installation (no libR.dylib found) at %@", filePath);
+    NSLog(@"RCocoa - Invalid R installation (no libR.dylib found) at %@", filePath);
   }
   return RInstallationIsValid;
+}
+
++ (NSString*)GetCompileRVersion {
+  NSBundle *bundle = [NSBundle bundleForClass: [self class]];
+  NSString* R_COMPILE_VERSION = [bundle objectForInfoDictionaryKey:@"R_COMPILE_VERSION"];
+  return R_COMPILE_VERSION;
 }
 
 + (NSString*)GetCurrentRVersionPath {
@@ -686,6 +706,53 @@ static NSString* _ActiveRVersionNumber;
 
 + (NSString*)GetCurrentRVersionNumber {
   return [[RCEngine GetCurrentRVersionPath] lastPathComponent];
+}
+
++ (BOOL)CurrentRVersionCanRunAgainstCompiledVersion {
+  
+  NSNumber* RCompileVersion = [RCEngine ConvertVersionStringToVersionNumber:[RCEngine GetCompileRVersion]];
+  NSNumber* RVersionNumber = [RCEngine ConvertVersionStringToVersionNumber:[RCEngine GetCurrentRVersionNumber]];
+
+  NSLog(@"RCocoa - Compiled R version = '%@', Current R version = '%@'", RCompileVersion, RVersionNumber);
+
+  
+  if(RVersionNumber != nil && [RVersionNumber doubleValue] >= [RCompileVersion doubleValue]){
+    return YES;
+  }
+  return NO;
+}
+
++ (NSNumber*)ConvertVersionStringToVersionNumber:(NSString*)numberString {
+  NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+  numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+  NSNumber* aNumber = [numberFormatter numberFromString:numberString];
+  return aNumber;
+  
+/*
+ 
+ //for some reason we can't seem to access NSRegularExpression at runtime. Compiles fine, but won't work at runtime.
+ //+[NSRegularExpression regularExpressionWithPattern:options:Rf_error:]: unrecognized selector sent to class 0x7fff800dd740
+
+
+ NSRegularExpression *NumberRegex = [NSRegularExpression regularExpressionWithPattern:@"(\\d*\\.\\d*)"
+                                                                          options:NSRegularExpressionCaseInsensitive
+                                                                            error:nil];
+
+ NSArray* matches = [NumberRegex matchesInString:numberString
+                                options:0
+                                  range:NSMakeRange(0, [numberString length])];
+
+  NSNumber* aNumber;
+  if([matches count] > 0){
+    NSString* aNumberString = [numberString substringWithRange:[matches[0] range]];
+    
+    NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+    numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+    aNumber = [numberFormatter numberFromString:aNumberString];
+  }
+  
+  return aNumber;
+  */
 }
 
 - (NSDictionary<NSString*, NSString*>*)GetRVersions {
