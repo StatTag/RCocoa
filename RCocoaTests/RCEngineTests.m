@@ -251,4 +251,49 @@
     }
 }
 
+- (void) testConvertVersionStringToVersionNumber_Null
+{
+  @autoreleasepool {
+    XCTAssertNil([RCEngine ConvertVersionStringToVersionNumber:NULL]);
+  }
+}
+
+- (void) testConvertVersionStringToVersionNumber_Invalid
+{
+  @autoreleasepool {
+    XCTAssertNil([RCEngine ConvertVersionStringToVersionNumber:@""]);
+    XCTAssertNil([RCEngine ConvertVersionStringToVersionNumber:@"abcd"]);
+    XCTAssertNil([RCEngine ConvertVersionStringToVersionNumber:@"-arm64"]);
+    XCTAssertNil([RCEngine ConvertVersionStringToVersionNumber:@"arm64-4.0"]);
+  }
+}
+
+- (void) testConvertVersionStringToVersionNumber_StandardNumeric
+{
+  @autoreleasepool {
+    XCTAssertEqualWithAccuracy([[RCEngine ConvertVersionStringToVersionNumber:@"4.2"] doubleValue],
+                               [[NSNumber numberWithFloat:4.2] doubleValue], 0.001);
+
+    // We assume there is a decimal in the release version, but just in case we make sure it will
+    // work without
+    XCTAssertEqualWithAccuracy([[RCEngine ConvertVersionStringToVersionNumber:@"3"] doubleValue],
+                               [[NSNumber numberWithFloat:3] doubleValue], 0.001);
+  }
+}
+
+- (void) testConvertVersionStringToVersionNumber_NumericWithPlatform
+{
+  @autoreleasepool {
+    XCTAssertEqualWithAccuracy([[RCEngine ConvertVersionStringToVersionNumber:@"4.2-arm64"] doubleValue],
+                               [[NSNumber numberWithFloat:4.2] doubleValue], 0.001);
+    XCTAssertEqualWithAccuracy([[RCEngine ConvertVersionStringToVersionNumber:@"4.2-x86_64"] doubleValue],
+                               [[NSNumber numberWithFloat:4.2] doubleValue], 0.001);
+
+    // We assume there is a decimal in the release version, but just in case we make sure it will
+    // work without
+    XCTAssertEqualWithAccuracy([[RCEngine ConvertVersionStringToVersionNumber:@"4-x86_64"] doubleValue],
+                               [[NSNumber numberWithFloat:4] doubleValue], 0.001);
+  }
+}
+
 @end

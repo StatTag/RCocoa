@@ -723,9 +723,17 @@ static NSString* _ActiveRVersionNumber;
 }
 
 + (NSNumber*)ConvertVersionStringToVersionNumber:(NSString*)numberString {
+  // R versions have progressed from purely numeric (4.2) to include the platform (4.2-x86_64).  We are going to
+  // assume that the versions will continue to follow this convention, meaning we will take the first component
+  // of a string separated by "-" and use that as the version number's numeric value
+  NSArray* componentArray = [numberString componentsSeparatedByString:@"-"];
   NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
   numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-  NSNumber* aNumber = [numberFormatter numberFromString:numberString];
+  // Explicitly format with respect to US-type local settings for decimal separators.  Otherwise this will
+  // fail for users whose locale uses the "," as the decimal separator.
+  numberFormatter.groupingSeparator = @",";
+  numberFormatter.decimalSeparator = @".";
+  NSNumber* aNumber = [numberFormatter numberFromString:componentArray[0]];
   return aNumber;
   
 /*
