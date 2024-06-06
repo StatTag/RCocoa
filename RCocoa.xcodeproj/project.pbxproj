@@ -382,7 +382,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "BuildRVersion=$(otool -L \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/$TARGET_NAME\" | grep -Eo \"R.framework\\/Versions\\/(.*)\\/Resources\" | grep -Eo '[+-]?[0-9]+([.][0-9]+)?')\nplutil -replace R_COMPILE_VERSION -string $BuildRVersion $SRCROOT/$TARGET_NAME/Info.plist\n";
+			shellScript = "BuildRVersion=$(otool -L \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/$TARGET_NAME\" | grep -Eo \"R.framework\\/Versions\\/(.*)\\/Resources\" | grep -Eo '[+-]?[0-9]+([.][0-9]+)')\nplutil -replace R_COMPILE_VERSION -string $BuildRVersion $SRCROOT/$TARGET_NAME/Info.plist\n";
 		};
 		38EAE38E258BB86700729904 /* Run Script - Relink R to Current */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -401,7 +401,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nBuildRVersion=$(otool -L \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/$TARGET_NAME\" | grep -Eo \"R.framework\\/Versions\\/(.*)\\/Resources\" | grep -Eo '[+-]?[0-9]+([.][0-9]+)?')\n#echo $BuildRVersion\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Versions/A/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Versions/Current/$TARGET_NAME\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nBuildRVersion=$(otool -L \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/$TARGET_NAME\" | grep -Eo \"R.framework\\/Versions\\/(.*)\\/Resources\" | grep -Eo '[+-]?[0-9]+([.][0-9]+)')\n#echo $BuildRVersion\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Versions/A/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME/Versions/Current/$TARGET_NAME\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -584,7 +584,7 @@
 					"@loader_path/Frameworks",
 					/Library/Frameworks,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_LDFLAGS = (
 					"-F/Library/Frameworks",
 					"-framework",
@@ -633,7 +633,7 @@
 					"@loader_path/Frameworks",
 					/Library/Frameworks,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-F/Library/Frameworks",
